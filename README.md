@@ -1,4 +1,4 @@
-# project-one
+# summer-project
 
 ## 前提
 
