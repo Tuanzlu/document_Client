@@ -7,20 +7,24 @@
       <p class="intro">
         在线编辑
       </p>
-      <a-button type="default" class="startBtn" @click="Login">开始使用</a-button>
+      <a-button type="default" class="startBtn" @click="Index">开始使用</a-button>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
+  components: {
+    
+  },
   data() {
     return {};
   },
   methods: {
     Login() {
       this.$router.push({
-        name: "Login",
+        name: "Index",
       });
     },
   },
