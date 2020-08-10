@@ -15,11 +15,11 @@
           <div class="text">
             金刚石模版
           </div>
-          <a-divider class="divider"></a-divider>
+          <a-divider></a-divider>
           <div class="text">
             我的模版
           </div>
-          <a-divider class="divider"></a-divider>
+          <a-divider></a-divider>
           <a-anchor :affix="false">
             <a-anchor-link href="#test1" title="test1" />
             <a-anchor-link href="#test2" title="test2" />
@@ -225,8 +225,6 @@ export default {
   text-align: left;
   margin: 5px auto -10px 15px;
   width: 80px;
-}
-.divider {
 }
 .menuItem {
   margin: 10px auto 0 auto;

@@ -29,6 +29,11 @@ const routes = [
     name: "About",
     component: () => import("../views/about.vue"),
   },
+  {
+    path: "/singlemodel",
+    name: "Singlemodel",
+    component: () => import("../views/editDocument/singlemodel.vue"),
+  },
 ];
 
 const router = new VueRouter({
