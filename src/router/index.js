@@ -24,6 +24,21 @@ const routes = [
     name: "Login",
     component: () => import("../views/personalWorkplace/login.vue"),
   },
+  {
+    path: "/register",
+    name: "Register",
+    component: () => import("../views/personalWorkplace/register.vue"),
+  },
+  {
+    path: "/personIndex",
+    name: "PersonIndex",
+    component: () => import("../views/personalWorkplace/personIndex.vue"),
+  },
+  {
+    path: "/index",
+    name: "Index",
+    component: () => import("../views/personalWorkplace/index.vue"),
+  },
 ];
 
 const router = new VueRouter({
