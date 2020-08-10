@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div class="content"></div>
 </template>
 
 <script>
@@ -7,7 +7,7 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="scss" scoped></style>
