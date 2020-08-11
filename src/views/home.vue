@@ -45,7 +45,8 @@ export default {
 .footer {
   // border: 2px red solid;
   height: 200px;
-  background-color: rgb(99, 109, 160);
+  // background-color: rgb(95, 109, 160);
+  background-image: linear-gradient(-186deg, #0d1b35 0%, #3d65de 100%);
 }
 .title {
   // border: 2px red solid;
@@ -77,6 +78,7 @@ export default {
 .bottomTitle {
   // border: 1px solid blue;
   width: 230px;
+  color: white;
   margin: 80px auto 0 auto;
   display: block;
 }
