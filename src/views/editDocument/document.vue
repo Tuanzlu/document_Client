@@ -66,7 +66,7 @@
         <div class="inner">
           <div class="inner-title"><input class="input-title" v-model="article.title" type="text" /></div>
           <a-divider></a-divider>
-          <div class="inner-content"><input class="input-content" v-model="article.content" type="textarea" /></div>
+          <div class="inner-content"><textarea class="input-content" v-model="article.content"></textarea></div>
         </div>
       </div>
       <div class="main-read" v-else>
@@ -118,7 +118,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-input {
+input,
+textarea {
   outline: medium;
 }
 .inner-title {
@@ -134,7 +135,9 @@ input {
 .input-title:hover {
   border: none;
 }
-.input-content {
+.input-content,
+.input-content:active,
+.input-content:hover {
   border: none;
   width: 100%;
   height: 1120px;
