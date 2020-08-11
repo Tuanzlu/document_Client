@@ -88,7 +88,7 @@
             </a>
             </br>
             </br>
-            <a-button  @click="goPersonIndex" type="primary" html-type="submit" style="width: 80%">
+            <a-button  type="primary" html-type="submit" style="width: 80%">
                 注 册
             </a-button>
         </div>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-
+import { postData } from "@/api/webpost";
 export default {
   data() {
     return {
@@ -132,11 +132,40 @@ export default {
     this.form = this.$form.createForm(this, { name: 'register' });
   },
   methods: {
+    //注册验证模块
+    register(values){
+      let params = new URLSearchParams();
+      params.append('username', values.username); 
+      params.append('password', values.password);
+      params.append('email', values.email);
+      params.append('wechat', values.wechatNumber);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.register;
+      postData(url,params).then((res) => {
+        console.log(res);
+        if(res.code === '0'){
+          this.$message.success('注册成功');
+          this.$router.push('/personIndex');
+        }
+        else if(res.code === '1'){
+          this.$message.error('用户名重复，请更换');
+        }
+        else{
+          console.log(res.code);
+          this.$message.error('服务器返回出错');
+        }
+      });
+    },
+    //表单验证函数
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values);
+          this.register(values);
+        }
+        else{
+          this.$message.error('请检查输入格式');
         }
       });
     },
@@ -158,9 +187,6 @@ export default {
         form.validateFields(['confirm'], { force: true });
       }
       callback();
-    },
-    goPersonIndex() {
-        this.$router.push('/personIndex');
     },
   },
 };

@@ -1,6 +1,7 @@
 <template>
   <div>
       <personNav></personNav>
+<<<<<<< HEAD
       <a-layout>
         <!--左边控制台-->
         <a-layout-sider>
@@ -39,11 +40,15 @@
       
     </a-layout>
 
+=======
+      <siderNav></siderNav>
+>>>>>>> personWorkspace
   </div>
 </template>
 
 <script>
 import personNav from '@/components/personNav';
+<<<<<<< HEAD
 export default {
     components: {
         personNav,
@@ -64,11 +69,24 @@ export default {
             this.openKeys = latestOpenKey ? [latestOpenKey] : [];
         }
         },
+=======
+import siderNav from '@/components/siderNav';
+export default {
+    components: {
+        personNav,
+        siderNav,
+    },
+    data() {
+        
+    },
+    methods: {
+>>>>>>> personWorkspace
     },
 }
 </script>
 
 <style>
+<<<<<<< HEAD
 #components-layout-demo-basic {
   text-align: center;
 }
@@ -97,4 +115,7 @@ export default {
 #components-layout-demo-basic > .ant-layout:last-child {
   margin: 0;
 }
+=======
+
+>>>>>>> personWorkspace
 </style>

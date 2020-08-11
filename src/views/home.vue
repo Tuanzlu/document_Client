@@ -7,11 +7,7 @@
       <p class="intro">
         在线编辑
       </p>
-      <a-button type="default" class="startBtn" @click="toLogin">开始使用</a-button>
-    </div>
-    <div class="footer">
-      <div class="aboutUs" @click="toAbout">关于我们</div>
-      <span class="bottomTitle">Copyright © 2020 summer-project</span>
+      <a-button type="default" class="startBtn" @click="Login">开始使用</a-button>
     </div>
   </div>
 </template>

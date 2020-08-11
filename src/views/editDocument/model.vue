@@ -156,6 +156,7 @@ export default {
   methods: {},
 };
 </script>
+<<<<<<< HEAD
 <style lang="scss" scoped>
 .header {
   width: 100%;
@@ -257,3 +258,6 @@ export default {
   height: 500px;
 }
 </style>
+=======
+<style lang="scss" scoped></style>
+>>>>>>> personWorkspace

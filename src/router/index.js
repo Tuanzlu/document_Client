@@ -46,6 +46,9 @@ const routes = [
     path: "/singlemodel",
     name: "Singlemodel",
     component: () => import("../views/editDocument/singlemodel.vue"),
+    path: "/personInfo",
+    name: "PersonInfo",
+    component: () => import("../views/personalWorkplace/personInfo.vue"),
   },
 ];
 
