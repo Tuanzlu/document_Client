@@ -34,6 +34,21 @@ const routes = [
     name: "Singlemodel",
     component: () => import("../views/editDocument/singlemodel.vue"),
   },
+  {
+    path: "/register",
+    name: "Register",
+    component: () => import("../views/personalWorkplace/register.vue"),
+  },
+  {
+    path: "/personIndex",
+    name: "PersonIndex",
+    component: () => import("../views/personalWorkplace/personIndex.vue"),
+  },
+  {
+    path: "/personInfo",
+    name: "PersonInfo",
+    component: () => import("../views/personalWorkplace/personInfo.vue"),
+  },
 ];
 
 const router = new VueRouter({
