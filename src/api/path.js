@@ -9,8 +9,5 @@ let path = {
         register:Ip.productIP+"register",
     }
 }
-
-  
-  
-  export default path
+export default path
   
