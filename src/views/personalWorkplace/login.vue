@@ -10,25 +10,18 @@
       <a-form-item>
         <a-input
           v-decorator="[
-            '邮箱',
-            { rules: [
-              {
-                type: 'email',
-                message: 'The input is not valid E-mail!',
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },],
+            'username',
+            {
+              rules: [{ required: true, message: 'Username is required!' }],
             },
           ]"
-          placeholder="Email"
+          placeholder="Username"
         >
           <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
       <a-form-item>
-        <a-input
+        <a-input-password
           v-decorator="[
             '密码',
             { rules: [{ required: true, message: 'Please input your Password!' }] },
@@ -37,7 +30,7 @@
           placeholder="Password"
         >
           <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-        </a-input>
+        </a-input-password>
       </a-form-item>
       <a-form-item>
         <a-checkbox

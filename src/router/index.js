@@ -35,9 +35,9 @@ const routes = [
     component: () => import("../views/personalWorkplace/personIndex.vue"),
   },
   {
-    path: "/index",
-    name: "Index",
-    component: () => import("../views/personalWorkplace/index.vue"),
+    path: "/personInfo",
+    name: "PersonInfo",
+    component: () => import("../views/personalWorkplace/personInfo.vue"),
   },
 ];
 
