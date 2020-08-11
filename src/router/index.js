@@ -38,6 +38,14 @@ const routes = [
     path: "/index",
     name: "Index",
     component: () => import("../views/personalWorkplace/index.vue"),
+    path: "/about",
+    name: "About",
+    component: () => import("../views/about.vue"),
+  },
+  {
+    path: "/singlemodel",
+    name: "Singlemodel",
+    component: () => import("../views/editDocument/singlemodel.vue"),
   },
 ];
 

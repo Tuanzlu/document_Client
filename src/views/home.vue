@@ -7,7 +7,11 @@
       <p class="intro">
         在线编辑
       </p>
-      <a-button type="default" class="startBtn" @click="Index">开始使用</a-button>
+      <a-button type="default" class="startBtn" @click="toLogin">开始使用</a-button>
+    </div>
+    <div class="footer">
+      <div class="aboutUs" @click="toAbout">关于我们</div>
+      <span class="bottomTitle">Copyright © 2020 summer-project</span>
     </div>
   </div>
 </template>
@@ -22,9 +26,14 @@ export default {
     return {};
   },
   methods: {
-    Login() {
+    toLogin() {
       this.$router.push({
         name: "Index",
+      });
+    },
+    toAbout() {
+      this.$router.push({
+        name: "About",
       });
     },
   },
@@ -34,8 +43,14 @@ export default {
 .content {
   // border: 2px red solid;
   width: 100%;
-  height: 1000px;
+  height: 800px;
   background: url("../assets/bg.jpeg") no-repeat center bottom;
+}
+.footer {
+  // border: 2px red solid;
+  height: 200px;
+  // background-color: rgb(95, 109, 160);
+  background-image: linear-gradient(-186deg, #0d1b35 0%, #3d65de 100%);
 }
 .title {
   // border: 2px red solid;
@@ -53,5 +68,22 @@ export default {
 .startBtn {
   display: block;
   margin: 0 auto;
+}
+.aboutUs {
+  cursor: pointer;
+  width: 100px;
+  display: block;
+  margin: 0 auto;
+  padding-top: 30px;
+  font-size: 20px;
+  color: white;
+  // border: 1px solid blue;
+}
+.bottomTitle {
+  // border: 1px solid blue;
+  width: 230px;
+  color: white;
+  margin: 80px auto 0 auto;
+  display: block;
 }
 </style>
