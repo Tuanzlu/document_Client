@@ -2,7 +2,6 @@
   <div>
       <personNav></personNav>
       <siderNav></siderNav>
-
   </div>
 </template>
 
