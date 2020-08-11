@@ -1,0 +1,63 @@
+<template>
+  <div>
+      <div class="header">
+        <div class="top" @click="toIndex"><span class="name">金刚石文档</span></div>
+        <div class="topRight">
+             <a-dropdown>
+                <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                <img class="avatar" style="width:30px;height:30px" src="../assets/bg.jpeg" />
+                </a>
+                <a-menu slot="overlay">
+                <a-menu-item>
+                    <a href="#/personInfo">个 人 主 页</a>
+                </a-menu-item>
+                <a-menu-item>
+                    <a href="javascript:;">帮 助 事 项</a>
+                </a-menu-item>
+                <a-menu-item>
+                    <a href="#/">退 出 登 录</a>
+                </a-menu-item>
+                </a-menu>
+            </a-dropdown>
+        </div>
+        <div class="topRight">
+            <a-dropdown>
+                <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                <a-icon type="bell" style="font-size:25px;margin-top:3px;" />
+                </a>
+                <a-menu slot="overlay">
+                <a-menu-item>
+                    <a href="#/personInfo">全 部 通 知</a>
+                </a-menu-item>
+                <a-menu-item>
+                    <a href="javascript:;">未 读 消 息</a>
+                </a-menu-item>
+                </a-menu>
+            </a-dropdown>
+        </div>
+        <div class="topRight">
+            <a-input-search placeholder="搜索文件" style="width: 200px" @search="onSearch" />
+        </div>
+      </div>
+  </div>
+
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style scoped>
+
+.top {
+  float: left;
+  margin: 15px 10px 0 10px;
+}
+.topRight {
+  float: right;
+  margin: 15px 10px 0 20px;
+}
+
+</style>
