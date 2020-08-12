@@ -24,7 +24,7 @@ export default {
   methods: {
     toLogin() {
       this.$router.push({
-        name: "Index",
+        name: "Login",
       });
     },
     toAbout() {
