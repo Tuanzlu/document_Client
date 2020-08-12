@@ -81,9 +81,15 @@
           <a-icon type="team" /> 协作！
           <a-card title="协作者" style="width: 600px">
           <a slot="extra" href="#">添加协作者</a>
-          <p>用户1</p>
-          <p>用户2</p>
-          <p>用户3</p>
+          <a-table :columns="columns" :data-source="data">
+            <a slot="name" slot-scope="text">{{ text }}</a>
+           <span slot="customTitle">Name</span>
+           <span slot="action">
+             <a>Delete</a>
+            <a-divider type="vertical" />
+             <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
+             </span>
+          </a-table>
           </a-card>
         </a-layout-content>
       </a-layout>
@@ -96,9 +102,39 @@
 </template>
 
 <script>
+const columns = [
+  {
+    dataIndex: 'name',
+    key: 'name',
+    slots: { title: 'customTitle' },
+    scopedSlots: { customRender: 'name' },
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    scopedSlots: { customRender: 'action' },
+  },
+];
+
+const data = [
+  {
+    key: '1',
+    name: '协作者1',
+  },
+  {
+    key: '2',
+    name: '协作者2',
+  },
+  {
+    key: '3',
+    name: '协作者3',
+  },
+];
+
 export default {
     data() {
         return {
+            columns,data,
             rootSubmenuKeys: ['sub1', 'sub2'],
             openKeys: ['sub1', 'sub2'],
             //current: ['mail'],
