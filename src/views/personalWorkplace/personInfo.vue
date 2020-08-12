@@ -12,31 +12,32 @@
         <a-list size="large">
             <div>
                 <a-icon type="user" style="margin-right: 10px"/> 
-                用户名：<a-input placeholder="从后台调用用户名" style="width:40%"/>
+                <span> 用户名：{{info.name}}</span>
+                <a-button type="link" style="float: right;">修改</a-button>
             </div>
             </br></br>
             <div>
                 <a-icon type="lock"  style="margin-right: 10px"/>
-                密码：（从后台调入）
+                <span> 密码：{{info.password}}</span>
                 <a-button type="link" style="float: right;">修改</a-button>
             </div>
             </br>
             </br>
             <div>
                 <a-icon type="wechat"  style="margin-right: 10px"/>
-                微信：（从后台调入）
+                <span> 微信：{{info.wechat}}</span>
                 <a-button type="link" style="float: right;">修改</a-button>
             </div>
             </br></br>
             <div>
                 <a-icon type="mail"  style="margin-right: 10px"/>
-                邮箱：（从后台调入）
+                <span> 邮箱：{{info.email}}</span>
                 <a-button type="link" style="float: right;">修改</a-button>
             </div>
             </br></br>
             <div>
                 <a-icon type="contacts"  style="margin-right: 10px ;float: center"/>
-                账号ID：（从后台调入）
+                <span>账号ID：{{info.userId}}</span>
                 <a-button type="link" style="float: right;">修改</a-button>
             </div>
         </a-list>
@@ -47,7 +48,6 @@
 <script>
 import { getData } from "@/api/webget";
 import uploadPhoto from '@/components/uploadPhoto';
-import Cookies from 'js-cookie';
 export default {
   components: {
         uploadPhoto,
@@ -60,6 +60,11 @@ export default {
         name: '',
       },
       info: {
+        email: '123@buaa.com',
+        name: 'username',
+        userId: 0,
+        password: '12345',
+        wechat: 'wechat',
 
       },
     };
@@ -69,15 +74,14 @@ export default {
       console.log('submit!', this.form);
     },
     getInfo() {
-      //console.log(111);
       let params = new URLSearchParams();
-      let userId = parseInt(Cookies.get('LoginUserId'));
+      let userId = parseInt(window.sessionStorage.getItem('UserId'));
       params.append("userid", userId);
       let url = this.$urlPath.website.getUserInfo;
       getData(url,params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.$message.error("查询成功");
+          this.$message.success("查询成功");
         } else if (res.code === "1") {
           this.$message.error("未登录");
         } else {
@@ -89,8 +93,7 @@ export default {
   },
   mounted() {
     this.getInfo();
-    //console.log(Cookies.get('LoginUserId'));
-    //console.log();
+
   },
 }
 </script>

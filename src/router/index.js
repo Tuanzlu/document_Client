@@ -24,22 +24,6 @@ const routes = [
     name: "Login",
     component: () => import("../views/personalWorkplace/login.vue"),
   },
-  /*
-  {
-    path: "/register",
-    name: "Register",
-    component: () => import("../views/personalWorkplace/register.vue"),
-  },
-  {
-    path: "/personIndex",
-    name: "PersonIndex",
-    component: () => import("../views/personalWorkplace/personIndex.vue"),
-  },
-  {
-    path: "/personInfo",
-    name: "PersonInfo",
-    component: () => import("../views/personalWorkplace/personInfo.vue"),
-  },*/
   {
     path: "/manage",
     name: "Manage",
@@ -65,5 +49,15 @@ const routes = [
 const router = new VueRouter({
   routes,
 });
-
+//控制访问权限
+router.beforeEach((to,from,next) => {
+  if(to.path === '/login' || to.path === '/' || to.path === '/register' || to.path === '/about' 
+  || to.path === '/index'
+  )
+    return next();
+  const tokenStr = window.sessionStorage.getItem('UserId');
+  if(!tokenStr)
+    return next('/login');
+  next();
+})
 export default router;
