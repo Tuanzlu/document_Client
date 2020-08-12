@@ -44,21 +44,24 @@
                     <a-sub-menu key="sub1">
                         <span slot="title"><a-icon type="team" />
                         <span>团队 1</span></span>
-                        <a-menu-item key="sub1_1">
+                        <a-menu-item key="1">
                         <a-icon type="appstore" />文档 1
                         </a-menu-item>
-                        <a-menu-item key="sub1_2">
+                        <a-menu-item key="2">
                         <a-icon type="appstore" />文档 2
+                        </a-menu-item>
+                        <a-menu-item key="3">
+                        <a-icon type="appstore" />文档 3
                         </a-menu-item>
                     </a-sub-menu>
                     <a-sub-menu key="sub2">
                         <span slot="title"><a-icon type="team" />
                         <span>团队 2</span></span>
-                        <a-menu-item key="sub2_1">
-                        <a-icon type="appstore" />文档 1
+                        <a-menu-item key="4">
+                        <a-icon type="appstore" />文档 4
                         </a-menu-item>
-                        <a-menu-item key="sub2_2">
-                        <a-icon type="appstore" />文档 2
+                        <a-menu-item key="5">
+                        <a-icon type="appstore" />文档 5
                         </a-menu-item>
                     </a-sub-menu>
                     
@@ -89,22 +92,22 @@
 export default {
     data() {
         return {
-            rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
+            rootSubmenuKeys: ['sub1', 'sub2'],
             openKeys: ['sub1'],
-            current: ['mail'],
+            //current: ['mail'],
         };
     },
     methods: {
         onOpenChange(openKeys) {
-        const latestOpenKey = openKeys.find(key => this.openKeys.indexOf(key) === -1);
-        if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-            this.openKeys = openKeys;
-        } else {
-            this.openKeys = latestOpenKey ? [latestOpenKey] : [];
-        }
+          const latestOpenKey = openKeys.find(key => this.openKeys.indexOf(key) === -1);
+          if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+              this.openKeys = openKeys;
+         } else {
+              this.openKeys = latestOpenKey ? [latestOpenKey] : [];
+          }
         },
     },
-}
+};
 </script>
 <style lang="scss" scoped>
 .top {
