@@ -5,7 +5,7 @@
         <div class="topRight">
              <a-dropdown>
                 <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                <img class="avatar" style="width:30px;height:30px" src="/../assets/bg.jpeg" />
+                <img class="avatar" style="width:30px;height:30px" src="../../assets/bg.jpeg" />
                 </a>
                 <a-menu slot="overlay">
                 <a-menu-item>
@@ -40,28 +40,28 @@
         </div>
       </div>
       <div class="toleft">
-            <a-menu mode="inline" :open-keys="openKeys" style="width: 230px" @openChange="onOpenChange">
+            <a-menu mode="inline" :open-keys="openKeys" style="width: 230px" @openChange="onOpenChange" @click="handleClick">
                     <a-sub-menu key="sub1">
                         <span slot="title"><a-icon type="team" />
                         <span>团队 1</span></span>
                         <a-menu-item key="1">
-                        <a-icon type="appstore" />文档 1
+                        <a-icon type="file" />文档 1
                         </a-menu-item>
                         <a-menu-item key="2">
-                        <a-icon type="appstore" />文档 2
+                        <a-icon type="file" />文档 2
                         </a-menu-item>
                         <a-menu-item key="3">
-                        <a-icon type="appstore" />文档 3
+                        <a-icon type="file" />文档 3
                         </a-menu-item>
                     </a-sub-menu>
                     <a-sub-menu key="sub2">
                         <span slot="title"><a-icon type="team" />
                         <span>团队 2</span></span>
                         <a-menu-item key="4">
-                        <a-icon type="appstore" />文档 4
+                        <a-icon type="file" />文档 4
                         </a-menu-item>
                         <a-menu-item key="5">
-                        <a-icon type="appstore" />文档 5
+                        <a-icon type="file" />文档 5
                         </a-menu-item>
                     </a-sub-menu>
                     
@@ -70,14 +70,21 @@
     <div class='body'>
       <a-layout style="padding: 24px 50px 24px">
         <a-breadcrumb style="margin: 16px 0">
+          <a-breadcrumb-item>主页</a-breadcrumb-item>
           <a-breadcrumb-item>团队空间</a-breadcrumb-item>
           <a-breadcrumb-item>团队 1</a-breadcrumb-item>
-          <a-breadcrumb-item>文档 1</a-breadcrumb-item>
         </a-breadcrumb>
         <a-layout-content
           :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
         >
-          Content
+          <h3>团队1</h3>
+          <a-icon type="team" /> 协作！
+          <a-card title="协作者" style="width: 600px">
+          <a slot="extra" href="#">添加协作者</a>
+          <p>用户1</p>
+          <p>用户2</p>
+          <p>用户3</p>
+          </a-card>
         </a-layout-content>
       </a-layout>
     </div>
@@ -93,19 +100,23 @@ export default {
     data() {
         return {
             rootSubmenuKeys: ['sub1', 'sub2'],
-            openKeys: ['sub1'],
+            openKeys: ['sub1', 'sub2'],
             //current: ['mail'],
         };
     },
+        watch: {
+    openKeys(val) {
+      console.log('openKeys', val);
+      },
+    },
+    
     methods: {
-        onOpenChange(openKeys) {
-          const latestOpenKey = openKeys.find(key => this.openKeys.indexOf(key) === -1);
-          if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-              this.openKeys = openKeys;
-         } else {
-              this.openKeys = latestOpenKey ? [latestOpenKey] : [];
-          }
-        },
+        handleClick(e) {
+      console.log('click', e);
+      },
+        titleClick(e) {
+      console.log('titleClick', e);
+      },
     },
 };
 </script>
