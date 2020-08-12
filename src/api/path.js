@@ -3,6 +3,7 @@ let Ip = {
   productIP: LOADIP + "/",
 };
 let path = {
+<<<<<<< HEAD
   website: {
     login: Ip.productIP + "login",
     register: Ip.productIP + "register",
@@ -12,3 +13,13 @@ let path = {
   },
 };
 export default path;
+=======
+    website:{
+        login:Ip.productIP+"login",
+        register:Ip.productIP+"register",
+        getUserInfo:Ip.productIP+"getUserInfo",
+    }
+}
+export default path
+  
+>>>>>>> personWorkspace

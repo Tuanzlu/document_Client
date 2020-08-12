@@ -54,5 +54,15 @@ const routes = [
 const router = new VueRouter({
   routes,
 });
-
+//控制访问权限
+router.beforeEach((to,from,next) => {
+  if(to.path === '/login' || to.path === '/' || to.path === '/register' || to.path === '/about' 
+  || to.path === '/index'
+  )
+    return next();
+  const tokenStr = window.sessionStorage.getItem('UserId');
+  if(!tokenStr)
+    return next('/login');
+  next();
+})
 export default router;

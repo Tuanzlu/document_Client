@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+axios.defaults.withCredentials = true 
 
 //var root = process.env.BASE_URL
 // 自定义判断元素类型JS
