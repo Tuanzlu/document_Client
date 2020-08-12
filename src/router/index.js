@@ -24,22 +24,6 @@ const routes = [
     name: "Login",
     component: () => import("../views/personalWorkplace/login.vue"),
   },
-  /*
-  {
-    path: "/register",
-    name: "Register",
-    component: () => import("../views/personalWorkplace/register.vue"),
-  },
-  {
-    path: "/personIndex",
-    name: "PersonIndex",
-    component: () => import("../views/personalWorkplace/personIndex.vue"),
-  },
-  {
-    path: "/personInfo",
-    name: "PersonInfo",
-    component: () => import("../views/personalWorkplace/personInfo.vue"),
-  },*/
   {
     path: "/manage",
     name: "Manage",
@@ -59,6 +43,11 @@ const routes = [
     path: "/personInfo",
     name: "PersonInfo",
     component: () => import("../views/personalWorkplace/personInfo.vue"),
+  },
+  {
+    path: "/help",
+    name: "Help",
+    component: () => import("../views/help.vue"),
   },
 ];
 
