@@ -72,6 +72,7 @@
 <script>
 //import { getData } from "@/api/webget";
 import { postData } from "@/api/webpost";
+import Cookies from 'js-cookie';
 export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
@@ -81,6 +82,7 @@ export default {
       loginForm: {
         username: "12",
         password: "12121",
+        userId: 1,
       },
     };
   },
@@ -96,7 +98,12 @@ export default {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("登录成功");
+          //Cookies.set('Username',values.userName);
+          //Cookies.set('Password',values.password);
+          Cookies.set('LoginUserId',res.data.userid);
           this.$router.push("/personIndex");
+          window.sessionStorage.setItem("LoginUserId",res.data.userid);
+          
         } else if (res.code === "1" || res.code === "2") {
           this.$message.error("用户名或密码错误");
         } else {
@@ -120,6 +127,7 @@ export default {
   },
   mounted() {
     //this.postLogin(params);
+    //Cookies.get();
   },
 };
 </script>

@@ -45,7 +45,9 @@
 </template>
 
 <script>
+import { getData } from "@/api/webget";
 import uploadPhoto from '@/components/uploadPhoto';
+import Cookies from 'js-cookie';
 export default {
   components: {
         uploadPhoto,
@@ -57,13 +59,38 @@ export default {
       form: {
         name: '',
       },
+      info: {
+
+      },
     };
   },
   methods: {
     onSubmit() {
       console.log('submit!', this.form);
     },
-    
+    getInfo() {
+      //console.log(111);
+      let params = new URLSearchParams();
+      let userId = parseInt(Cookies.get('LoginUserId'));
+      params.append("userid", userId);
+      let url = this.$urlPath.website.getUserInfo;
+      getData(url,params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.$message.error("查询成功");
+        } else if (res.code === "1") {
+          this.$message.error("未登录");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    }
+  },
+  mounted() {
+    this.getInfo();
+    //console.log(Cookies.get('LoginUserId'));
+    //console.log();
   },
 }
 </script>

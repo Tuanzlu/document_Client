@@ -6,7 +6,7 @@
 
 <style lang="scss">
 body {
-  min-width: 1400px;
+ // min-width: 1400px;
   max-width: 1300px;
 }
 </style>
