@@ -132,10 +132,6 @@ export default {
   height: 100%;
   margin: 15px;
 }
-.searchBar {
-  width: 200px;
-  margin: 0;
-}
 .btn {
   text-align: center;
   width: 30px;
@@ -145,7 +141,7 @@ export default {
 }
 .sideMenu {
   background-color: #f7f7f7;
-  width: 200px;
+  width: 230px;
   padding: 0;
   position: fixed;
   top: 60px;
@@ -157,7 +153,7 @@ export default {
   top: 60px;
   right: 0;
   bottom: 0;
-  left: 200px;
+  left: 230px;
   width: 100%;
   overflow: scroll;
   background-color: #f7f7f7;
@@ -197,22 +193,6 @@ export default {
   width: 200px;
   overflow: scroll;
 }
-.singleCard {
-  display: block;
-  float: left;
-  margin: 25px;
-}
-.cardList {
-  max-height: 500px;
-  overflow: scroll;
-  width: 800px;
-  margin: 30px 60px 30px 60px;
-}
-.card {
-  text-align: center;
-  height: 200px;
-  width: 200px;
-}
 .breadcrumb {
   margin: 30px;
   font-size: 18px;
@@ -221,7 +201,7 @@ export default {
   height: 800px;
   margin-left: 200px;
   margin-top: 180px;
-  left: 200px;
+  left: 230px;
   bottom: 0;
   width: 100%;
   overflow: scroll;
@@ -231,7 +211,7 @@ export default {
   height: 180px;
   position: fixed;
   top: 60px;
-  left: 200px;
+  left: 230px;
   bottom: 0;
   width: 100%;
   border: red 1px solid;

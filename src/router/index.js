@@ -44,6 +44,21 @@ const routes = [
     name: "Manage",
     component: () => import("../views/team/manage.vue"),
   },
+  {
+    path: "/register",
+    name: "Register",
+    component: () => import("../views/personalWorkplace/register.vue"),
+  },
+  {
+    path: "/personIndex",
+    name: "PersonIndex",
+    component: () => import("../views/personalWorkplace/personIndex.vue"),
+  },
+  {
+    path: "/personInfo",
+    name: "PersonInfo",
+    component: () => import("../views/personalWorkplace/personInfo.vue"),
+  },
 ];
 
 const router = new VueRouter({

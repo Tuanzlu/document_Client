@@ -183,10 +183,6 @@ export default {
   height: 100%;
   margin: 15px;
 }
-.searchBar {
-  width: 200px;
-  margin: 0;
-}
 .btn {
   text-align: center;
   width: 30px;
@@ -196,7 +192,7 @@ export default {
 }
 .sideMenu {
   background-color: #f7f7f7;
-  width: 200px;
+  width: 230px;
   padding: 0;
   position: fixed;
   top: 60px;
