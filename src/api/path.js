@@ -3,23 +3,13 @@ let Ip = {
   productIP: LOADIP + "/",
 };
 let path = {
-<<<<<<< HEAD
   website: {
     login: Ip.productIP + "login",
     register: Ip.productIP + "register",
     addDoc: Ip.productIP + "addDoc",
     readDoc: Ip.productIP + "readDoc",
     writeDoc: Ip.productIP + "writeDoc",
+    getUserInfo: Ip.productIP + "getUserInfo",
   },
 };
 export default path;
-=======
-    website:{
-        login:Ip.productIP+"login",
-        register:Ip.productIP+"register",
-        getUserInfo:Ip.productIP+"getUserInfo",
-    }
-}
-export default path
-  
->>>>>>> personWorkspace
