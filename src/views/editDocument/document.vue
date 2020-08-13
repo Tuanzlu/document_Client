@@ -13,9 +13,11 @@
         <span class="name">{{ article.title }}</span>
       </div>
       <div class="top">
-        <a-button class="btn" @click="collected">
-          <a-icon type="star" theme="filled" v-if="article.isCollected" />
-          <a-icon type="star" theme="outlined" v-else />
+        <a-button class="btn" @click="collected" v-show="article.isCollected">
+          <a-icon type="star" theme="filled" />
+        </a-button>
+        <a-button class="btn" @click="collected" v-show="!article.isCollected">
+          <a-icon type="star" theme="outlined" />
         </a-button>
       </div>
       <div class="top" :class="{ time: !article.isNew }">
@@ -209,7 +211,7 @@
       <div class="topRight">
         <a-dropdown>
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            <span style="font-size: 16px; margin: 10px;">{{ user.username }}</span>
+            <span style="font-size: 16px; margin: 10px;text-decoration: none">{{ user.username }}</span>
             <img class="avatar" style="width: 30px; height: 30px;" src="../../assets/bg.jpeg" />
           </a>
           <a-menu class="more" slot="overlay" @click="avatarOnClick">
@@ -230,7 +232,6 @@
       <div class="editor-tool" v-if="isEdit">
         <div class="editor-inner">
           <div class="inner-title"><input class="input-title" v-model="article.title" type="text" /></div>
-          <a-divider></a-divider>
           <editor :isEdit="isEdit" @Edit="Edit" style="width:816px;margin-bottom:80px"></editor>
         </div>
       </div>
@@ -243,7 +244,7 @@
       </div> -->
       <div class="main-read" v-else>
         <div class="inner">
-          <div class="inner-title">{{ article.title }}</div>
+          <div class="inner-title-read">{{ article.title }}</div>
           <a-divider></a-divider>
           <div class="inner-content">{{ article.content }}</div>
         </div>
@@ -263,7 +264,7 @@
           <a-divider></a-divider>
         </div>
         <div class="review-input">
-          <a-textarea style="resize:none" v-model="review.comment" placeholder="输入评论内容" :rows="4" />
+          <a-textarea style="resize:none" v-model="review.content" placeholder="输入评论内容" :rows="4" />
           <a-button style="float: right; margin: 10px;" type="default" size="small" @click="addComment">发表</a-button>
         </div>
       </div>
@@ -369,19 +370,19 @@ export default {
     return {
       content: "",
       data,
-      canComment: false,
       isEdit: true,
       codata,
       columns,
       href: "http://123.56.145.79:8090" + window.location.href.substr(21),
       review: {
         title: "user",
-        comment: "",
+        content: "",
       },
       isaddShare: true,
       user: {
+        canComment: false,
         userid: parseInt(window.sessionStorage.getItem("UserId")),
-        username: "陆清媛",
+        username: "",
       },
       article: {
         docid: 10,
@@ -424,9 +425,6 @@ export default {
     handleChange(value) {
       console.log(`selected ${value}`);
     },
-    addComment() {
-      this.data.add(this.review);
-    },
     toLast() {
       this.$router.go(-1);
     },
@@ -435,6 +433,7 @@ export default {
     },
     collected() {
       this.article.isCollected = !this.article.isCollected;
+      console.log(this.article.isCollected);
     },
     onClick({ key }) {
       if (key == 1) {
@@ -471,9 +470,10 @@ export default {
         console.log(res.code);
         if (res.code === "0") {
           this.user.username = res.data.authorname;
-          this.canComment = res.data.canComment;
+          this.user.canComment = res.data.canComment;
           this.article = res.data.doc;
-          this.$message.success("操作成功");
+          console.log("获取文档成功");
+          // this.$message.success("操作成功");
         } else if (res.code === "1") {
           this.$message.error("用户未登录");
         } else if (res.code === "2") {
@@ -490,7 +490,7 @@ export default {
       params.append("title", this.article.title);
       params.append("content", this.article.content);
       params.append("userid", this.user.userid);
-      //调用封装的postData函数，获取服务器返回值
+      //调用封装的putData函数，获取服务器返回值
       let url = this.$urlPath.website.writeDoc;
       putData(url, params).then((res) => {
         console.log(res.code);
@@ -515,11 +515,10 @@ export default {
       postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.$message.success("保存成功");
+          console.log("保存成功");
+          // this.$message.success("保存成功");
         } else if (res.code === "1") {
-          this.$message.error("用户未登录");
-        } else if (res.code === "2") {
-          this.$message.error("保存失败");
+          this.$message.error("操作失败");
         } else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
@@ -528,14 +527,36 @@ export default {
     },
     getComment() {
       let params = new URLSearchParams();
-      params.append("docid", 1);
-      //调用封装的postData函数，获取服务器返回值
+      params.append("docid", this.article.docid);
+      //调用封装的getData函数，获取服务器返回值
       let url = this.$urlPath.website.getComment;
       getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.$message.success("操作成功");
-          this.commentList = this.res.data.commentList;
+          console.log("获取评论列表成功");
+          // this.$message.success("操作成功");
+          this.commentList = res.data.commentList;
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    addComment() {
+      let params = new URLSearchParams();
+      params.append("docid", this.article.docid);
+      params.append("content", this.review.content);
+      params.append("userid", this.user.userid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.addComment;
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.getComment();
+          console.log("保存成功");
+          // this.$message.success("保存成功");
         } else if (res.code === "1") {
           this.$message.error("操作失败");
         } else {
@@ -580,11 +601,11 @@ export default {
 }
 .review-title {
   font-size: 18px;
-  margin: 10px auto -10px auto;
+  margin: 20px auto -15px 20px;
   // border: red 1px solid;
 }
 .review {
-  border: blue 1px solid;
+  // border: blue 1px solid;
   background-color: white;
   margin: 30px auto 50px auto;
   width: 816px;
@@ -664,6 +685,10 @@ textarea {
 .input-title:active,
 .input-title:hover {
   border: none;
+  width: 816px;
+  -webkit-box-shadow: 0 0 10px #ccc;
+  -moz-box-shadow: 0 0 10px #ccc;
+  box-shadow: 0 0 10px #ccc;
 }
 .input-content,
 .input-content:active,
@@ -682,10 +707,16 @@ textarea {
   min-height: 823px;
   background-color: white;
 }
-.inner-title {
+.inner-title-read {
   background-color: white;
   font-size: 24px;
   margin-bottom: 30px;
+}
+.inner-title {
+  background-color: white;
+  font-size: 24px;
+  margin-top: 50px;
+  margin-bottom: -100px;
   -webkit-box-shadow: 0 0 10px #ccc;
   -moz-box-shadow: 0 0 10px #ccc;
   box-shadow: 0 0 10px #ccc;
@@ -737,17 +768,11 @@ textarea {
   color: rgb(190, 189, 189);
 }
 .body {
-  border: red 1px solid;
+  // border: red 1px solid;
   // padding-top: 130px;
   background-color: #f7f7f7;
 }
-// .main-edit {
-//   border: white 1px solid;
-//   background-color: white;
-//   margin: 0 auto 50px auto;
-//   width: 816px;
-//   min-height: 1323px;
-// }
+
 .main-read {
   border: white 1px solid;
   background-color: white;
@@ -759,15 +784,17 @@ textarea {
   box-shadow: 0 0 10px #ccc;
 }
 .editor-inner {
-  border: transparent 1px solid;
+  // border: red 1px solid;
   margin: 0 auto 30px auto;
   width: 816px;
+  background-color: white !important;
   height: 823px;
+  padding-bottom: 30px;
 }
 .editor-tool {
   // border: green 1px solid;
   background-color: #f7f7f7;
-  margin: 10px auto 30px auto;
+  margin: 10px auto 0px auto;
   width: 100%;
   min-height: 823px;
 }
