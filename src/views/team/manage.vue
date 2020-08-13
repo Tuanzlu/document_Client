@@ -46,7 +46,7 @@
           :style="{ height: '100%', borderRight: 0 }"
         >
           <a-menu-item key="1">
-            <router-link to="/manage"> <a-icon type="pie-chart" />主页 </router-link>
+            <router-link to="/personIndex"> <a-icon type="pie-chart" />个人主页 </router-link>
           </a-menu-item>
           <a-sub-menu key="sub1">
             <router-link to="/manage/teamList" tag="div" slot="title"> <a-icon type="user" />团队协作空间 </router-link>
@@ -69,11 +69,6 @@
       </a-layout-sider>
 
       <a-layout style="padding: 0 24px 24px">
-        <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>面</a-breadcrumb-item>
-          <a-breadcrumb-item>包</a-breadcrumb-item>
-          <a-breadcrumb-item>屑</a-breadcrumb-item>
-        </a-breadcrumb>
         <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
           <router-view></router-view>
         </a-layout-content>

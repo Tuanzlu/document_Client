@@ -5,7 +5,7 @@
           <a-icon type="team" /> 协作！（协作者列表）
           </router-link>
           <a-card title="文件夹" style="width:100%">
-          <a slot="extra" href="#">新建文档</a>
+          <!--<a slot="extra" href="#">新建文档</a>-->
           <a-table :columns="columns" :data-source="data">
            <span slot="action">
              <router-link to="/document">打开</router-link>
