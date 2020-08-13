@@ -2,9 +2,12 @@
   <div>
     <personNav></personNav>
     <siderNav></siderNav>
-    <div style="float:right;margin:100px 80px 0 auto">
-      <a-button type="default" @click="createDocument">新建文档</a-button>
+    
+    <div class="used">
+      <router-view></router-view>
     </div>
+    <div style="float:right;margin:100px 80px 0 auto">
+      <a-button type="default" @click="createDocument">新建文档</a-button></div>
   </div>
 </template>
 
@@ -44,4 +47,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.used{
+  width: 800px;
+  margin-top: 30px;
+  
+  margin-left:250px;
+}
+</style>

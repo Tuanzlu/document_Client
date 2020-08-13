@@ -1,0 +1,37 @@
+<template>
+  <div>
+      <a-menu v-model="current" mode="horizontal">
+        <a-menu-item key="use"> 
+        <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
+        </a-menu-item>
+        <a-menu-item key="own" > 
+        <router-link to="/own"><a-icon type="plus" />我创建的</router-link>
+        </a-menu-item>
+        <a-menu-item key="fav" > 
+        <router-link to="/favorite"><a-icon type="star" />我的收藏</router-link>
+        </a-menu-item>
+      </a-menu>
+      <div class="btn_box">
+       <buttons></buttons>
+       <buttons></buttons>
+      
+      </div>
+  </div>
+</template>
+
+<script>
+import buttons from "@/components/buttonDoc";
+export default {
+  components: {
+    buttons,
+  },
+}
+</script>
+
+<style>
+.btn_box{
+    /*background-color: #7f7f7f;*/
+    width: 740px;
+}
+
+</style>

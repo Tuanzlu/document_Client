@@ -2,13 +2,13 @@
   <div class="toleft">
             <a-menu mode="inline" :open-keys="openKeys" style="width: 230px" @openChange="onOpenChange">
                     <a-menu-item key="1">
-                        <a-icon type="edit" />工作台
+                        <a-icon type="edit" />工作台<router-link to="/used"></router-link>
                     </a-menu-item>
                     <a-menu-item key="2">
-                        <a-icon type="mail" />收件箱
+                        <a-icon type="mail" />收件箱<router-link to="/letter"></router-link>
                     </a-menu-item>
                     <a-menu-item key="3">
-                        <a-icon type="appstore" />我的桌面
+                        <a-icon type="appstore" />我的桌面<router-link to="/table"></router-link>
                     </a-menu-item>
                     <a-sub-menu key="sub1">
                         <span slot="title"><a-icon type="team" />
@@ -18,7 +18,7 @@
                         </a-menu-item>
                     </a-sub-menu>
                     <a-menu-item key="4">
-                        <a-icon type="delete" />回收站
+                        <a-icon type="delete" />回收站<router-link to="/rubish"></router-link>
                     </a-menu-item>
                     <a-menu-item key="5">
                         <a-icon type="question" />帮助中心
@@ -55,6 +55,7 @@ export default {
             width:230px;
             top:60px;
             bottom:0;
+            margin-right: 100px;
             /*background-color: #7f7f7f;*/
 }
 
