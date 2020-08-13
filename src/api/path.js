@@ -13,6 +13,13 @@ let path = {
     getComment: Ip.productIP + "getCommentList",
     addComment: Ip.productIP + "addComment",
     deleteDoc: Ip.productIP + "deleteDoc",
+    getUserByUsername: Ip.productIP + "getUserByUsername",
+    getPermsList: Ip.productIP + "getPermsList",
+    deletePerms: Ip.productIP + "deletePerms",
+    collectDoc: Ip.productIP + "collectDoc",
+    deleteCollection: Ip.productIP + "deleteCollection",
+    updateSharePerms: Ip.productIP + "updateSharePerms",
+    addTeamDoc: Ip.productIP + "addTeamDoc",
   },
 };
 export default path;

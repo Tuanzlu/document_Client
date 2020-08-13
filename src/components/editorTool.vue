@@ -1,7 +1,7 @@
 <template>
   <div class="editor-tool">
+    <a-button class="btn" v-on:click="getContent">保存</a-button>
     <div ref="editor" style="text-align: left;"></div>
-    <!-- <button v-on:click="getContent">查看内容</button> -->
   </div>
 </template>
 
@@ -11,66 +11,86 @@ import E from "wangeditor";
 export default {
   name: "editor",
   props: {
-    isEdit: {
-      type: Boolean,
-      default: false,
+    content: {
+      type: String,
     },
   },
   data() {
     return {
-      editable: true,
       editorContent: "",
     };
   },
   methods: {
     getContent: function() {
-      alert(this.editorContent);
+      this.$emit("Edit", this.editorContent);
     },
   },
+  // watch: {
+  //   isEdit: {
+  //     deep: true,
+  //     handler(val) {
+  //       this.editable = val;
+  //       if (this.editable != true) {
+  //         console.log("editabale:" + this.editable);
+  //         console.log("content:" + this.editorContent);
+  //         this.$emit("Edit", this.editorContent);
+  //       }
+  //     },
+  //   },
+  // },
   watch: {
-    isEdit: {
-      deep: true,
-      handler(val) {
-        this.editable = val;
-        if (this.editable == false) {
-          console.log(this.editable);
-          this.$emit("Edit", this.editorContent);
-        }
-      },
+    content: function(newVal) {
+      this.editorContent = newVal;
     },
   },
-
   mounted() {
     var editor = new E(this.$refs.editor);
     editor.customConfig.onchange = (html) => {
       this.editorContent = html;
     };
-    editor.create();
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      //设置延迟执行
+      editor.create();
+      editor.txt.html(this.editorContent);
+    }, 200);
   },
 };
 </script>
 
 <style scoped>
+.btn {
+  /* border: 5px red solid; */
+  float: right;
+  background-color: #f7f7f7;
+  text-align: center;
+  width: 60px;
+  height: 32px;
+  margin: 0px 5px 0 5px;
+  padding: 0 5px 0 5px;
+}
 .editor-tool {
   /* border: yellow 1px solid; */
   min-height: 823px;
-  width: 900px;
+  width: 1200px;
   margin: auto;
+  z-index: 100 !important;
 }
-
-::v-deep .w-e-menu-panel * {
+/* ::v-deep .w-e-menu-panel * {
   padding: 3px;
   margin: 0;
   box-sizing: border-box;
-}
+} */
 ::v-deep .w-e-toolbar .w-e-menu {
   position: relative;
   text-align: center;
-  padding: 5px 13px;
+  padding: 5px 11px;
   cursor: pointer;
+  z-index: 102 !important;
 }
 
 ::v-deep .w-e-text-container {
+  z-index: 100 !important;
   min-height: 760px;
   width: 816px;
   margin-top: 80px;

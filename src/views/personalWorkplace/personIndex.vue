@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      docidnum: 0,
+      docid: 0,
       userid: parseInt(window.sessionStorage.getItem("UserId")),
     };
   },
@@ -33,11 +33,11 @@ export default {
       postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.docidnum = res.data.docid;
+          this.docid = res.data.docid;
           this.$router.push({
             path: "/document",
             query: {
-              docidnum: res.data.docid,
+              docid: res.data.docid,
             },
           });
           this.$message.success("保存成功");
