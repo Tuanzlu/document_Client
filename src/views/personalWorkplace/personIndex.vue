@@ -2,12 +2,9 @@
   <div>
     <personNav></personNav>
     <siderNav></siderNav>
-    
-    <div class="used">
-      <router-view></router-view>
-    </div>
     <div style="float:right;margin:100px 80px 0 auto">
-      <a-button type="default" @click="createDocument">新建文档</a-button></div>
+      <a-button type="default" @click="createDocument">新建文档</a-button>
+    </div>
   </div>
 </template>
 
@@ -43,7 +40,6 @@ export default {
               docidnum: res.data.docid,
             },
           });
-          console.log(res.data.docid);
           this.$message.success("保存成功");
         } else if (res.code === "1") {
           this.$message.error("用户未登录");
@@ -59,11 +55,4 @@ export default {
 };
 </script>
 
-<style>
-.used{
-  width: 800px;
-  margin-top: 30px;
-  
-  margin-left:250px;
-}
-</style>
+<style></style>
