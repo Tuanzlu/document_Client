@@ -74,6 +74,11 @@ const routes = [
         path: "/table",
         component: () => import("../views/personalWorkplace/personWork/table.vue"),
       },
+      {
+        path: "/manage/folder",
+        name: "Folder",
+        component: () => import("../views/team/folder.vue"),
+      },
     ],
   },
   {
@@ -105,11 +110,6 @@ const routes = [
         path: "/manage/addTeam",
         name: "AddTeam",
         component: () => import("../views/team/addTeam.vue"),
-      },
-      {
-        path: "/manage/folder",
-        name: "Folder",
-        component: () => import("../views/team/folder.vue"),
       },
     ],
   },

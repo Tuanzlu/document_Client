@@ -20,6 +20,7 @@ let path = {
     deleteCollection: Ip.productIP + "deleteCollection",
     updateSharePerms: Ip.productIP + "updateSharePerms",
     addTeamDoc: Ip.productIP + "addTeamDoc",
+    getMyJoinedTeam: Ip.productIP + "getMyJoinedTeam",
   },
 };
 export default path;

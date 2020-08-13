@@ -13,14 +13,15 @@
                     <a-sub-menu key="sub1">
                         <span slot="title"><a-icon type="team" />
                         <span>团队空间</span></span>
-                        <a-menu-item key="sub1_1">
-                        Option 1
+                        <a-menu-item v-for="item in team" :key="item.teamid">
+                        <router-link to="/manage/folder">{{item.teamname}}</router-link>
                         </a-menu-item>
+                    
                     </a-sub-menu>
-                    <a-menu-item key="4">
+                    <a-menu-item key="5">
                         <a-icon type="delete" />回收站<router-link to="/rubish"></router-link>
                     </a-menu-item>
-                    <a-menu-item key="5">
+                    <a-menu-item key="6">
                         <a-icon type="question" />帮助中心
                     </a-menu-item>
                 </a-menu>   
@@ -28,9 +29,12 @@
 </template>
 
 <script>
+import { getData } from "@/api/webget";
 export default {
+    
     data() {
         return {
+            team: [],
             rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
             openKeys: ['sub1'],
             current: ['mail'],
@@ -45,8 +49,31 @@ export default {
             this.openKeys = latestOpenKey ? [latestOpenKey] : [];
         }
         },
+        getTeam(){
+            let params = new URLSearchParams();
+            let userid = parseInt(window.sessionStorage.getItem("UserId"));
+            params.append("userid",userid);
+            //调用封装的getData函数，获取服务器返回值
+            let url = this.$urlPath.website.getMyJoinedTeam;
+            getData(url, params).then((res) => {
+            console.log(res.code);
+            if (res.code === "0") {
+                this.$message.success("查询成功");
+                this.team = res.data.joinlist;
+            } else if (res.code === "1") {
+                this.$message.error("用户未登录");
+            } else {
+                console.log(res.code);
+                this.$message.error("服务器返回时间间隔过长");
+            }
+          });
+        }
     },
+    mounted(){
+        this.getTeam();
+    }
 }
+
 </script>
 
 <style>
@@ -58,5 +85,4 @@ export default {
             margin-right: 100px;
             /*background-color: #7f7f7f;*/
 }
-
 </style>
