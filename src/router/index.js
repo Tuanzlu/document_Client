@@ -111,11 +111,6 @@ const routes = [
         name: "AddTeam",
         component: () => import("../views/team/addTeam.vue"),
       },
-      {
-        path: "/manage/folder",
-        name: "Folder",
-        component: () => import("../views/team/folder.vue"),
-      },
     ],
   },
 ];

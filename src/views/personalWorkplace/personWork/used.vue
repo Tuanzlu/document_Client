@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="float:right;width:70%">
       <a-menu v-model="current" mode="horizontal">
         <a-menu-item key="use"> 
         <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
