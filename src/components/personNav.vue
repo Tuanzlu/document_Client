@@ -50,7 +50,9 @@ export default {
 </script>
 
 <style scoped>
-
+.header {
+    height: 58px;
+}
 .top {
   float: left;
   margin: 15px 10px 0 10px;

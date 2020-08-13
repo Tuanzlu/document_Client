@@ -6,14 +6,18 @@
         <uploadPhoto></uploadPhoto></div>
         </br>
         <!--分割线-->
-        <div style="float:left;width: 2px;height: 300px; background: #000;margin-right: 40px;margin-left: 20px;"></div> 
-        
+        <div style="float:left;width: 2px;height: 300px; background: #000;margin-right: 40px;margin-left: 20px;"></div>  
         <!--右边内容-->
         <a-list size="large">
             <div>
                 <a-icon type="user" style="margin-right: 10px"/> 
                 <span> 用户名：{{info.name}}</span>
                 <a-button type="link" style="float: right;">修改</a-button>
+            </div>
+            </br></br>
+            <div>
+                <a-icon type="contacts"  style="margin-right: 10px ;float: center"/>
+                <span>账号ID：{{info.userId}}</span>
             </div>
             </br></br>
             <div>
@@ -26,7 +30,8 @@
             <div>
                 <a-icon type="wechat"  style="margin-right: 10px"/>
                 <span> 微信：{{info.wechat}}</span>
-                <a-button type="link" style="float: right;">修改</a-button>
+                <a-button @click="toggleModal" type="link" style="float: right;">修改</a-button>
+                <inputBox ref="chooseButton" v-show="showModal" v-on:closeme="closeme"></inputBox>
             </div>
             </br></br>
             <div>
@@ -34,12 +39,7 @@
                 <span> 邮箱：{{info.email}}</span>
                 <a-button type="link" style="float: right;">修改</a-button>
             </div>
-            </br></br>
-            <div>
-                <a-icon type="contacts"  style="margin-right: 10px ;float: center"/>
-                <span>账号ID：{{info.userId}}</span>
-                <a-button type="link" style="float: right;">修改</a-button>
-            </div>
+            
         </a-list>
       </div> 
   </div>
@@ -48,30 +48,31 @@
 <script>
 import { getData } from "@/api/webget";
 import uploadPhoto from '@/components/uploadPhoto';
+import inputBox from '@/components/inputBox';
 export default {
   components: {
-        uploadPhoto,
+        uploadPhoto,inputBox
   },
   data() {
     return {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 14 },
-      form: {
-        name: '',
-      },
       info: {
         email: '123@buaa.com',
         name: 'username',
         userId: 0,
         password: '12345',
         wechat: 'wechat',
-
       },
+      showModal:false,
     };
   },
   methods: {
-    onSubmit() {
-      console.log('submit!', this.form);
+    toggleModal(){
+      this.showModal = !this.showModal;
+    },
+    closeme(){
+      //let res = this.$refs.chooseButton.getChoose();
+      //console.log(res);
+      this.showModal = !this.showModal;
     },
     getInfo() {
       let params = new URLSearchParams();

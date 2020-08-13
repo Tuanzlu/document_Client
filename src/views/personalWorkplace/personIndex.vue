@@ -2,6 +2,9 @@
   <div>
     <personNav></personNav>
     <siderNav></siderNav>
+    <div class="used">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -18,4 +21,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.used{
+  width: 800px;
+  margin-top: 30px;
+  
+  margin-left:250px;
+}
+</style>

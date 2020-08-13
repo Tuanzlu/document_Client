@@ -38,6 +38,33 @@ const routes = [
     path: "/personIndex",
     name: "PersonIndex",
     component: () => import("../views/personalWorkplace/personIndex.vue"),
+    redirect: '/used',
+    children: [
+      {
+        path: '/used',
+        component: () => import("../views/personalWorkplace/personWork/used.vue"),
+      },
+      {
+        path: '/own',
+        component: () => import("../views/personalWorkplace/personWork/own.vue"),
+      },
+      {
+        path: '/favorite',
+        component: () => import("../views/personalWorkplace/personWork/favorite.vue"),
+      },
+      {
+        path: '/letter',
+        component: () => import("../views/personalWorkplace/personWork/letter.vue"),
+      },
+      {
+        path: '/rubish',
+        component: () => import("../views/personalWorkplace/personWork/rubish.vue"),
+      },
+      {
+        path: '/table',
+        component: () => import("../views/personalWorkplace/personWork/table.vue"),
+      },
+    ]
   },
   {
     path: "/personInfo",
