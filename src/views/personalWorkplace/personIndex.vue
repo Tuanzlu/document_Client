@@ -17,17 +17,30 @@ export default {
     personNav,
     siderNav,
   },
-  data() {},
+  data() {
+    return {
+      docidnum: 0,
+      userid: parseInt(window.sessionStorage.getItem("UserId")),
+    };
+  },
   methods: {
     createDocument() {
       let params = new URLSearchParams();
-      params.append("title", "无标题");
-      params.append("content", "");
+
+      params.append("userid", this.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.addDoc;
       postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
+          this.docidnum = res.data.docid;
+          this.$router.push({
+            path: "/document",
+            query: {
+              docidnum: res.data.docid,
+            },
+          });
+          console.log(res.data.docid);
           this.$message.success("保存成功");
         } else if (res.code === "1") {
           this.$message.error("用户未登录");
@@ -38,7 +51,6 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-      this.$router.push("/document");
     },
   },
 };

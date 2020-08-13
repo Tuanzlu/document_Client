@@ -10,6 +10,7 @@ let path = {
     readDoc: Ip.productIP + "readDoc",
     writeDoc: Ip.productIP + "writeDoc",
     getUserInfo: Ip.productIP + "getUserInfo",
+    getComment: Ip.productIP + "getCommentList",
   },
 };
 export default path;
