@@ -1,72 +1,83 @@
 <template>
-  <a-upload
-    name="avatar"
-    list-type="picture-card"
-    class="avatar-uploader"
-    :show-upload-list="false"
-    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-    :before-upload="beforeUpload"
-    @change="handleChange"
-  >
-    <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
-    <div v-else>
-      <img class="avatar" style="width:100px;height:100px" src="../assets/bg.jpeg" />
+  <div class="photo">
+    <div style="width:100px;height:100px;border:1px solid;text-align:center;" @click="openImg">
+    <input v-show="false" type="file" accept="image/*" @change="tirggerFile($event)" ref="input" />
+    
+      <span v-if="imgUrl==''">点击上传</span>
+      <img style="height:100%;width:100%;" v-if="imgUrl!=''" :src="imgUrl" />
     </div>
-  </a-upload>
+  </div>
 </template>
 <script>
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
+import { postData } from "@/api/webpost";
+import { putData } from "@/api/webput";
 export default {
   data() {
     return {
-      loading: false,
-      imageUrl: '',
+      isSelectFile: false,
+      imgUrl: "",
     };
   },
   methods: {
-    handleChange(info) {
-      if (info.file.status === 'uploading') {
-        this.loading = true;
-        return;
-      }
-      if (info.file.status === 'done') {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, imageUrl => {
-          this.imageUrl = imageUrl;
-          this.loading = false;
-        });
-      }
+    tirggerFile(event) {
+      let file = event.target.files[0];
+      this.files = file;
+      let url = "";
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      let that = this;
+      reader.onload = function() {
+      url = this.result.substring(this.result.indexOf(",") + 1);
+      that.imgUrl = "data:image/png;base64," + url;
+        // that.$refs['imgimg'].setAttribute('src','data:image/png;base64,'+url);
+      };
+      this.loadPhoto(file);
     },
-    beforeUpload(file) {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        this.$message.error('You can only upload JPG file!');
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.$message.error('Image must smaller than 2MB!');
-      }
-      return isJpgOrPng && isLt2M;
+    openImg() {
+      this.$refs.input.click();
     },
-  },
-};
+    loadPhoto(file){
+      let params = new FormData();
+      params.append('image', file); 
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.uploadUserImage;
+      postData(url,params).then((res) => {
+        //console.log(res);
+        if(res.code === '0'){
+          console.log(res.data.userimgpath);
+          this.putPhoto(res.data.userimgpath);
+        }
+        else if(res.code === '1'){
+          this.$message.error('格式出错');
+        }
+        else{
+          console.log(res.code);
+          this.$message.error('上传失败');
+        }
+      });
+    },
+    putPhoto(e){
+      let params = new URLSearchParams();
+      let userId = parseInt(window.sessionStorage.getItem('UserId'));
+      params.append("userid", userId);
+      params.append('userimgpath', e);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.updateUserImgPath;
+      putData(url,params).then((res) => {
+        console.log(res);
+        if(res.code === '0'){
+          this.$message.success('上传成功');
+        }
+        else{
+          console.log(res.code);
+          this.$message.error('上传失败');
+        }
+      });
+    },
+  }
+}
 </script>
-<style>
-.avatar-uploader > .ant-upload {
-  width: 80px;
-  height: 80px;
-}
-.ant-upload-select-picture-card i {
-  font-size: 10px;
-  color: #999;
-}
 
-.ant-upload-select-picture-card .ant-upload-text {
-  
-  color: #666;
-}
+<style>
+
 </style>

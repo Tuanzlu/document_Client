@@ -10,6 +10,10 @@ let path = {
     readDoc: Ip.productIP + "readDoc",
     writeDoc: Ip.productIP + "writeDoc",
     getUserInfo: Ip.productIP + "getUserInfo",
+    updateUserInfo: Ip.productIP + "updateUserInfo",
+    alterPassword: Ip.productIP + "alterPassword",
+    uploadUserImage: Ip.productIP + "uploadUserImage",
+    updateUserImgPath: Ip.productIP + "updateUserImgPath",
   },
 };
 export default path;

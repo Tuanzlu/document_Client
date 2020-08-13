@@ -5,12 +5,13 @@
           <h3>请输入修改之后的信息</h3>
         </div>
         <div class="modal-body">
-            <a-input style="width:250px"  v-model="wechat" placeholder="请输入新的微信号">
-            <a-icon slot="prefix" type="wechat" />
-            <a-tooltip slot="suffix" title="Extra information">
-            </a-tooltip>
+            <a-input style="width:250px"  v-model="email" placeholder="请输入新的邮箱"
+            type="email"
+            >
+                <a-icon slot="prefix" type="mail" />
+                <a-tooltip slot="suffix" title="Extra information">
+                </a-tooltip>
             </a-input>
-            
         </div>
         <div class="modal-footer">
             <button type="button" class="btn-close" @click="closeSelf">确认</button>
@@ -24,21 +25,21 @@
 export default {
   data() {
     return {    
-        wechat: '',
+        email: '',
         mainStyles: '',
         temp: '',
     }
   }, 
   methods: {   
     closeSelf() {
-        this.temp = this.wechat;
-        this.wechat="";
-        this.$emit("closeme");    
+        this.temp = this.email;
+        this.email="";
+        this.$emit("closeEmail");    
     },
     closeJust() {
-        this.wechat="";
+        this.email="";
         this.temp="";
-        this.$emit("closeme");
+        this.$emit("closeEmail");    
     },
     getChoose() {
         return this.temp;
