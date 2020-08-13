@@ -74,6 +74,11 @@ const routes = [
         path: "/table",
         component: () => import("../views/personalWorkplace/personWork/table.vue"),
       },
+      {
+        path: "/manage/folder",
+        name: "Folder",
+        component: () => import("../views/team/folder.vue"),
+      },
     ],
   },
   {

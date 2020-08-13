@@ -1,11 +1,13 @@
 <template>
-  <div>
+<div>
     <personNav></personNav>
     <siderNav></siderNav>
     <div style="float:right;margin:100px 80px 0 auto">
       <a-button type="default" @click="createDocument">新建文档</a-button>
     </div>
-  </div>
+      <router-view></router-view>
+</div>
+    
 </template>
 
 <script>

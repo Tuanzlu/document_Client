@@ -51,7 +51,7 @@
           <a-sub-menu key="sub1">
             <router-link to="/manage/teamList" tag="div" slot="title"> <a-icon type="user" />团队协作空间 </router-link>
             <a-menu-item key="1-1">
-              <router-link to="/manage/teamList">团队列表</router-link>
+              <router-link to="/manage/teamList">团队列表/文件夹/协作者列表</router-link>
             </a-menu-item>
             <a-menu-item key="1-2">
               <router-link to="/manage/addTeam">
