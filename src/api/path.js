@@ -21,6 +21,10 @@ let path = {
     updateSharePerms: Ip.productIP + "updateSharePerms",
     addTeamDoc: Ip.productIP + "addTeamDoc",
     getMyJoinedTeam: Ip.productIP + "getMyJoinedTeam",
+    updateUserInfo: Ip.productIP + "updateUserInfo",
+    alterPassword: Ip.productIP + "alterPassword",
+    uploadUserImage: Ip.productIP + "uploadUserImage",
+    updateUserImgPath: Ip.productIP + "updateUserImgPath",
   },
 };
 export default path;

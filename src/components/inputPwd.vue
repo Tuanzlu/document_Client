@@ -5,12 +5,23 @@
           <h3>请输入修改之后的信息</h3>
         </div>
         <div class="modal-body">
-            <a-input style="width:250px"  v-model="wechat" placeholder="请输入新的微信号">
-            <a-icon slot="prefix" type="wechat" />
-            <a-tooltip slot="suffix" title="Extra information">
-            </a-tooltip>
+            <a-input style="width:250px; margin-bottom:20px" type="password"  v-model="pwd.old" placeholder="请输入原密码">
+                <a-icon slot="prefix" type="unlock" />
+                <a-tooltip slot="suffix" title="Extra information">
+                </a-tooltip>
             </a-input>
             
+            <a-input style="width:250px;margin-bottom:20px" type="password"  v-model="pwd.new" placeholder="请输入新密码">
+                <a-icon slot="prefix" type="lock" />
+                <a-tooltip slot="suffix" title="Extra information">
+                </a-tooltip>
+            </a-input>
+            
+            <a-input style="width:250px" type="password"  v-model="pwd.confirm" placeholder="请确认新密码">
+                <a-icon slot="prefix" type="check-circle" />
+                <a-tooltip slot="suffix" title="Extra information">
+                </a-tooltip>
+            </a-input>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn-close" @click="closeSelf">确认</button>
@@ -24,21 +35,33 @@
 export default {
   data() {
     return {    
-        wechat: '',
+        pwd: {
+            old: '',
+            new: '',
+            confirm: '',
+        },
         mainStyles: '',
-        temp: '',
+        temp: [],
     }
   }, 
   methods: {   
     closeSelf() {
-        this.temp = this.wechat;
-        this.wechat="";
-        this.$emit("closeme");    
+        this.temp.old = this.pwd.old;
+        this.temp.new = this.pwd.new;
+        this.temp.confirm = this.pwd.confirm;
+        this.temp.flag = 0;
+        this.pwd.confirm="";
+        this.pwd.new="";
+        this.pwd.old="";
+        this.$emit("closePwd");    
     },
     closeJust() {
-        this.wechat="";
-        this.temp="";
-        this.$emit("closeme");
+        this.temp=[];
+        this.temp.flag = 1;
+        this.pwd.confirm="";
+        this.pwd.new="";
+        this.pwd.old="";
+        this.$emit("closePwd");    
     },
     getChoose() {
         return this.temp;
@@ -65,7 +88,7 @@ export default {
     display: flex; 
     flex-direction: column;
     border-radius: 16px;
-    width: 300px;
+    width: 400px;
 } 
 .modal-header { 
     /*(border-bottom: 1px solid #eee; */
@@ -86,7 +109,8 @@ export default {
     text-align: center;
     font-size: 18px;
     margin-right: 40px;
-    margin-left: 10px;
+    margin-left: 30px;
+
 }
 .btn-close {    
     border-radius: 8px;
