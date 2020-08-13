@@ -364,10 +364,12 @@ export default {
   components: {
     editor,
   },
+  props: ["docidnum"],
   data() {
     return {
       content: "",
       data,
+      canComment: false,
       isEdit: true,
       codata,
       columns,
@@ -378,7 +380,7 @@ export default {
       },
       isaddShare: true,
       user: {
-        userid: 1,
+        userid: parseInt(window.sessionStorage.getItem("UserId")),
         username: "陆清媛",
       },
       article: {
@@ -400,6 +402,12 @@ export default {
     };
   },
   mounted() {
+    this.article.docid = this.$route.query.docidnum;
+    console.log(this.article.docid);
+    this.user.userid = parseInt(window.sessionStorage.getItem("UserId"));
+
+    this.getDocument();
+    this.getComment();
     // Cookies.set("LoginUserId", "6");
     // if (this.article.isNew == false) {
     //   this.getDocument();
@@ -456,11 +464,14 @@ export default {
     getDocument() {
       let params = new URLSearchParams();
       params.append("docid", this.article.docid);
+      params.append("userid", this.user.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.readDoc;
       getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
+          this.user.username = res.data.authorname;
+          this.canComment = res.data.canComment;
           this.article = res.data.doc;
           this.$message.success("操作成功");
         } else if (res.code === "1") {
@@ -478,6 +489,7 @@ export default {
       params.append("docid", this.article.docid);
       params.append("title", this.article.title);
       params.append("content", this.article.content);
+      params.append("userid", this.user.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.writeDoc;
       putData(url, params).then((res) => {
@@ -516,19 +528,16 @@ export default {
     },
     getComment() {
       let params = new URLSearchParams();
-      params.append("docid", this.article.docid);
+      params.append("docid", 1);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.getComment;
       getData(url, params).then((res) => {
         console.log(res.code);
-        this.article = res.data.Doc;
         if (res.code === "0") {
           this.$message.success("操作成功");
           this.commentList = this.res.data.commentList;
         } else if (res.code === "1") {
-          this.$message.error("用户未登录");
-        } else if (res.code === "2") {
-          this.$message.error("没有权限");
+          this.$message.error("操作失败");
         } else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
