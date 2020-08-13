@@ -1,18 +1,16 @@
 <template>
   <div>
-      <h3>团队1</h3>
+      <h3>团队名</h3>
+          <router-link to="/manage/userList">
           <a-icon type="team" /> 协作！（协作者列表）
-          <a-card title="文件夹" style="width: 600px">
+          </router-link>
+          <a-card title="文件夹" style="width: 100ph">
           <a slot="extra" href="#">新建文档</a>
           <a-table :columns="columns" :data-source="data">
-            <a slot="name" slot-scope="text">{{ text }}</a>
-           <span slot="customTitle">Name</span>
            <span slot="action">
-             <a>打开</a>
+             <router-link to="/document">打开</router-link>
              <a-divider type="vertical" />
              <a>删除</a>
-             <a-divider type="vertical" />
-             <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
              </span>
           </a-table>
         </a-card>
@@ -26,7 +24,7 @@ const columns = [
     key: 'name',
     title: '文档名',
   },
-  {
+  /*{
     title: 'ID',
     dataIndex: 'id',
     key: 'id',
@@ -35,7 +33,7 @@ const columns = [
     title: 'tags',
     key: 'tags',
     dataIndex: 'tags',
-  },
+  },*/
   {
     title: '操作',
     key: 'action',

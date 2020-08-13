@@ -1,7 +1,7 @@
 <template>
   <a-table :pagination="false" :columns="columns" :data-source="data">
     <span slot="action">
-      <a>进入团队</a>
+      <router-link to="/manage/folder">打开团队</router-link>
       <a-divider type="vertical" />
       <a>解散团队</a>
     </span>
@@ -14,11 +14,11 @@ const columns = [
     key: 'name',
     title: '团队名',
   },
-  {
+  /*{
     title: 'ID',
     dataIndex: 'id',
     key: 'id',
-  },
+  },*/
   {
     title: '团队介绍',
     key: 'tags',

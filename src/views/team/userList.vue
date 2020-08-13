@@ -1,9 +1,28 @@
 <template>
-  <a-table :pagination="false" :columns="columns" :data-source="data">
+  <div>
+    <a-button type="primary">
+      邀请协作者
+    </a-button>
+    <a-table :pagination="false" :columns="columns" :data-source="data">
     <span slot="action">
-      <a>Delete</a>
+    <a-dropdown>
+    <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+      变更权限 <a-icon type="down" />
+    </a>
+    <a-menu slot="overlay">
+      <a-menu-item>
+        <a href="javascript:;">变为管理者</a>
+      </a-menu-item>
+      <a-menu-item>
+        <a href="javascript:;">变为协作者</a>
+      </a-menu-item>
+    </a-menu>
+    </a-dropdown>
+    <a-divider type="vertical" />
+      <a>删除</a>
     </span>
   </a-table>
+  </div>
 </template>
 <script>
 const columns = [

@@ -49,7 +49,7 @@
             <router-link to="/manage"> <a-icon type="pie-chart" />主页 </router-link>
           </a-menu-item>
           <a-sub-menu key="sub1">
-            <router-link to="/manage" tag="div" slot="title"> <a-icon type="user" />团队协作空间 </router-link>
+            <router-link to="/manage/teamList" tag="div" slot="title"> <a-icon type="user" />团队协作空间 </router-link>
             <a-menu-item key="1-1">
               <router-link to="/manage/teamList">团队列表</router-link>
             </a-menu-item>
@@ -59,20 +59,20 @@
               </router-link>
             </a-menu-item>
           </a-sub-menu>
-          <a-sub-menu key="sub2">
+          <!--<a-sub-menu key="sub2">
             <router-link to="/manage/userList" tag="div" slot="title"> <a-icon type="team" />协作者列表 </router-link>
             <a-menu-item key="2-1">
               文档 5
             </a-menu-item>
-          </a-sub-menu>
+          </a-sub-menu>-->
         </a-menu>
       </a-layout-sider>
 
       <a-layout style="padding: 0 24px 24px">
         <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>Home</a-breadcrumb-item>
-          <a-breadcrumb-item>List</a-breadcrumb-item>
-          <a-breadcrumb-item>App</a-breadcrumb-item>
+          <a-breadcrumb-item>面</a-breadcrumb-item>
+          <a-breadcrumb-item>包</a-breadcrumb-item>
+          <a-breadcrumb-item>屑</a-breadcrumb-item>
         </a-breadcrumb>
         <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
           <router-view></router-view>
