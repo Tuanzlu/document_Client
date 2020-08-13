@@ -25,9 +25,19 @@ const routes = [
     component: () => import("../views/personalWorkplace/login.vue"),
   },
   {
-    path: "/manage",
-    name: "Manage",
-    component: () => import("../views/team/manage.vue"),
+    path: "/register",
+    name: "Register",
+    component: () => import("../views/personalWorkplace/register.vue"),
+  },
+  {
+    path: "/personIndex",
+    name: "PersonIndex",
+    component: () => import("../views/personalWorkplace/personIndex.vue"),
+  },
+  {
+    path: "/personInfo",
+    name: "PersonInfo",
+    component: () => import("../views/personalWorkplace/personInfo.vue"),
   },
   {
     path: "/register",
@@ -76,6 +86,33 @@ const routes = [
     name: "Help",
     component: () => import("../views/help.vue"),
   },
+  {
+    path: "/manage",
+    name: "Manage",
+    component: () => import("../views/team/manage.vue"),
+    children:[
+    {
+    path: "/manage/userList",
+    name: "UserList",
+    component: () => import("../views/team/userList.vue"),
+    },
+    {
+    path: "/manage/teamList",
+    name: "TeamList",
+    component: () => import("../views/team/teamList.vue"),
+    },
+    {
+      path: "/manage/addTeam",
+      name: "AddTeam",
+      component: () => import("../views/team/addTeam.vue"),
+    },
+    {
+      path: "/manage/folder",
+      name: "Folder",
+      component: () => import("../views/team/folder.vue"),
+    },
+    ]
+  }, 
 ];
 
 const router = new VueRouter({
