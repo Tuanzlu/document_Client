@@ -26,6 +26,8 @@ let path = {
     alterPassword: Ip.productIP + "alterPassword",
     uploadUserImage: Ip.productIP + "uploadUserImage",
     updateUserImgPath: Ip.productIP + "updateUserImgPath",
+    getTeamInfo: Ip.productIP + "getTeamInfo",
+    getTeamDocList: Ip.productIP + "getTeamDocList"
   },
 };
 export default path;

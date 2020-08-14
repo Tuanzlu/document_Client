@@ -7,7 +7,7 @@
       <a-sub-menu key="sub1">
         <span slot="title"><a-icon type="team" /> <span>团队空间</span></span>
         <a-menu-item v-for="item in team" :key="item.teamid">
-          <router-link to="/manage/folder">{{ item.teamname }}</router-link>
+          <router-link :to="{path: '/team' , query:{teamid:item.teamid}}">{{ item.teamname }}</router-link>
         </a-menu-item>
       </a-sub-menu>
       <a-menu-item key="5"> <a-icon type="delete" />回收站<router-link to="/rubish"></router-link> </a-menu-item>

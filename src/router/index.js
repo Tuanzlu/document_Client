@@ -80,8 +80,7 @@ const routes = [
         component: () => import("../views/personalWorkplace/personWork/table.vue"),
       },
       {
-        path: "/manage/folder",
-        name: "Folder",
+        path: "/team",
         component: () => import("../views/team/folder.vue"),
       },
     ],
