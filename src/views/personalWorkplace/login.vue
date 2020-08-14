@@ -97,7 +97,7 @@ export default {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("登录成功");
-          window.sessionStorage.setItem("UserId",res.data.userid);
+          window.sessionStorage.setItem("UserId", res.data.userid);
           this.$router.push("/personIndex");
         } else if (res.code === "1" || res.code === "2") {
           this.$message.error("用户名或密码错误");

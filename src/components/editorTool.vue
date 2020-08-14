@@ -53,7 +53,7 @@ export default {
       //设置延迟执行
       editor.create();
       editor.txt.html(this.editorContent);
-    }, 200);
+    }, 500);
   },
 };
 </script>

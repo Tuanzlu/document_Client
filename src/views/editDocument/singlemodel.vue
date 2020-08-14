@@ -205,7 +205,7 @@ export default {
   bottom: 0;
   width: 100%;
   overflow: scroll;
-  border: blue solid 1px;
+  // border: blue solid 1px;
 }
 .titleBar {
   height: 180px;
@@ -214,6 +214,6 @@ export default {
   left: 230px;
   bottom: 0;
   width: 100%;
-  border: red 1px solid;
+  // border: red 1px solid;
 }
 </style>

@@ -224,7 +224,7 @@
         </div>
         <div class="review-input">
           <a-textarea style="resize:none" v-model="review.content" placeholder="输入评论内容" :rows="4" />
-          <a-button style="float: right; margin: 10px;" type="default" size="small" @click="addComment">发表</a-button>
+          <a-button style="float: right; margin: 10px;" type="default" size="small" @click="addCommentRequest">发表</a-button>
         </div>
       </div>
       <div class="footer">
@@ -447,7 +447,7 @@ export default {
         userid: parseInt(window.sessionStorage.getItem("UserId")),
         username: "",
       },
-      isCollected: true,
+      isCollected: false,
       article: {
         docid: 0,
         isModel: false,
@@ -803,8 +803,10 @@ export default {
           query:{
             docid:res.data.docid
         }
-       
       })
+          this.getDocument();
+          this.getComment();
+          window.reload();
           console.log("保存成功");
           // this.$message.success("保存成功");
         } else if (res.code === "1") {
@@ -835,6 +837,13 @@ export default {
         }
       });
     },
+    addCommentRequest(){
+      if(this.user.canComment==true){
+        this.addComment();
+      }else{
+        this.$message.error("当前用户没有权限进行评论");    
+      }
+    },
     //添加评论
     addComment() {
       let params = new URLSearchParams();
@@ -848,8 +857,8 @@ export default {
         if (res.code === "0") {
           this.review.content = "";
           this.getComment();
-          console.log("保存成功");
-          // this.$message.success("保存成功");
+          console.log("评论成功");
+          this.$message.success("发表评论成功");
         } else if (res.code === "1") {
           this.$message.error("操作失败");
         } else {

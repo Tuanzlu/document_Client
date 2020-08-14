@@ -45,6 +45,11 @@ const routes = [
     component: () => import("../views/personalWorkplace/register.vue"),
   },
   {
+    path: "/singlemodel",
+    name: "Singlemodel",
+    component: () => import("../views/editDocument/singlemodel.vue"),
+  },
+  {
     path: "/personIndex",
     name: "PersonIndex",
     component: () => import("../views/personalWorkplace/personIndex.vue"),
