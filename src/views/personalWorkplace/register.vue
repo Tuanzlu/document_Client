@@ -83,7 +83,7 @@
         </a-form-item>
         <div class = "register_footer">
             已有账号？
-            <a href="#/register">
+            <a href="#/login">
             去登录！
             </a>
             </br>

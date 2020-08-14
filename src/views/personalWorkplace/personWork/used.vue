@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <a-menu v-model="current" mode="horizontal">
+  <div style="float:right;width:70%">
+      <a-menu v-model="current" mode="horizontal" style="margin-left:20px">
         <a-menu-item key="use"> 
         <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
         </a-menu-item>
@@ -12,18 +12,58 @@
         </a-menu-item>
       </a-menu>
       <div class="btn_box">
-       <buttons></buttons>
-       <buttons></buttons>
+      <cards :list="info"></cards>
       
       </div>
   </div>
 </template>
 
 <script>
-import buttons from "@/components/buttonDoc";
+import cards from "@/components/modelCard";
+import { getData } from "@/api/webget";
 export default {
   components: {
-    buttons,
+    cards,
+  },
+  data() {
+    return {
+      info: [{
+        readtime: '',
+        title: '',
+        docid: '',
+      }]
+    };
+  },
+  props: ['list'],
+  methods: {
+    getInfo() {
+      let params = new URLSearchParams();
+      let userId = parseInt(window.sessionStorage.getItem('UserId'));
+      params.append("userid", userId);
+      let url = this.$urlPath.website.getRecentRead;
+      getData(url,params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          console.log(11111111111);
+          console.log(res.data);
+          for(let i=0;i<res.data.readlist.length;i++){
+      //???????????没有数据？？？
+            this.info[i].readtime = res.data.readlist[i].readtime;
+            this.info[i].title = res.data.readlist[i].title;
+            this.info[i].docid = res.data.readlist[i].docid;
+            console.log(this.info[i].readtime);
+          }
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+  },
+  created() {
+    this.getInfo();
   },
 }
 </script>
@@ -32,6 +72,7 @@ export default {
 .btn_box{
     /*background-color: #7f7f7f;*/
     width: 740px;
+    margin-left: 20px;
 }
 
 </style>

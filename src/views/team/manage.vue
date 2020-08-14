@@ -1,8 +1,24 @@
 <template>
-  <div>
-    <div class="header">
-      <div class="top" @click="toIndex"><span class="name">金刚石文档</span></div>
-      <div class="topRight">
+  <a-layout class="layout">
+    <a-layout-header class="header" style="background: #fff">
+      <div class="logo">金刚石文档</div>
+      <!--<a-menu
+        theme="dark"
+        mode="horizontal"
+        :default-selected-keys="['2']"
+        :style="{ lineHeight: '64px' }"
+      >
+        <a-menu-item key="1">
+          nav 1
+        </a-menu-item>
+        <a-menu-item key="2">
+          nav 2
+        </a-menu-item>
+        <a-menu-item key="3">
+          nav 3
+        </a-menu-item>
+      </a-menu>-->
+      <div class="topRight" style="margin-right:20px">
         <a-dropdown>
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
             <img class="avatar" style="width:30px;height:30px" src="../../assets/bg.jpeg" />
@@ -20,171 +36,69 @@
           </a-menu>
         </a-dropdown>
       </div>
-      <div class="topRight">
-        <a-dropdown>
-          <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            <a-icon type="bell" style="font-size:25px;margin-top:3px;" />
-          </a>
-          <a-menu slot="overlay">
-            <a-menu-item>
-              <a href="#/personInfo">全 部 通 知</a>
+    </a-layout-header>
+    <a-layout>
+      <a-layout-sider width="230" style="background: #fff">
+        <a-menu
+          mode="inline"
+          :default-selected-keys="['1']"
+          :default-open-keys="['sub1']"
+          :style="{ height: '100%', borderRight: 0 }"
+        >
+          <a-menu-item key="1">
+            <router-link to="/personIndex"> <a-icon type="pie-chart" />个人主页 </router-link>
+          </a-menu-item>
+          <a-sub-menu key="sub1">
+            <router-link to="/manage/teamList" tag="div" slot="title"> <a-icon type="user" />团队协作空间 </router-link>
+            <a-menu-item key="1-1">
+              <router-link to="/manage/teamList">团队列表/文件夹/协作者列表</router-link>
             </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;">未 读 消 息</a>
+            <a-menu-item key="1-2">
+              <router-link to="/manage/addTeam">
+                创建团队
+              </router-link>
             </a-menu-item>
-          </a-menu>
-        </a-dropdown>
-      </div>
-      <div class="topRight">
-        <a-input-search placeholder="搜索文件" style="width: 200px" @search="onSearch" />
-      </div>
-    </div>
-    <div class="toleft">
-      <a-menu mode="inline" :open-keys="openKeys" style="width: 230px" @openChange="onOpenChange" @click="handleClick">
-        <a-sub-menu key="sub1">
-          <span slot="title"><a-icon type="team" /> <span>团队 1</span></span>
-          <a-menu-item key="1"> <a-icon type="file" />文档 1 </a-menu-item>
-          <a-menu-item key="2"> <a-icon type="file" />文档 2 </a-menu-item>
-          <a-menu-item key="3"> <a-icon type="file" />文档 3 </a-menu-item>
-        </a-sub-menu>
-        <a-sub-menu key="sub2">
-          <span slot="title"><a-icon type="team" /> <span>团队 2</span></span>
-          <a-menu-item key="4"> <a-icon type="file" />文档 4 </a-menu-item>
-          <a-menu-item key="5"> <a-icon type="file" />文档 5 </a-menu-item>
-        </a-sub-menu>
-      </a-menu>
-    </div>
-    <div class="body">
-      <a-layout style="padding: 24px 50px 24px">
-        <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>主页</a-breadcrumb-item>
-          <a-breadcrumb-item>团队空间</a-breadcrumb-item>
-          <a-breadcrumb-item>团队 1</a-breadcrumb-item>
-        </a-breadcrumb>
+          </a-sub-menu>
+          <!--<a-sub-menu key="sub2">
+            <router-link to="/manage/userList" tag="div" slot="title"> <a-icon type="team" />协作者列表 </router-link>
+            <a-menu-item key="2-1">
+              文档 5
+            </a-menu-item>
+          </a-sub-menu>-->
+        </a-menu>
+      </a-layout-sider>
+
+      <a-layout style="padding: 0 24px 24px">
         <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
-          <h3>团队1</h3>
-          <a-icon type="team" /> 协作！
-          <a-card title="协作者" style="width: 600px">
-            <a slot="extra" href="#">添加协作者</a>
-            <a-table :columns="columns" :data-source="data">
-              <a slot="name" slot-scope="text">{{ text }}</a>
-              <span slot="customTitle">Name</span>
-              <span slot="action">
-                <a>Delete</a>
-                <a-divider type="vertical" />
-                <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
-              </span>
-            </a-table>
-          </a-card>
+          <router-view></router-view>
         </a-layout-content>
       </a-layout>
-    </div>
-    <div class="footer">
-      <div class="aboutUs" @click="toAbout">关于我们</div>
-      <span class="bottomTitle">Copyright © 2020 summer-project</span>
-    </div>
-  </div>
+    </a-layout>
+  </a-layout>
 </template>
-
 <script>
-const columns = [
-  {
-    dataIndex: "name",
-    key: "name",
-    slots: { title: "customTitle" },
-    scopedSlots: { customRender: "name" },
-  },
-  {
-    title: "Action",
-    key: "action",
-    scopedSlots: { customRender: "action" },
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "协作者1",
-  },
-  {
-    key: "2",
-    name: "协作者2",
-  },
-  {
-    key: "3",
-    name: "协作者3",
-  },
-];
-
 export default {
   data() {
     return {
-      columns,
-      data,
-      rootSubmenuKeys: ["sub1", "sub2"],
-      openKeys: ["sub1", "sub2"],
-      //current: ['mail'],
+      collapsed: false,
     };
-  },
-  watch: {
-    openKeys(val) {
-      console.log("openKeys", val);
-    },
-  },
-
-  methods: {
-    handleClick(e) {
-      console.log("click", e);
-    },
-    titleClick(e) {
-      console.log("titleClick", e);
-    },
   },
 };
 </script>
+
 <style lang="scss" scoped>
-.top {
-  float: left;
-  margin: 15px 10px 0 10px;
+.layout {
+  height: 100vh;
+  .logo {
+    height: 32px;
+    line-height: 32px;
+    color: black;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
+    float: left;
+  }
 }
 .topRight {
   float: right;
-  margin: 15px 10px 0 20px;
-}
-.toleft {
-  position: fixed;
-  width: 230px;
-  top: 60px;
-  bottom: 0;
-  /*background-color: #7f7f7f;*/
-}
-.body {
-  position: relative;
-  background-color: white;
-  margin: auto auto auto auto;
-  top: 60px;
-  width: 816px;
-  height: 1323px;
-}
-.footer {
-  // border: 2px red solid;
-  height: 200px;
-  background-color: rgb(99, 109, 160);
-}
-.aboutUs {
-  cursor: pointer;
-  width: 100px;
-  display: block;
-  margin: 0 auto;
-  padding-top: 30px;
-  font-size: 20px;
-  color: white;
-  // border: 1px solid blue;
-}
-.bottomTitle {
-  // border: 1px solid blue;
-  width: 230px;
-  margin: 80px auto 0 auto;
-  display: block;
 }
 </style>

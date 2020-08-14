@@ -25,11 +25,6 @@ const routes = [
     component: () => import("../views/personalWorkplace/login.vue"),
   },
   {
-    path: "/manage",
-    name: "Manage",
-    component: () => import("../views/team/manage.vue"),
-  },
-  {
     path: "/register",
     name: "Register",
     component: () => import("../views/personalWorkplace/register.vue"),
@@ -38,33 +33,58 @@ const routes = [
     path: "/personIndex",
     name: "PersonIndex",
     component: () => import("../views/personalWorkplace/personIndex.vue"),
-    redirect: '/used',
+  },
+  {
+    path: "/personInfo",
+    name: "PersonInfo",
+    component: () => import("../views/personalWorkplace/personInfo.vue"),
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: () => import("../views/personalWorkplace/register.vue"),
+  },
+  {
+    path: "/singlemodel",
+    name: "Singlemodel",
+    component: () => import("../views/editDocument/singlemodel.vue"),
+  },
+  {
+    path: "/personIndex",
+    name: "PersonIndex",
+    component: () => import("../views/personalWorkplace/personIndex.vue"),
+    redirect: "/used",
     children: [
       {
-        path: '/used',
+        path: "/used",
         component: () => import("../views/personalWorkplace/personWork/used.vue"),
       },
       {
-        path: '/own',
+        path: "/own",
         component: () => import("../views/personalWorkplace/personWork/own.vue"),
       },
       {
-        path: '/favorite',
+        path: "/favorite",
         component: () => import("../views/personalWorkplace/personWork/favorite.vue"),
       },
       {
-        path: '/letter',
+        path: "/letter",
         component: () => import("../views/personalWorkplace/personWork/letter.vue"),
       },
       {
-        path: '/rubish',
+        path: "/rubish",
         component: () => import("../views/personalWorkplace/personWork/rubish.vue"),
       },
       {
-        path: '/table',
+        path: "/table",
         component: () => import("../views/personalWorkplace/personWork/table.vue"),
       },
-    ]
+      {
+        path: "/manage/folder",
+        name: "Folder",
+        component: () => import("../views/team/folder.vue"),
+      },
+    ],
   },
   {
     path: "/personInfo",
@@ -75,6 +95,28 @@ const routes = [
     path: "/help",
     name: "Help",
     component: () => import("../views/help.vue"),
+  },
+  {
+    path: "/manage",
+    name: "Manage",
+    component: () => import("../views/team/manage.vue"),
+    children: [
+      {
+        path: "/manage/userList",
+        name: "UserList",
+        component: () => import("../views/team/userList.vue"),
+      },
+      {
+        path: "/manage/teamList",
+        name: "TeamList",
+        component: () => import("../views/team/teamList.vue"),
+      },
+      {
+        path: "/manage/addTeam",
+        name: "AddTeam",
+        component: () => import("../views/team/addTeam.vue"),
+      },
+    ],
   },
 ];
 

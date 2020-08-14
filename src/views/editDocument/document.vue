@@ -5,7 +5,7 @@
         <a-button class="btn" @click="toLast">
           <a-icon type="left" />
         </a-button>
-        <a-button class="btn">
+        <a-button class="btn" @click="addNewDoc">
           <a-icon type="plus" />
         </a-button>
       </div>
@@ -14,7 +14,7 @@
       </div>
       <div class="top">
         <a-button class="btn" @click="collected">
-          <a-icon type="star" theme="filled" v-if="article.isCollected" />
+          <a-icon type="star" theme="filled" v-if="isCollected" />
           <a-icon type="star" theme="outlined" v-else />
         </a-button>
       </div>
@@ -32,15 +32,9 @@
                 编辑
               </a-menu-item>
               <a-menu-item key="2">
-                保存
-              </a-menu-item>
-              <a-menu-item key="3">
                 保存为模版
               </a-menu-item>
-              <a-menu-item key="4">
-                创建副本
-              </a-menu-item>
-              <a-menu-item key="5">
+              <a-menu-item key="3">
                 删除
               </a-menu-item>
             </a-menu>
@@ -55,18 +49,19 @@
                 <a-input-search
                   class="search-bar-input"
                   placeholder="输入姓名/邮箱/手机号/部门 添加协作权限"
-                  @search="onSearch"
+                  v-model="searchWord"
+                  @search="handleSearch"
                 />
               </div>
               <div class="co-table-one">
                 <a-table
                   style="width:600px;margin-left:-40px;height:500px"
                   :columns="columns"
-                  :data-source="codata"
+                  :data-source="searchUser"
                   size="small"
                   :bordered="false"
                   :pagination="false"
-                  :showHeader="false"
+                  :showHeader="true"
                 >
                   <template slot="avatar">
                     <img
@@ -75,16 +70,11 @@
                     />
                   </template>
                   <template slot="perms">
-                    <a-select default-value="lucy" style="width: 120px" @change="handleChange">
-                      <a-select-option value="read">
-                        只能阅读
+                    <a-select default-value="只能阅读" style="width: 120px" @change="handleChange">
+                      <a-select-option v-for="item in items" :key="item.userid" :value="item.value">
+                        {{ item.value }}
                       </a-select-option>
-                      <a-select-option value="comment">
-                        只能评论
-                      </a-select-option>
-                      <a-select-option value="edit">
-                        可以编辑
-                      </a-select-option>
+                    </a-select-option>
                     </a-select>
                   </template>
                 </a-table>
@@ -95,19 +85,19 @@
                 <a-input-search
                   class="search-bar-input"
                   placeholder="输入姓名/邮箱/手机号/部门 添加协作权限"
-                  @search="onSearch"
+                  v-model="searchWord"
+                  @search="handleSearch"
                 />
               </div>
-              <div class="co-table-two">
-                <div>
-                  <span style="float:left">协作者</span>
-                  <a-button style="float:right;z-index:99" type="default" size="small">添加协作者</a-button>
-                  <a-divider></a-divider>
+              <div class="co-table-two" v-for="(item, i) in userList" :key="i">
+                <div style="max-height:120px;">
+                  <span style="float:left;color:grey;font-size:16px">{{ item.type }}</span>
+                  <!-- <a-divider></a-divider> -->
                 </div>
                 <a-table
-                  style="width:600px;margin-left:-40px;height:200px"
+                  style="width:600px;margin-left:-40px;max-height:100px"
                   :columns="columns"
-                  :data-source="codata"
+                  :data-source="item.list"
                   size="small"
                   :bordered="false"
                   :pagination="false"
@@ -120,48 +110,9 @@
                     />
                   </template>
                   <template slot="perms">
-                    <a-select default-value="lucy" style="width: 120px" @change="handleChange">
-                      <a-select-option value="read">
-                        只能阅读
-                      </a-select-option>
-                      <a-select-option value="comment">
-                        只能评论
-                      </a-select-option>
-                      <a-select-option value="edit">
-                        可以编辑
-                      </a-select-option>
-                    </a-select>
-                  </template>
-                </a-table>
-              </div>
-              <div class="manage-table">
-                <div>
-                  <span style="float:left">管理者</span>
-                  <a-button style="float:right;z-index:99" type="default" size="small">添加管理者</a-button>
-                  <a-divider></a-divider>
-                </div>
-                <a-table
-                  style="width:600px;margin-left:-40px;height:200px"
-                  :columns="columns"
-                  :data-source="codata"
-                  size="small"
-                  :bordered="false"
-                  :pagination="false"
-                  :showHeader="false"
-                >
-                  <template slot="avatar">
-                    <img
-                      style="height:30px;width:30px"
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    />
-                  </template>
-                  <template slot="perms">
-                    <a-select default-value="lucy" style="width: 120px" @change="handleChange">
-                      <a-select-option value="manager">
-                        管理者
-                      </a-select-option>
-                      <a-select-option value="member">
-                        成员
+                    <a-select default-value="只能阅读" style="width: 120px" @change="handleChange">
+                      <a-select-option v-for="item in items" :key="item.key" :value="item.value">
+                        {{ item.value }}
                       </a-select-option>
                     </a-select>
                   </template>
@@ -187,6 +138,23 @@
         <a-popover class="share" placement="bottomRight">
           <template slot="content">
             <div class="share-content">
+              <div class="switch">
+                <span style="float:left">公开链接：</span>
+                <a-switch default-checked @change="onChange" style="float:left" />
+              </div>
+              <div class="single-selection" v-show="isOpenShare">
+                <a-radio-group v-model="value" @change="onChangeRadio">
+                  <a-radio :value="1">
+                    只能阅读
+                  </a-radio>
+                  <a-radio :value="2">
+                    只能评论
+                  </a-radio>
+                  <a-radio :value="3">
+                    可以编辑
+                  </a-radio>
+                </a-radio-group>
+              </div>
               <div class="share-code"></div>
               <div class="share-link">链接：{{ href }}</div>
             </div>
@@ -209,7 +177,7 @@
       <div class="topRight">
         <a-dropdown>
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            <span style="font-size: 16px; margin: 10px;">{{ user.username }}</span>
+            <span style="font-size: 16px; margin: 10px;text-decoration: none">{{ user.username }}</span>
             <img class="avatar" style="width: 30px; height: 30px;" src="../../assets/bg.jpeg" />
           </a>
           <a-menu class="more" slot="overlay" @click="avatarOnClick">
@@ -227,25 +195,17 @@
       </div>
     </div>
     <div class="body">
-      <div class="editor-tool" v-if="isEdit">
+      <div class="editor-tool" v-show="isEdit">
         <div class="editor-inner">
           <div class="inner-title"><input class="input-title" v-model="article.title" type="text" /></div>
-          <a-divider></a-divider>
-          <editor :isEdit="isEdit" @Edit="Edit" style="width:816px;margin-bottom:80px"></editor>
+          <editor :content="article.content" @Edit="Edit" style="width:816px;margin-bottom:80px"></editor>
         </div>
       </div>
-      <!-- <div class="main-edit" v-if="article.isEdit">
+      <div class="main-read" v-show="!isEdit">
         <div class="inner">
-          <div class="inner-title"><input class="input-title" v-model="article.title" type="text" /></div>
+          <div class="inner-title-read">{{ article.title }}</div>
           <a-divider></a-divider>
-          <div class="inner-content"><textarea class="input-content" v-model="article.content"></textarea></div>
-        </div>
-      </div> -->
-      <div class="main-read" v-else>
-        <div class="inner">
-          <div class="inner-title">{{ article.title }}</div>
-          <a-divider></a-divider>
-          <div class="inner-content">{{ article.content }}</div>
+          <div class="inner-content" v-html="article.content" ></div>
         </div>
       </div>
       <div class="review">
@@ -254,17 +214,18 @@
         <div class="review-list">
           <a-list style="min-height:380px" item-layout="horizontal" :data-source="commentList">
             <a-list-item slot="renderItem" slot-scope="item">
+              <a-button slot="actions" @click="deleteComment(item.commentid)">删除</a-button>
               <a-list-item-meta :description="item.content">
                 <a slot="title" href="https://www.antdv.com/">{{ item.username }}</a>
-                <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                <a-avatar slot="avatar" src="item.userimgpath" />
               </a-list-item-meta>
             </a-list-item>
           </a-list>
           <a-divider></a-divider>
         </div>
         <div class="review-input">
-          <a-textarea style="resize:none" v-model="review.comment" placeholder="输入评论内容" :rows="4" />
-          <a-button style="float: right; margin: 10px;" type="default" size="small" @click="addComment">发表</a-button>
+          <a-textarea style="resize:none" v-model="review.content" placeholder="输入评论内容" :rows="4" />
+          <a-button style="float: right; margin: 10px;" type="default" size="small" @click="addCommentRequest">发表</a-button>
         </div>
       </div>
       <div class="footer">
@@ -280,6 +241,7 @@
 import { getData } from "@/api/webget";
 import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
+import { deleteData } from "@/api/webdelete";
 import editor from "@/components/editorTool.vue";
 const codata = [
   {
@@ -318,128 +280,237 @@ const codata = [
     perms: "管理者",
   },
 ];
+const userList = [
+  {
+    type: "只能阅读",
+    key: "1",
+    list: [
+      {
+        key: "1",
+        src: "头像",
+        username: "Tom",
+        wechat: "13611793768",
+        perms: "管理者",
+      },
+      {
+        key: "2",
+        src: "头像",
+        username: "Tom",
+        wechat: "13611793768",
+        perms: "管理者",
+      },
+      {
+        key: "3",
+        src: "头像",
+        username: "Tom",
+        wechat: "13611793768",
+        perms: "管理者",
+      },
+      {
+        key: "4",
+        src: "头像",
+        username: "Tom",
+        wechat: "13611793768",
+        perms: "管理者",
+      },
+      {
+        key: "5",
+        src: "头像",
+        username: "Tom",
+        wechat: "13611793768",
+        perms: "管理者",
+      },
+    ],
+  },
+  {
+    type: "只能评论",
+    key: "2",
+    list: [
+      {
+        key: "1",
+        src: "头像",
+        username: "Tom",
+        wechat: "13611793768",
+        perms: "管理者",
+      },
+      {
+        key: "2",
+        src: "头像",
+        username: "Tom",
+        wechat: "13611793768",
+        perms: "管理者",
+      },
+    ],
+  },
+  {
+    type: "可以编辑",
+    key: "3",
+    list: [
+      {
+        key: "1",
+        src: "头像",
+        username: "Tom",
+        wechat: "13611793768",
+        perms: "管理者",
+      },
+    ],
+  },
+];
+
 const columns = [
   {
-    title: "Avatar",
+    title: "头像",
     dataIndex: "avatar",
     align: "right",
     scopedSlots: { customRender: "avatar" },
   },
   {
-    title: "Username",
+    title: "用户名",
     dataIndex: "username",
-    align: "left",
+    align: "center",
   },
   {
-    title: "Wechat",
+    title: "微信号",
     dataIndex: "wechat",
-    align: "right",
+    align: "center",
   },
   {
-    title: "Perms",
+    title: "操作权限",
     dataIndex: "perms",
     align: "center",
     scopedSlots: { customRender: "perms" },
   },
 ];
-const data = [
+
+const items = [
   {
-    title: "user 1",
-    comment: "这篇文章第二行有错别字，需要更改",
+    key: 0,
+    value: "只能阅读",
   },
   {
-    title: "user 2",
-    comment: "这篇文章第二行有错别字，需要更改",
+    key: 1,
+    value: "只能评论",
   },
   {
-    title: "user 3",
-    comment: "这篇文章第二行有错别字，需要更改",
+    key: 2,
+    value: "可以编辑",
   },
   {
-    title: "user 4",
-    comment: "这篇文章第二行有错别字，需要更改",
+    key: 3,
+    value: "删除已有权限",
   },
 ];
 export default {
   components: {
     editor,
   },
+  props: ["docidnum"],
   data() {
     return {
       content: "",
-      data,
+      searchUser:[],
+      newdocid:0,
+      items,
+      userList,
+      value: 1,
+      searchWord: "",
+      isOpenShare: true,
       isEdit: true,
       codata,
       columns,
       href: "http://123.56.145.79:8090" + window.location.href.substr(21),
       review: {
         title: "user",
-        comment: "",
+        content: "",
       },
       isaddShare: true,
       user: {
-        userid: 1,
-        username: "陆清媛",
+        canComment: false,
+        userid: parseInt(window.sessionStorage.getItem("UserId")),
+        username: "",
       },
+      isCollected: false,
       article: {
-        docid: 10,
-        isEdit: true,
+        docid: 0,
         isModel: false,
         isNew: false,
-        isCollected: false,
         userid: "",
         shareperms: "",
         teamid: "",
         status: "",
         deletetime: "",
         title: "无标题",
-        content: "暂无内容",
+        content: "",
         modifytime: "2020-08-10 16:35",
       },
       commentList: [],
     };
   },
   mounted() {
-    // Cookies.set("LoginUserId", "6");
-    // if (this.article.isNew == false) {
-    //   this.getDocument();
-    // }
+    this.article.docid = this.$route.query.docid;
+    console.log(this.article.docid);
+    this.user.userid = parseInt(window.sessionStorage.getItem("UserId"));
+    this.getDocument();
+    this.getComment();
+    this.getPermsList();
   },
   methods: {
-    // addNewDoc(){
-    //   this.createDocument();
-    // },
+    addNewDoc(){
+      this.updateDocument();
+      this.createDocument();
+    },
+    handleSearch() {
+      this.isaddShare = true;
+      this.getUserByUsername();
+    },
+    onChangeRadio(e) {
+      this.updateSharePerms(e.target.value);
+      console.log("radio checked", e.target.value);
+    },
+    onChange(checked) {
+      if (checked == true) {
+        this.isOpenShare = true;
+        this.updateSharePerms(1);
+      } else {
+        this.updateSharePerms(0);
+        this.isOpenShare = false;
+      }
+      console.log(`a-switch to ${checked}`);
+    },
     Edit(data) {
       this.article.content = data;
+      this.isEdit=false;
+      this.updateDocument();
       console.log(data);
     },
     handleChange(value) {
       console.log(`selected ${value}`);
     },
-    addComment() {
-      this.data.add(this.review);
-    },
     toLast() {
+      this.updateDocument();
       this.$router.go(-1);
     },
     backDown() {
+      this.searchWord="";
       this.isaddShare = false;
     },
     collected() {
-      this.article.isCollected = !this.article.isCollected;
+      this.isCollected = !this.isCollected;
+      if(this.isCollected==true){
+        this.collectDoc();
+      }else{
+        this.deleteCollection();
+      }
+      console.log(this.isCollected);
     },
     onClick({ key }) {
       if (key == 1) {
         this.isEdit = true;
       } else if (key == 2) {
-        this.isEdit = false;
-        this.updateDocument();
-      } else if (key == 3) {
         this.article.isModel = true;
-      } else if (key == 4) {
-        this.createDocument();
-      } else if (key == 5) {
-        this.article.status = 1;
+      } else if (key == 3) {
+        this.deleteDocument();
+        this.$router.go(-1);
       }
       console.log(`Click on item ${key}`);
     },
@@ -450,19 +521,199 @@ export default {
         this.$router.push("/help");
       } else if (key == 3) {
         console.log("退出登录");
-      }
+        
+    window.sessionStorage.removeItem('UserId');
+    this.$router.replace({
+       path:"/"
+        })
+      };
       console.log(`Click on item ${key}`);
     },
+    //收藏文档
+    collectDoc() {
+      let params = new URLSearchParams();
+      params.append("docid", this.article.docid);
+      params.append("userid", this.user.userid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.collectDoc;
+      putData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.$message.success("收藏成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    
+    //取消收藏
+     deleteCollection() {
+      let params = new URLSearchParams();
+      params.append("docid", this.article.docid);
+      params.append("userid", this.user.userid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.deleteCollection;
+      deleteData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.$message.success("取消成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //获取用户权限列表
+    getPermsList() {
+      let params = new URLSearchParams();
+      params.append("docid", this.article.docid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.getPermsList;
+      getData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.userList[0].list=res.data.onlyCanReadList;
+          this.userList[1].list=res.data.onlyCanCommentList;
+          this.userList[2].list=res.data.onlyCanWriteList;
+          // this.$message.success("操作成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //移除权限
+     deletePerms(doneid) {
+      let params = new URLSearchParams();
+      params.append("docid", this.article.docid);
+      params.append("doneid",doneid);
+      params.append("doid", this.user.userid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.deletePerms;
+      deleteData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          console.log("删除权限成功");
+          // this.$message.success("操作成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //通过用户名查找用户
+     getUserByUsername() {
+      let params = new URLSearchParams();
+      params.append("username", this.searchWord);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.getUserByUsername;
+      getData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.searchUser= [res.data.user];
+          console.log("查询成功");
+          // this.$message.success("操作成功");
+        } else if (res.code === "1") {
+          this.$message.error("没有符合条件的用户");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //通过用户id设置权限
+     replacePermsByUserid(doneid,key) {
+      let params = new URLSearchParams();
+      params.append("doid", this.article.docid);
+      params.append("doneid", doneid);
+      params.append("privateperms",key);
+      params.append("userid", this.user.userid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.replacePermsByUserid;
+      putData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          console.log("权限设置成功");
+          // this.$message.success("操作成功");
+        } else if (res.code === "1") {
+          this.$message.error("没有权限");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //更改分享权限
+     updateSharePerms(value) {
+      let params = new URLSearchParams();
+      params.append("docid", this.article.docid);
+      params.append("userid", this.user.userid); 
+      params.append("shareperms", value);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.updateSharePerms;
+      putData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          console.log("更改分享权限成功");
+          // this.$message.success("操作成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //团队创建文档接口
+     addTeamDoc(teamid) {
+      let params = new URLSearchParams();
+      params.append("teamid", teamid);
+      params.append("userid", this.user.userid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.addTeamDoc;
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+            this.$router.push({
+              path:"/document",
+              query:{
+                docid:res.data.docid
+              }
+            })
+          // this.$message.success("操作成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //获取文档内容
     getDocument() {
       let params = new URLSearchParams();
       params.append("docid", this.article.docid);
+      params.append("userid", this.user.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.readDoc;
       getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
+          this.user.username = res.data.authorname;
+          this.user.canComment = res.data.canComment;
           this.article = res.data.doc;
-          this.$message.success("操作成功");
+          this.isCollected=res.data.haveCollect;
+          console.log("获取文档成功");
+          // this.$message.success("操作成功");
         } else if (res.code === "1") {
           this.$message.error("用户未登录");
         } else if (res.code === "2") {
@@ -473,18 +724,44 @@ export default {
         }
       });
     },
-    updateDocument() {
+    //删除文档
+     deleteDocument() {
       let params = new URLSearchParams();
       params.append("docid", this.article.docid);
-      params.append("title", this.article.title);
-      params.append("content", this.article.content);
+      params.append("userid", this.user.userid);
       //调用封装的postData函数，获取服务器返回值
-      let url = this.$urlPath.website.writeDoc;
-      putData(url, params).then((res) => {
+      let url = this.$urlPath.website.deleteDoc;
+      deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("操作成功");
         } else if (res.code === "1") {
+          this.$message.error("没有权限");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //修改文档
+    updateDocument() {
+      let params = new URLSearchParams();
+      params.append("docid", this.article.docid);
+      params.append("title", this.article.title);
+      if (this.article.title == "") {
+        this.article.title = "无标题";
+      }
+      console.log(this.article.content);
+      params.append("content", this.article.content);
+      params.append("userid", this.user.userid);
+      //调用封装的putData函数，获取服务器返回值
+      let url = this.$urlPath.website.writeDoc;
+      putData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          console.log(this.article.content);
+          this.$message.success("操作成功");
+        } else if (res.code === "1") {
           this.$message.error("用户未登录");
         } else if (res.code === "2") {
           this.$message.error("没有权限");
@@ -494,41 +771,98 @@ export default {
         }
       });
     },
+    //个人创建文档
     createDocument() {
       let params = new URLSearchParams();
-      params.append("title", this.article.title);
-      params.append("content", this.article.content);
+      params.append("userid", this.user.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.addDoc;
       postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.$message.success("保存成功");
+          this.$router.push({
+          path:"/document",
+          query:{
+            docid:res.data.docid
+        }
+      })
+          this.getDocument();
+          this.getComment();
+          window.reload();
+          console.log("保存成功");
+          // this.$message.success("保存成功");
         } else if (res.code === "1") {
-          this.$message.error("用户未登录");
-        } else if (res.code === "2") {
-          this.$message.error("保存失败");
+          this.$message.error("操作失败");
         } else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
         }
       });
     },
+    //获取评论列表
     getComment() {
       let params = new URLSearchParams();
       params.append("docid", this.article.docid);
-      //调用封装的postData函数，获取服务器返回值
+      //调用封装的getData函数，获取服务器返回值
       let url = this.$urlPath.website.getComment;
       getData(url, params).then((res) => {
         console.log(res.code);
-        this.article = res.data.Doc;
         if (res.code === "0") {
-          this.$message.success("操作成功");
-          this.commentList = this.res.data.commentList;
+          console.log("获取评论列表成功");
+          // this.$message.success("操作成功");
+          this.commentList = res.data.commentList;
         } else if (res.code === "1") {
-          this.$message.error("用户未登录");
-        } else if (res.code === "2") {
-          this.$message.error("没有权限");
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    addCommentRequest(){
+      if(this.user.canComment==true){
+        this.addComment();
+      }else{
+        this.$message.error("当前用户没有权限进行评论");    
+      }
+    },
+    //添加评论
+    addComment() {
+      let params = new URLSearchParams();
+      params.append("docid", this.article.docid);
+      params.append("content", this.review.content);
+      params.append("userid", this.user.userid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.addComment;
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.review.content = "";
+          this.getComment();
+          console.log("评论成功");
+          this.$message.success("发表评论成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //删除评论
+     deleteComment(commentid) {
+      let params = new URLSearchParams();
+      params.append("userid", this.user.userid);
+      params.append("commentid", commentid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.deleteComment;
+      deleteData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.getComment();
+          this.$message.success("删除成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
         } else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
@@ -539,6 +873,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.single-selection {
+  margin: 0px auto 30px auto;
+}
+.switch {
+  margin: -25px auto 30px auto;
+  padding-bottom: 10px;
+}
 ::v-deep .ant-table-tbody > tr > td {
   border-bottom: none;
   transition: all 0.3s, border 0s;
@@ -553,6 +894,7 @@ export default {
 }
 .co-table-one {
   // border: blue 1px solid;
+  display: block;
   margin: 20px;
   overflow: scroll;
 }
@@ -571,11 +913,11 @@ export default {
 }
 .review-title {
   font-size: 18px;
-  margin: 10px auto -10px auto;
+  margin: 20px auto -15px 20px;
   // border: red 1px solid;
 }
 .review {
-  border: blue 1px solid;
+  // border: blue 1px solid;
   background-color: white;
   margin: 30px auto 50px auto;
   width: 816px;
@@ -615,11 +957,13 @@ export default {
   width: 600px;
   height: 600px;
 }
-
+.share {
+  z-index: 10003;
+}
 .share-content {
   // border: red 1px solid;
-  width: 280px;
-  height: 280px;
+  width: 350px;
+  height: 380px;
   margin: 20px;
 }
 .share-title {
@@ -628,16 +972,18 @@ export default {
   text-align: center;
 }
 .share-code {
+  float: left;
   background-color: green;
   border: red 1px solid;
   width: 200px;
   height: 200px;
-  margin: 40px auto 10px auto;
+  margin: 10px auto 10px auto;
 }
 .share-link {
-  text-align: center;
+  float: left;
+  text-align: left;
   // border: red 1px solid;
-  width: 250px;
+  width: 350px;
   height: 30px;
   margin: 20px auto 10px auto;
 }
@@ -648,13 +994,14 @@ input,
 textarea {
   outline: medium;
 }
-.inner-content {
-  white-space: pre;
-}
 .input-title,
 .input-title:active,
 .input-title:hover {
   border: none;
+  width: 816px;
+  -webkit-box-shadow: 0 0 10px #ccc;
+  -moz-box-shadow: 0 0 10px #ccc;
+  box-shadow: 0 0 10px #ccc;
 }
 .input-content,
 .input-content:active,
@@ -673,10 +1020,17 @@ textarea {
   min-height: 823px;
   background-color: white;
 }
-.inner-title {
+.inner-title-read {
   background-color: white;
   font-size: 24px;
   margin-bottom: 30px;
+}
+.inner-title {
+  background-color: white;
+  font-size: 24px;
+  margin-top: 50px;
+  margin-bottom: -100px;
+  width: 816px;
   -webkit-box-shadow: 0 0 10px #ccc;
   -moz-box-shadow: 0 0 10px #ccc;
   box-shadow: 0 0 10px #ccc;
@@ -728,17 +1082,11 @@ textarea {
   color: rgb(190, 189, 189);
 }
 .body {
-  border: red 1px solid;
+  // border: red 1px solid;
   // padding-top: 130px;
   background-color: #f7f7f7;
 }
-// .main-edit {
-//   border: white 1px solid;
-//   background-color: white;
-//   margin: 0 auto 50px auto;
-//   width: 816px;
-//   min-height: 1323px;
-// }
+
 .main-read {
   border: white 1px solid;
   background-color: white;
@@ -750,15 +1098,17 @@ textarea {
   box-shadow: 0 0 10px #ccc;
 }
 .editor-inner {
-  border: transparent 1px solid;
+  // border: red 5px solid;
   margin: 0 auto 30px auto;
   width: 816px;
+  background-color: white !important;
   height: 823px;
+  padding-bottom: 30px;
 }
 .editor-tool {
   // border: green 1px solid;
   background-color: #f7f7f7;
-  margin: 10px auto 30px auto;
+  margin: 10px auto 0px auto;
   width: 100%;
   min-height: 823px;
 }

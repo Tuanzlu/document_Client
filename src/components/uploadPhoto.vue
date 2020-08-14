@@ -2,7 +2,6 @@
   <div class="photo">
     <div style="width:100px;height:100px;border:1px solid;text-align:center;" @click="openImg">
     <input v-show="false" type="file" accept="image/*" @change="tirggerFile($event)" ref="input" />
-    
       <span v-if="imgUrl==''">点击上传</span>
       <img style="height:100%;width:100%;" v-if="imgUrl!=''" :src="imgUrl" />
     </div>
@@ -11,6 +10,7 @@
 <script>
 import { postData } from "@/api/webpost";
 import { putData } from "@/api/webput";
+import { getData } from "@/api/webget";
 export default {
   data() {
     return {
@@ -29,7 +29,6 @@ export default {
       reader.onload = function() {
       url = this.result.substring(this.result.indexOf(",") + 1);
       that.imgUrl = "data:image/png;base64," + url;
-        // that.$refs['imgimg'].setAttribute('src','data:image/png;base64,'+url);
       };
       this.loadPhoto(file);
     },
@@ -45,6 +44,7 @@ export default {
         //console.log(res);
         if(res.code === '0'){
           console.log(res.data.userimgpath);
+          this.imgUrl = res.data.userimgpath;
           this.putPhoto(res.data.userimgpath);
         }
         else if(res.code === '1'){
@@ -74,6 +74,26 @@ export default {
         }
       });
     },
+    getPhoto(){
+      let params = new URLSearchParams();
+      let userId = parseInt(window.sessionStorage.getItem('UserId'));
+      params.append("userid", userId);
+      let url = this.$urlPath.website.getUserInfo;
+      getData(url,params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.imgUrl = res.data.userimgpath;
+        } else if (res.code === "1") {
+          this.$message.error("获取头像失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    }
+  },
+  mounted(){
+    this.getPhoto();
   }
 }
 </script>
