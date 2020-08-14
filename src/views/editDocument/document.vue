@@ -214,9 +214,10 @@
         <div class="review-list">
           <a-list style="min-height:380px" item-layout="horizontal" :data-source="commentList">
             <a-list-item slot="renderItem" slot-scope="item">
+              <a-button slot="actions" @click="deleteComment(item.commentid)">删除</a-button>
               <a-list-item-meta :description="item.content">
                 <a slot="title" href="https://www.antdv.com/">{{ item.username }}</a>
-                <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                <a-avatar slot="avatar" src="item.userimgpath" />
               </a-list-item-meta>
             </a-list-item>
           </a-list>
@@ -380,24 +381,7 @@ const columns = [
     scopedSlots: { customRender: "perms" },
   },
 ];
-const data = [
-  {
-    title: "user 1",
-    comment: "这篇文章第二行有错别字，需要更改",
-  },
-  {
-    title: "user 2",
-    comment: "这篇文章第二行有错别字，需要更改",
-  },
-  {
-    title: "user 3",
-    comment: "这篇文章第二行有错别字，需要更改",
-  },
-  {
-    title: "user 4",
-    comment: "这篇文章第二行有错别字，需要更改",
-  },
-];
+
 const items = [
   {
     key: 0,
@@ -424,11 +408,9 @@ export default {
   data() {
     return {
       content: "",
-      data,
       searchUser:[],
       newdocid:0,
       items,
-      deleteCommentId:0,
       userList,
       value: 1,
       searchWord: "",
@@ -868,15 +850,16 @@ export default {
       });
     },
     //删除评论
-     deleteComment() {
+     deleteComment(commentid) {
       let params = new URLSearchParams();
-      params.append("docid", this.article.docid);
-      params.append("commentid", this.deleteCommentId);
+      params.append("userid", this.user.userid);
+      params.append("commentid", commentid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.deleteComment;
       deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
+          this.getComment();
           this.$message.success("删除成功");
         } else if (res.code === "1") {
           this.$message.error("操作失败");

@@ -12,6 +12,7 @@ let path = {
     getUserInfo: Ip.productIP + "getUserInfo",
     getComment: Ip.productIP + "getCommentList",
     addComment: Ip.productIP + "addComment",
+    deleteComment: Ip.productIP + "deleteComment",
     deleteDoc: Ip.productIP + "deleteDoc",
     getUserByUsername: Ip.productIP + "getUserByUsername",
     getPermsList: Ip.productIP + "getPermsList",
