@@ -13,8 +13,13 @@
                     <a-sub-menu key="sub1">
                         <span slot="title"><a-icon type="team" />
                         <span>团队空间</span></span>
-                        <a-menu-item v-for="item in team" :key="item.teamid">
-                        <router-link to="/manage/folder">{{item.teamname}}</router-link>
+                        <a-menu-item v-for="item in joinedteam" :key="item.teamid">
+                                <router-link to="/manage/folder">{{item.teamname}}</router-link>
+                        </a-menu-item>
+                        <a-menu-item key="1-2">
+                            <router-link to="/manage/addTeam">
+                                <a-icon type="plus" />创建团队
+                            </router-link>
                         </a-menu-item>
                     
                     </a-sub-menu>
@@ -34,7 +39,7 @@ export default {
     
     data() {
         return {
-            team: [],
+            joinedteam: [],
             rootSubmenuKeys: ['sub1', 'sub2', 'sub4'],
             openKeys: ['sub1'],
             current: ['mail'],
@@ -59,7 +64,7 @@ export default {
             console.log(res.code);
             if (res.code === "0") {
                 this.$message.success("查询成功");
-                this.team = res.data.joinlist;
+                this.joinedteam = res.data.joinlist;
             } else if (res.code === "1") {
                 this.$message.error("用户未登录");
             } else {
