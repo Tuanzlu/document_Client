@@ -131,10 +131,13 @@ router.beforeEach((to, from, next) => {
     to.path === "/register" ||
     to.path === "/about" ||
     to.path === "/index"
-  )
+  ) {
     return next();
-  const tokenStr = window.sessionStorage.getItem("UserId");
-  if (!tokenStr) return next("/login");
-  next();
+  } else {
+    window.sessionStorage.setItem("WebAdrs", window.location.href);
+    const tokenStr = window.sessionStorage.getItem("UserId");
+    if (!tokenStr) return next("/login");
+    next();
+  }
 });
 export default router;

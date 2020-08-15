@@ -19,7 +19,7 @@
         </a-button>
       </div>
       <div class="top" :class="{ time: !article.isNew }">
-        <span v-show="!article.isNew">上次保存于{{ article.modifytime }}</span>
+        <span >上次保存于{{ article.modifytime }}</span>
       </div>
       <div class="topRight">
         <a-button class="btn">
@@ -42,7 +42,7 @@
         </a-button>
       </div>
       <div class="topRight">
-        <a-popover class="cooperation" placement="bottomRight">
+        <a-popover trigger="click" class="cooperation" placement="bottomRight">
           <template slot="content">
             <div class="one-content" v-if="isaddShare">
               <div class="search-bar">
@@ -59,6 +59,7 @@
                   :columns="columns"
                   :data-source="searchUser"
                   size="small"
+                  :rowKey="(record) => record.userid"
                   :bordered="false"
                   :pagination="false"
                   :showHeader="true"
@@ -70,8 +71,10 @@
                     />
                   </template>
                   <template slot="perms">
-                    <a-select default-value="只能阅读" style="width: 120px" @change="handleChange">
-                      <a-select-option v-for="item in items" :key="item.userid" :value="item.value">
+                    <a-select 
+                     style="width: 120px" defaultValue="修改权限" @change="handleChange" >
+                      <a-select-option v-for="(item) in items" 
+                      :value="item.value" :key="item.value">
                         {{ item.value }}
                       </a-select-option>
                     </a-select-option>
@@ -90,15 +93,14 @@
                 />
               </div>
               <div class="co-table-two" v-for="(item, i) in userList" :key="i">
-                <div style="max-height:120px;">
-                  <span style="float:left;color:grey;font-size:16px">{{ item.type }}</span>
-                  <!-- <a-divider></a-divider> -->
-                </div>
+                  <span class="type-text">{{ item.type }}</span>
+                
                 <a-table
-                  style="width:600px;margin-left:-40px;max-height:100px"
-                  :columns="columns"
+                  class="perm-table"
+                  :columns="showColumns"
                   :data-source="item.list"
                   size="small"
+                  :rowKey="(record) => record.userid"
                   :bordered="false"
                   :pagination="false"
                   :showHeader="false"
@@ -108,13 +110,6 @@
                       style="height:30px;width:30px"
                       src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
                     />
-                  </template>
-                  <template slot="perms">
-                    <a-select default-value="只能阅读" style="width: 120px" @change="handleChange">
-                      <a-select-option v-for="item in items" :key="item.key" :value="item.value">
-                        {{ item.value }}
-                      </a-select-option>
-                    </a-select>
                   </template>
                 </a-table>
               </div>
@@ -135,7 +130,7 @@
             协作
           </a-button>
         </a-popover>
-        <a-popover class="share" placement="bottomRight">
+        <a-popover trigger="click" class="share" placement="bottomRight">
           <template slot="content">
             <div class="share-content">
               <div class="switch">
@@ -381,7 +376,24 @@ const columns = [
     scopedSlots: { customRender: "perms" },
   },
 ];
-
+const showColumns = [
+  {
+    title: "头像",
+    dataIndex: "avatar",
+    align: "right",
+    scopedSlots: { customRender: "avatar" },
+  },
+  {
+    title: "用户名",
+    dataIndex: "username",
+    align: "center",
+  },
+  {
+    title: "微信号",
+    dataIndex: "wechat",
+    align: "center",
+  },
+];
 const items = [
   {
     key: 0,
@@ -407,33 +419,35 @@ export default {
   props: ["docidnum"],
   data() {
     return {
-      content: "",
-      searchUser:[],
-      newdocid:0,
-      items,
-      userList,
-      value: 1,
-      searchWord: "",
-      isOpenShare: true,
-      isEdit: true,
       codata,
       columns,
-      href: "http://123.56.145.79:8090" + window.location.href.substr(21),
+      items,
+      showColumns,
+      userList,
+      isOpenShare: true,
+      isEdit: true,
+      isCollected: false,
+      isaddShare: true,
+      content: "",
+      searchUser:[],
+      commentList: [],
+      newdocid:0,
+      selected:1,
+      value: 1,
+      searchWord: "",  
+      href: "http://123.56.145.79:8100" + window.location.href.substr(21),
       review: {
         title: "user",
         content: "",
-      },
-      isaddShare: true,
+      },     
       user: {
         canComment: false,
         userid: parseInt(window.sessionStorage.getItem("UserId")),
         username: "",
-      },
-      isCollected: false,
+      },    
       article: {
         docid: 0,
         isModel: false,
-        isNew: false,
         userid: "",
         shareperms: "",
         teamid: "",
@@ -441,9 +455,8 @@ export default {
         deletetime: "",
         title: "无标题",
         content: "",
-        modifytime: "2020-08-10 16:35",
-      },
-      commentList: [],
+        modifytime: "",
+      },    
     };
   },
   mounted() {
@@ -483,8 +496,17 @@ export default {
       this.updateDocument();
       console.log(data);
     },
-    handleChange(value) {
-      console.log(`selected ${value}`);
+    handleChange(val) {
+      if (val== "只能阅读") {
+         this.replacePermsByUserid(this.searchUser[0].userid,1);
+      } else if (val== "只能评论") {
+        this.replacePermsByUserid(this.searchUser[0].userid,2);
+      } else if (val == "可以编辑") {
+        this.replacePermsByUserid(this.searchUser[0].userid,3);
+      } else if (val== "删除已有权限"){
+        this.deletePerms(this.searchUser[0].userid);
+      }
+      this.getPermsList();
     },
     toLast() {
       this.updateDocument();
@@ -529,6 +551,26 @@ export default {
       };
       console.log(`Click on item ${key}`);
     },
+    //创建模版
+    addTemplate(){
+      let params = new URLSearchParams();
+      params.append("userid", this.user.userid);
+      params.append("title", this.article.title);
+      params.append("content", this.user.userid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.collectDoc;
+      putData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.$message.success("收藏成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
     //收藏文档
     collectDoc() {
       let params = new URLSearchParams();
@@ -548,7 +590,6 @@ export default {
         }
       });
     },
-    
     //取消收藏
      deleteCollection() {
       let params = new URLSearchParams();
@@ -620,6 +661,8 @@ export default {
         console.log(res.code);
         if (res.code === "0") {
           this.searchUser= [res.data.user];
+          console.log(res.data.user.perms);
+          this.value=res.data.user.perms;
           console.log("查询成功");
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
@@ -633,10 +676,10 @@ export default {
     //通过用户id设置权限
      replacePermsByUserid(doneid,key) {
       let params = new URLSearchParams();
-      params.append("doid", this.article.docid);
+      params.append("docid", this.article.docid);
       params.append("doneid", doneid);
       params.append("privateperms",key);
-      params.append("userid", this.user.userid);
+      params.append("doid", this.user.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.replacePermsByUserid;
       putData(url, params).then((res) => {
@@ -873,6 +916,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.perm-table{
+  width:550px;
+  margin-top:-90px;
+  margin-left:-40px;
+  height:100px;
+}
 .single-selection {
   margin: 0px auto 30px auto;
 }
@@ -900,10 +949,16 @@ export default {
 }
 .co-table-two {
   // border: blue 1px solid;
-  margin: 20px;
+  margin: 10px auto 10px auto;
   overflow: scroll;
+  width:550px;
+  height:150px;
 }
-
+.type-text{
+  float:left;
+  color:grey;
+  font-size:16px;
+}
 .search-bar-input {
   width: 400px;
 }
@@ -950,12 +1005,12 @@ export default {
 .one-content {
   // border: red 1px solid;
   width: 600px;
-  height: 600px;
+  height: 500px;
 }
 .two-content {
   // border: red 1px solid;
   width: 600px;
-  height: 600px;
+  height: 500px;
 }
 .share {
   z-index: 10003;

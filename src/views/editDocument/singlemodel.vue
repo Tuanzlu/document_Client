@@ -38,7 +38,41 @@
             </span>
             <img class="in-img" src="../../assets/bg.jpeg" /> -->
           </div>
-          <div class="articleContent"></div>
+          <div class="articleContent">
+            <a-popover class="cooperation" placement="bottomRight">
+              <div slot="content">
+                <div class="co-table-one">
+                  <a-table
+                    style="width:600px;margin-left:-40px;height:500px"
+                    :columns="columns"
+                    :data-source="searchUser"
+                    size="small"
+                    :rowKey="(record) => record.userid"
+                    :bordered="false"
+                    :pagination="false"
+                    :showHeader="true"
+                  >
+                    <template slot="avatar">
+                      <img
+                        style="height:30px;width:30px"
+                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                      />
+                    </template>
+                    <template slot="perms">
+                      <a-select default-value="修改权限" style="width: 120px" @change="handleChange">
+                        <a-select-option v-for="item in items" :key="item.key" :value="item.value">
+                          {{ item.value }}
+                        </a-select-option>
+                      </a-select>
+                    </template>
+                  </a-table>
+                </div>
+              </div>
+              <a-button class="wordBtn">
+                协作
+              </a-button>
+            </a-popover>
+          </div>
         </div>
       </div>
     </div>
@@ -46,9 +80,70 @@
 </template>
 
 <script>
+const items = [
+  {
+    key: 0,
+    value: "只能阅读",
+  },
+  {
+    key: 1,
+    value: "只能评论",
+  },
+  {
+    key: 2,
+    value: "可以编辑",
+  },
+  {
+    key: 3,
+    value: "删除已有权限",
+  },
+];
+const columns = [
+  {
+    title: "头像",
+    dataIndex: "avatar",
+    align: "right",
+    scopedSlots: { customRender: "avatar" },
+  },
+  {
+    title: "用户名",
+    dataIndex: "username",
+    align: "center",
+  },
+  {
+    title: "微信号",
+    dataIndex: "wechat",
+    align: "center",
+  },
+  {
+    title: "操作权限",
+    dataIndex: "perms",
+    align: "center",
+    scopedSlots: { customRender: "perms" },
+  },
+];
+
+const searchUser = [
+  {
+    userid: 1,
+    username: "lqy",
+    wechat: "123",
+    perms: "tst",
+  },
+  {
+    userid: 2,
+    username: "lqy",
+    wechat: "123",
+    perms: "tst",
+  },
+];
+
 export default {
   data() {
     return {
+      items,
+      columns,
+      searchUser,
       isMine: false,
       treeData: [
         {
