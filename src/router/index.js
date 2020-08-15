@@ -83,6 +83,10 @@ const routes = [
         path: "/team",
         component: () => import("../views/team/folder.vue"),
       },
+      {
+        path: "/addteam",
+        component: () => import("../views/team/addTeam.vue"),
+      },
     ],
   },
   {
@@ -94,28 +98,6 @@ const routes = [
     path: "/help",
     name: "Help",
     component: () => import("../views/help.vue"),
-  },
-  {
-    path: "/manage",
-    name: "Manage",
-    component: () => import("../views/team/manage.vue"),
-    children: [
-      {
-        path: "/manage/userList",
-        name: "UserList",
-        component: () => import("../views/team/userList.vue"),
-      },
-      {
-        path: "/manage/teamList",
-        name: "TeamList",
-        component: () => import("../views/team/teamList.vue"),
-      },
-      {
-        path: "/manage/addTeam",
-        name: "AddTeam",
-        component: () => import("../views/team/addTeam.vue"),
-      },
-    ],
   },
 ];
 
