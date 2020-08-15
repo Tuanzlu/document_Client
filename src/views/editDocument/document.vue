@@ -762,7 +762,7 @@ export default {
       params.append("content", this.article.content);
       params.append("userid", this.user.userid);
       //调用封装的putData函数，获取服务器返回值
-      let url = this.$urlPath.website.writeDoc;
+      let url = this.$urlPath.website.saveDoc;
       putData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
