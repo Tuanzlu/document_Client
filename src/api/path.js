@@ -43,6 +43,7 @@ let path = {
     alterMemberPerms: Ip.productIP + "alterMemberPerms",
     quitTeam: Ip.productIP + "quitTeam",
     inviteTeamMemberByUserId: Ip.productIP + "inviteTeamMemberByUserId",
+    deleteTeam: Ip.productIP + "deleteTeam",
   },
 };
 export default path;
