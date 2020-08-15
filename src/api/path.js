@@ -26,19 +26,23 @@ let path = {
     alterPassword: Ip.productIP + "alterPassword",
     uploadUserImage: Ip.productIP + "uploadUserImage",
     updateUserImgPath: Ip.productIP + "updateUserImgPath",
-<<<<<<< HEAD
     replacePermsByUserid: Ip.productIP + "replacePermsByUserid",
     addTemplate: Ip.productIP + "addTemplate",
     getMyTemplateList: Ip.productIP + "getMyTemplateList",
     deleteTemplate: Ip.productIP + "deleteTemplate",
     getTemplateByTemplateid: Ip.productIP + "getTemplateByTemplateid",
     enterEdit: Ip.productIP + "enterEdit",
-=======
     getRecentRead: Ip.productIP + "getRecentRead",
     getCollected: Ip.productIP + "getCollected",
     getMyDoc: Ip.productIP + "getMyDoc",
     getMyDeleteDoc: Ip.productIP + "getMyDeleteDoc",
->>>>>>> personWorkspace
+    getTeamInfo: Ip.productIP + "getTeamInfo",
+    getTeamDocList: Ip.productIP + "getTeamDocList",
+    addTeam: Ip.productIP + "addTeam",
+    getTeamMemberList: Ip.productIP + "getTeamMemberList",
+    alterMemberPerms: Ip.productIP + "alterMemberPerms",
+    quitTeam: Ip.productIP + "quitTeam",
+    inviteTeamMemberByUserId: Ip.productIP + "inviteTeamMemberByUserId",
   },
 };
 export default path;
