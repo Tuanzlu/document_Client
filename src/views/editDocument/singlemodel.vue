@@ -12,67 +12,20 @@
     <div class="body">
       <div class="sideMenu">
         <div class="menuItem">
-          <div class="fixedItem">
-            <div class="text">
-              金刚石模版
-            </div>
-            <a-divider></a-divider>
-            <div class="text">
-              我的模版
-            </div>
+          <!-- <div class="text">
+            金刚石模版
           </div>
-          <div class="scrollMenu">
-            <a-tree :tree-data="treeData" :default-expanded-keys="['0-0']" @select="onSelect"> </a-tree>
+          <a-divider></a-divider> -->
+          <div class="text">
+            我的模版
           </div>
         </div>
       </div>
       <div class="main">
         <div class="model">
-          <div class="titleBar">
-            <a-breadcrumb separator=">" class="breadcrumb">
-              <a-breadcrumb-item href="www.baidu.com">{{ model.type }}</a-breadcrumb-item>
-              <a-breadcrumb-item href="www.baidu.com">{{ model.title }} </a-breadcrumb-item>
-            </a-breadcrumb>
-            <!-- <span class="title-text">
-              {{ model.title }}
-            </span>
-            <img class="in-img" src="../../assets/bg.jpeg" /> -->
-          </div>
-          <div class="articleContent">
-            <a-popover class="cooperation" placement="bottomRight">
-              <div slot="content">
-                <div class="co-table-one">
-                  <a-table
-                    style="width:600px;margin-left:-40px;height:500px"
-                    :columns="columns"
-                    :data-source="searchUser"
-                    size="small"
-                    :rowKey="(record) => record.userid"
-                    :bordered="false"
-                    :pagination="false"
-                    :showHeader="true"
-                  >
-                    <template slot="avatar">
-                      <img
-                        style="height:30px;width:30px"
-                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                      />
-                    </template>
-                    <template slot="perms">
-                      <a-select default-value="修改权限" style="width: 120px" @change="handleChange">
-                        <a-select-option v-for="item in items" :key="item.key" :value="item.value">
-                          {{ item.value }}
-                        </a-select-option>
-                      </a-select>
-                    </template>
-                  </a-table>
-                </div>
-              </div>
-              <a-button class="wordBtn">
-                协作
-              </a-button>
-            </a-popover>
-          </div>
+          <div class="add-btn"><a-button type="default" @click="addDocByTemplate">使用此模版</a-button></div>
+          <div class="title-bar">{{ template.title }}11</div>
+          <div class="article-content">{{ template.content }}</div>
         </div>
       </div>
     </div>
@@ -80,131 +33,92 @@
 </template>
 
 <script>
-const items = [
-  {
-    key: 0,
-    value: "只能阅读",
-  },
-  {
-    key: 1,
-    value: "只能评论",
-  },
-  {
-    key: 2,
-    value: "可以编辑",
-  },
-  {
-    key: 3,
-    value: "删除已有权限",
-  },
-];
-const columns = [
-  {
-    title: "头像",
-    dataIndex: "avatar",
-    align: "right",
-    scopedSlots: { customRender: "avatar" },
-  },
-  {
-    title: "用户名",
-    dataIndex: "username",
-    align: "center",
-  },
-  {
-    title: "微信号",
-    dataIndex: "wechat",
-    align: "center",
-  },
-  {
-    title: "操作权限",
-    dataIndex: "perms",
-    align: "center",
-    scopedSlots: { customRender: "perms" },
-  },
-];
-
-const searchUser = [
-  {
-    userid: 1,
-    username: "lqy",
-    wechat: "123",
-    perms: "tst",
-  },
-  {
-    userid: 2,
-    username: "lqy",
-    wechat: "123",
-    perms: "tst",
-  },
-];
-
+import { getData } from "@/api/webget";
+// import { putData } from "@/api/webput";
+// import { postData } from "@/api/webpost";
+// import { deleteData } from "@/api/webdelete";
 export default {
   data() {
     return {
-      items,
-      columns,
-      searchUser,
-      isMine: false,
-      treeData: [
-        {
-          title: "人文",
-          key: "0",
-          children: [
-            {
-              title: "人文模版1",
-              key: "0-0",
-            },
-            {
-              title: "人文模版2",
-              key: "0-1",
-            },
-          ],
-        },
-        {
-          title: "科学",
-          key: "1",
-          children: [
-            {
-              title: "科学模版1",
-              key: "1-0",
-            },
-            {
-              title: "科学模版2",
-              key: "1-1",
-            },
-          ],
-        },
-      ],
-      model: {
-        type: "人文",
-        title: "人文模版1",
-        intro: "非常好用的模版",
-        src: require("../../assets/bg.jpeg"),
-        key: "0-0",
+      template: {
+        templateid: this.$route.query.templateid,
+        title: "",
+        content: "",
       },
+      isMine: false,
     };
   },
+  created() {
+    this.getTemplateByTemplateid();
+    console.log(this.template);
+  },
   methods: {
-    onSelect(selectedKeys, info) {
-      console.log("selected", selectedKeys, info);
+    toIndex() {
+      this.$router.push("/personIndex");
+    },
+    //查看模版
+    getTemplateByTemplateid() {
+      let params = new URLSearchParams();
+      params.append("templateid", this.$route.query.templateid);
+      //调用封装的puttData函数，获取服务器返回值
+      let url = this.$urlPath.website.getTemplateByTemplateid;
+      getData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.template.title = res.data.title;
+          this.template.content = res.data.content;
+          console.log(this.template);
+          console.log("查看模版成功");
+          // this.$message.success("操作成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //基于模版创建文档
+    addDocByTemplate() {
+      let params = new URLSearchParams();
+      params.append("userid", this.userid);
+      params.append("templateid", this.template.templateid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.addDocByTemplate;
+      getData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.$router.push({
+            path: "/document",
+            query: {
+              docid: res.data.docid,
+            },
+          });
+          console.log("基于模版创建文档成功");
+          // this.$message.success("操作成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-.title-text {
-  margin: auto;
-  border: black 1px solid;
-}
-.in-img {
-  border: black 1px solid;
-  width: 300px;
-  height: 200px;
-}
 .header {
   width: 100%;
   height: 60px;
   background-color: white;
+}
+.text {
+  // border: 1px solid red;
+  text-align: left;
+  margin: 5px auto -10px 15px;
+  width: 80px;
+  font-size: 16px;
 }
 .content {
   bottom: 0;
@@ -212,6 +126,7 @@ export default {
   background-color: #f7f7f7;
 }
 .top {
+  cursor: pointer;
   float: left;
   margin: 15px 10px 0 10px;
 }
@@ -241,7 +156,15 @@ export default {
   position: fixed;
   top: 60px;
   bottom: 0;
+  z-index: 99;
+  // border: 1px solid blue;
   border-right: rgb(190, 189, 189) solid 1px;
+}
+.menuItem {
+  margin: 10px auto 0 auto;
+  // border: 1px solid blue;
+  width: 170px;
+  height: 500px;
 }
 .main {
   position: fixed;
@@ -250,7 +173,6 @@ export default {
   bottom: 0;
   left: 230px;
   width: 100%;
-  overflow: scroll;
   background-color: #f7f7f7;
 }
 .body {
@@ -263,52 +185,44 @@ export default {
 .text {
   // border: 1px solid red;
   text-align: left;
-  margin: 5px auto 5px 15px;
+  margin: 5px auto -10px 15px;
   width: 80px;
+  font-size: 16px;
 }
-.menuItem {
-  margin: 10px auto 0 auto;
-  // border: 1px solid blue;
-  width: 170px;
-  height: 500px;
-}
-.fixedItem {
-  // border: 1px solid blue;
-  margin-top: 20px;
-  position: fixed;
-  top: 60px;
-  left: 0;
-  width: 200px;
-}
-.scrollMenu {
-  position: fixed;
-  top: 200px;
-  left: 0;
-  bottom: 0;
-  width: 200px;
-  overflow: scroll;
-}
-.breadcrumb {
-  margin: 30px;
-  font-size: 18px;
-}
-.articleContent {
+.article-content {
+  border: blue 1px solid;
   height: 800px;
-  margin-left: 200px;
-  margin-top: 180px;
-  left: 230px;
-  bottom: 0;
-  width: 100%;
-  overflow: scroll;
-  // border: blue solid 1px;
+  width: 616px;
+  margin: auto;
 }
-.titleBar {
-  height: 180px;
+.title-bar {
+  font-weight: 800;
+  font-size: 20px;
+  padding-top: 60px;
+  margin: auto;
+  width: 616px;
+  height: 120px;
+  // border: red 1px solid;
+}
+.add-btn {
+  // border: red 1px solid;s
+  float: right;
+  margin-top: 60px;
+}
+.main {
   position: fixed;
   top: 60px;
-  left: 230px;
+  right: 0;
   bottom: 0;
+  left: 200px;
   width: 100%;
+  overflow: scroll;
   // border: red 1px solid;
+}
+.model {
+  // border: red 1px solid;
+  width: 1000px;
+  min-height: 800px;
+  margin-left: 150px;
 }
 </style>

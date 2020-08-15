@@ -43,6 +43,9 @@ let path = {
     alterMemberPerms: Ip.productIP + "alterMemberPerms",
     quitTeam: Ip.productIP + "quitTeam",
     inviteTeamMemberByUserId: Ip.productIP + "inviteTeamMemberByUserId",
+    addDocByTemplate: Ip.productIP + "addDocByTemplate",
+    getUserByDocid: Ip.productIP + "getUserByDocid",
+    getModifyList: Ip.productIP + "getModifyList",
   },
 };
 export default path;

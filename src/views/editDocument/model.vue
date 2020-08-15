@@ -12,25 +12,25 @@
     <div class="body">
       <div class="sideMenu">
         <div class="menuItem">
-          <div class="text">
+          <!-- <div class="text">
             金刚石模版
           </div>
-          <a-divider></a-divider>
+          <a-divider></a-divider> -->
           <div class="text">
             我的模版
           </div>
         </div>
       </div>
       <div class="main">
-        <div class="offeredModel" v-if="!isMine">
+        <!-- <div class="offeredModel" v-if="!isMine">
           <div id="offered">
             <h3>最近更新</h3>
             <a-divider></a-divider>
             <modelCard :list="modelList"></modelCard>
           </div>
-        </div>
-        <div class="myModel" v-else>
-          <modelCard :list="myModelList" :childrenEvent="parentEvent"></modelCard>
+        </div> -->
+        <div class="myModel">
+          <modelCard :list="myModelList"></modelCard>
         </div>
       </div>
     </div>
@@ -78,10 +78,6 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    },
-    parentEvent(data) {
-      this.myModelList = data;
-      console.log(this.myModelList);
     },
   },
   mounted() {
@@ -155,6 +151,7 @@ export default {
   text-align: left;
   margin: 5px auto -10px 15px;
   width: 80px;
+  font-size: 16px;
 }
 .menuItem {
   margin: 10px auto 0 auto;

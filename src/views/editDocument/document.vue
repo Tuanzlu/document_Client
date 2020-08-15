@@ -238,43 +238,7 @@ import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
 import { deleteData } from "@/api/webdelete";
 import editor from "@/components/editorTool.vue";
-const codata = [
-  {
-    key: "1",
-    src: "头像",
-    username: "Tom",
-    wechat: "13611793768",
-    perms: "管理者",
-  },
-  {
-    key: "2",
-    src: "头像",
-    username: "Tom",
-    wechat: "13611793768",
-    perms: "管理者",
-  },
-  {
-    key: "3",
-    src: "头像",
-    username: "Tom",
-    wechat: "13611793768",
-    perms: "管理者",
-  },
-  {
-    key: "4",
-    src: "头像",
-    username: "Tom",
-    wechat: "13611793768",
-    perms: "管理者",
-  },
-  {
-    key: "5",
-    src: "头像",
-    username: "Tom",
-    wechat: "13611793768",
-    perms: "管理者",
-  },
-];
+
 const userList = [
   {
     type: "只能阅读",
@@ -419,7 +383,6 @@ export default {
   props: ["docidnum"],
   data() {
     return {
-      codata,
       columns,
       items,
       showColumns,
@@ -527,7 +490,11 @@ export default {
       if (key == 1) {
         this.isEdit = true;
       } else if (key == 2) {
-        this.addTemplate();
+        if(this.isEdit){
+          this.$message.error("请先保存文档!");
+        }else{
+          this.addTemplate();
+        }
       } else if (key == 3) {
         this.deleteDocument();
         this.$router.go(-1);
