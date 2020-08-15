@@ -49,6 +49,7 @@ let path = {
     quitTeam: Ip.productIP + "quitTeam",
     inviteTeamMemberByUserId: Ip.productIP + "inviteTeamMemberByUserId",
     addTeamDoc: Ip.productIP + "addTeamDoc",
+    deleteTeam: Ip.productIP + "deleteTeam",
   },
 };
 export default path;
