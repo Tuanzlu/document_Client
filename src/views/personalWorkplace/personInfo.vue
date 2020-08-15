@@ -193,7 +193,6 @@ export default {
   },
   created() {
     this.getInfo();
-
   },
 }
 </script>

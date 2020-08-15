@@ -3,10 +3,10 @@
     <div class="header">
       <div class="top" @click="toIndex"><span class="name">金刚石文档</span></div>
       <div class="topRight">
-        <img class="avatar" style="width:30px;height:30px" src="../../assets/bg.jpeg" />
+        <img class="avatar" style="width: 30px; height: 30px;" src="../../assets/bg.jpeg" />
       </div>
       <div class="topRight">
-        <a-icon type="bell" style="font-size:25px;margin-top:3px;" />
+        <a-icon type="bell" style="font-size: 25px; margin-top: 3px;" />
       </div>
     </div>
     <div class="body">
@@ -162,7 +162,6 @@ export default {
   width: 170px;
   height: 500px;
 }
-
 #offered {
   margin: 50px;
   height: 500px;

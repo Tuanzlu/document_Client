@@ -3,10 +3,10 @@
     <div class="singleCard" v-for="(item, i) in list" :key="i" @click="toSingleModel(item.templateid)">
       <a-popover>
         <div slot="content">
-          <div @click="useTemplate(item.templateid)" style="cursor:pointer">
+          <div @click="useTemplate(item.templateid)" style="cursor: pointer;">
             使用此模版创建文档
           </div>
-          <div @click="deleteList(item.templateid)" style="cursor:pointer">
+          <div @click="deleteList(item.templateid)" style="cursor: pointer;">
             删除模版
           </div>
         </div>
@@ -15,8 +15,7 @@
             slot="cover"
             src="@/assets/pic4.jpg"
             alt="example"
-            style="width:130px;height:130px;margin:10px auto -20px
-        auto"
+            style="width: 130px; height: 130px; margin: 10px auto -20px auto;"
           />
           <span>
             <h3>{{ item.title }}</h3>
@@ -76,7 +75,7 @@ export default {
   },
 
   watch: {
-    list: function(newVal) {
+    list: function (newVal) {
       this.modelList = newVal;
     },
   },

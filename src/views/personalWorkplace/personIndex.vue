@@ -1,12 +1,15 @@
 <template>
   <div>
     <div>
-      <personNav></personNav>
-      <siderNav></siderNav>
-      <div style="float:right;margin:100px 80px 0 auto;width:60px;">
-        <a-button type="default" @click="createDocument">新建文档</a-button>
-        <a-button type="default" @click="toModel">模版库</a-button>
+      <div>
+        <personNav></personNav>
+        <siderNav></siderNav>
+        <div style="float: right; margin: 100px 80px 0 auto; width: 60px;">
+          <a-button type="default" @click="createDocument">新建文档</a-button>
+          <a-button type="default" @click="toModel">模版库</a-button>
+        </div>
       </div>
+      <router-view></router-view>
     </div>
     <router-view></router-view>
   </div>

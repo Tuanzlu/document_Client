@@ -1048,7 +1048,6 @@ input,
 textarea {
   outline: medium;
 }
-
 .input-title,
 .input-title:active,
 .input-title:hover {
