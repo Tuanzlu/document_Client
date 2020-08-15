@@ -460,7 +460,6 @@ export default {
   },
   mounted() {
     this.article.docid = this.$route.query.docid;
-    console.log(this.article.docid);
     this.user.userid = parseInt(window.sessionStorage.getItem("UserId"));
     this.getDocument();
     this.getComment();
@@ -541,11 +540,10 @@ export default {
       } else if (key == 2) {
         this.$router.push("/help");
       } else if (key == 3) {
-        console.log("退出登录");
-        
-    window.sessionStorage.removeItem('UserId');
-    this.$router.replace({
-       path:"/"
+        console.log("退出登录");  
+        window.sessionStorage.removeItem('UserId');
+        this.$router.replace({
+        path:"/"
         })
       };
       console.log(`Click on item ${key}`);

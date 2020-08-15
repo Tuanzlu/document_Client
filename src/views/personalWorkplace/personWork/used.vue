@@ -1,24 +1,19 @@
 <template>
   <div style="float:right;width:70%">
-<<<<<<< HEAD
-      <a-menu v-model="current" mode="horizontal">
-=======
-      <a-menu v-model="current" mode="horizontal" style="margin-left:20px">
->>>>>>> personWorkspace
-        <a-menu-item key="use"> 
+    <a-menu v-model="current" mode="horizontal" style="margin-left:20px">
+      <a-menu-item key="use">
         <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
-        </a-menu-item>
-        <a-menu-item key="own" > 
+      </a-menu-item>
+      <a-menu-item key="own">
         <router-link to="/own"><a-icon type="plus" />我创建的</router-link>
-        </a-menu-item>
-        <a-menu-item key="fav" > 
+      </a-menu-item>
+      <a-menu-item key="fav">
         <router-link to="/favorite"><a-icon type="star" />我的收藏</router-link>
-        </a-menu-item>
-      </a-menu>
-      <div class="btn_box">
+      </a-menu-item>
+    </a-menu>
+    <div class="btn_box">
       <cards :list="info"></cards>
-      
-      </div>
+    </div>
   </div>
 </template>
 
@@ -31,27 +26,29 @@ export default {
   },
   data() {
     return {
-      info: [{
-        readtime: '',
-        title: '',
-        docid: '',
-      }]
+      info: [
+        {
+          readtime: "",
+          title: "",
+          docid: "",
+        },
+      ],
     };
   },
-  props: ['list'],
+  props: ["list"],
   methods: {
     getInfo() {
       let params = new URLSearchParams();
-      let userId = parseInt(window.sessionStorage.getItem('UserId'));
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getRecentRead;
-      getData(url,params).then((res) => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           console.log(11111111111);
           console.log(res.data);
-          for(let i=0;i<res.data.readlist.length;i++){
-      //???????????没有数据？？？
+          for (let i = 0; i < res.data.readlist.length; i++) {
+            //???????????没有数据？？？
             this.info[i].readtime = res.data.readlist[i].readtime;
             this.info[i].title = res.data.readlist[i].title;
             this.info[i].docid = res.data.readlist[i].docid;
@@ -69,14 +66,13 @@ export default {
   created() {
     this.getInfo();
   },
-}
+};
 </script>
 
 <style>
-.btn_box{
-    /*background-color: #7f7f7f;*/
-    width: 740px;
-    margin-left: 20px;
+.btn_box {
+  /*background-color: #7f7f7f;*/
+  width: 740px;
+  margin-left: 20px;
 }
-
 </style>

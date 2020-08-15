@@ -1,12 +1,7 @@
 <template>
   <div style="float:right;width:70%">
     <h2>创建新的团队</h2>
-    <a-form
-      :form="form"
-      :label-col="{ span: 5 }"
-      :wrapper-col="{ span: 12 }"
-      @submit="handleSubmit"
-    >
+    <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
       <a-form-item label="teamnname">
         <a-input
           v-model="teamname"
@@ -36,13 +31,13 @@ export default {
       form: this.$form.createForm(this, { name: "addtime" }),
       teamname: "name",
       intro: "intro",
-      teamid: 0
+      teamid: 0,
     };
   },
   methods: {
     handleSubmit(e) {
       e.preventDefault();
-      this.form.validateFields(err => {
+      this.form.validateFields((err) => {
         if (!err) {
           let userId = parseInt(window.sessionStorage.getItem("UserId"));
           let params = new URLSearchParams();
@@ -50,15 +45,15 @@ export default {
           params.append("teamname", this.teamname);
           params.append("intro", this.intro);
           let url = this.$urlPath.website.addTeam;
-          postData(url, params).then(res => {
+          postData(url, params).then((res) => {
             console.log(res.code);
             if (res.code === "0") {
               this.teamid = res.data.teamid;
               this.$router.push({
                 path: "/team",
                 query: {
-                  teamid: this.teamid
-                }
+                  teamid: this.teamid,
+                },
               });
               this.$message.success("创建成功");
             } else if (res.code === "1") {
@@ -72,9 +67,8 @@ export default {
           });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
-<style>
-</style>
+<style></style>

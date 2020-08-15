@@ -1,7 +1,7 @@
 <template>
   <div style="margin-left:300px" class="list">
     <h2>
-      {{teaminfo.teamname}}团队 &nbsp;成员列表
+      {{ teaminfo.teamname }}团队 &nbsp;成员列表
       <span v-if="!isleader">
         <a-button type="danger" ghost @click="showDeleteConfirm_Member">退出团队</a-button>
       </span>
@@ -19,13 +19,9 @@
         />
         <a-list item-layout="horizontal" :data-source="searchUser">
           <a-list-item slot="renderItem" slot-scope="item">
-            <a-button
-              slot="actions"
-              type="primary"
-              ghost
-              size="small"
-              @click="inviteTeamMemberByUserId(item.userid)"
-            >发送邀请</a-button>
+            <a-button slot="actions" type="primary" ghost size="small" @click="inviteTeamMemberByUserId(item.userid)"
+              >发送邀请</a-button
+            >
             <a-list-item-meta>
               <span slot="title">{{ item.username }}</span>
               <a-avatar slot="avatar" :src="item.userimgpath" />
@@ -38,7 +34,7 @@
     <a-divider></a-divider>
     <div>
       <a-list item-layout="horizontal">
-        <a-list-item v-for="(item,index) in memberlist" :key="index">
+        <a-list-item v-for="(item, index) in memberlist" :key="index">
           <!-- <a-select
           slot="actions"
           :default-value="item.teamperms"
@@ -52,7 +48,7 @@
           </a-select>-->
 
           <a-radio-group
-            @change="alterMemberPerms($event,index)"
+            @change="alterMemberPerms($event, index)"
             slot="actions"
             :default-value="item.teamperms"
             :disabled="!isleader"
@@ -62,13 +58,9 @@
             <a-radio-button :value="3">可以编辑</a-radio-button>
           </a-radio-group>
 
-          <a-button
-            slot="actions"
-            type="danger"
-            ghost
-            v-if="isleader"
-            @click="showDeleteConfirm(index)"
-          >踢出团队</a-button>
+          <a-button slot="actions" type="danger" ghost v-if="isleader" @click="showDeleteConfirm(index)"
+            >踢出团队</a-button
+          >
 
           <a-list-item-meta>
             <a slot="title">{{ item.username }}</a>
@@ -92,7 +84,7 @@ export default {
       memberlist: [],
       isleader: false,
       teaminfo: "",
-      searchUser: []
+      searchUser: [],
     };
   },
   methods: {
@@ -107,7 +99,7 @@ export default {
         onOk() {
           that.quitTeam(that.memberlist[index].userid);
         },
-        onCancel() {}
+        onCancel() {},
       });
     },
     showDeleteConfirm_Member() {
@@ -119,11 +111,9 @@ export default {
         okType: "danger",
         cancelText: "取消",
         onOk() {
-          that.quitTeam_Member(
-            parseInt(window.sessionStorage.getItem("UserId"))
-          );
+          that.quitTeam_Member(parseInt(window.sessionStorage.getItem("UserId")));
         },
-        onCancel() {}
+        onCancel() {},
       });
     },
     quitTeam(userid) {
@@ -131,7 +121,7 @@ export default {
       params.append("teamid", this.teamid);
       params.append("userid", userid);
       let url = this.$urlPath.website.quitTeam;
-      deleteData(url, params).then(res => {
+      deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("已踢出团队");
@@ -151,7 +141,7 @@ export default {
       params.append("teamid", this.teamid);
       params.append("userid", userid);
       let url = this.$urlPath.website.quitTeam;
-      deleteData(url, params).then(res => {
+      deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("退出成功");
@@ -172,7 +162,7 @@ export default {
       params.append("userid", this.memberlist[index].userid);
       params.append("teamperms", e.target.value);
       let url = this.$urlPath.website.alterMemberPerms;
-      putData(url, params).then(res => {
+      putData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("查询成功");
@@ -188,13 +178,11 @@ export default {
       let params = new URLSearchParams();
       params.append("teamid", this.teamid);
       let url = this.$urlPath.website.getTeamMemberList;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.memberlist = res.data.memberlist;
-          this.isleader =
-            res.data.leaderid ===
-            parseInt(window.sessionStorage.getItem("UserId"));
+          this.isleader = res.data.leaderid === parseInt(window.sessionStorage.getItem("UserId"));
           //this.$message.success("查询成功");
         } else if (res.code === "1") {
           this.$message.error("未登录");
@@ -208,7 +196,7 @@ export default {
       let params = new URLSearchParams();
       params.append("teamid", this.teamid);
       let url = this.$urlPath.website.getTeamInfo;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           //this.$message.success("查询成功");
@@ -231,7 +219,7 @@ export default {
       params.append("username", this.searchWord);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.getUserByUsername;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.searchUser = [res.data.user];
@@ -250,7 +238,7 @@ export default {
       params.append("teamid", this.teamid);
       params.append("userid", userid);
       let url = this.$urlPath.website.inviteTeamMemberByUserId;
-      postData(url, params).then(res => {
+      postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("邀请成功，等待对方同意");
@@ -263,16 +251,15 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    }
+    },
   },
   created() {
     this.teamid = this.$route.query.teamid;
     this.getTeamMemberList();
     this.getTeamInfo();
-  }
+  },
 };
 </script>
-
 
 <style>
 .list {

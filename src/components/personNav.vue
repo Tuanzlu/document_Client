@@ -5,11 +5,7 @@
       <div class="topRight">
         <a-dropdown>
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            <<<<<<< HEAD
-            <img class="avatar" style="width: 30px; height: 30px;" src="../assets/bg.jpeg" />
-            =======
             <showdPhoto></showdPhoto>
-            >>>>>>> personWorkspace
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
