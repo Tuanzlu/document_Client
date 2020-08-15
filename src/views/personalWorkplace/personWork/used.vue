@@ -1,6 +1,6 @@
 <template>
   <div style="float:right;width:70%">
-      <a-menu v-model="current" mode="horizontal" style="margin-left:20px">
+      <a-menu v-model="current" mode="horizontal" style="margin-left:20px;">
         <a-menu-item key="use"> 
         <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
         </a-menu-item>
@@ -12,14 +12,14 @@
         </a-menu-item>
       </a-menu>
       <div class="btn_box">
-      <cards :list="info"></cards>
+      <cards :list="info"  v-if="info.length>0"></cards>
       
       </div>
   </div>
 </template>
 
 <script>
-import cards from "@/components/modelCard";
+import cards from "@/components/wordCard";
 import { getData } from "@/api/webget";
 export default {
   components: {
@@ -27,11 +27,7 @@ export default {
   },
   data() {
     return {
-      info: [{
-        readtime: '',
-        title: '',
-        docid: '',
-      }]
+      info: []
     };
   },
   props: ['list'],
@@ -42,17 +38,14 @@ export default {
       params.append("userid", userId);
       let url = this.$urlPath.website.getRecentRead;
       getData(url,params).then((res) => {
-        console.log(res.code);
+       // console.log(res.code);
         if (res.code === "0") {
-          console.log(11111111111);
           console.log(res.data);
           for(let i=0;i<res.data.readlist.length;i++){
-      //???????????没有数据？？？
-            this.info[i].readtime = res.data.readlist[i].readtime;
-            this.info[i].title = res.data.readlist[i].title;
-            this.info[i].docid = res.data.readlist[i].docid;
-            console.log(this.info[i].readtime);
+            this.info.push(res.data.readlist[i]);
           }
+          console.log(this.info);
+          this.$refs.list = this.info;
         } else if (res.code === "1") {
           this.$message.error("操作失败");
         } else {
