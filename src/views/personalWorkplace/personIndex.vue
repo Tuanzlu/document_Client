@@ -9,7 +9,6 @@
           <a-button type="default" @click="toModel">模版库</a-button>
         </div>
       </div>
-      <router-view></router-view>
     </div>
     <router-view></router-view>
   </div>
