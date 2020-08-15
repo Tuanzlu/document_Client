@@ -1,10 +1,10 @@
 <template>
-  <div style="float:right;width:70%">
+  <div style="margin-left:300px" class="folder">
     <h2>{{teaminfo.teamname}} 的团队空间</h2>
     <p>{{teaminfo.intro}}</p>
     <p>
-      <router-link to="/manage/userList">
-        <a-icon type="team" />协作！（协作者列表）
+      <router-link :to="{ path: '/team/memberlist',query:{teamid: this.teamid}}">
+        <a-icon type="team" />成员列表
       </router-link>
     </p>
     <h3>团队文档</h3>
@@ -81,4 +81,7 @@ export default {
 
 
 <style>
+.folder {
+  width: 1000px;
+}
 </style>

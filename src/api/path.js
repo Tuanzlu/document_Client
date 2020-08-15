@@ -29,6 +29,10 @@ let path = {
     getTeamInfo: Ip.productIP + "getTeamInfo",
     getTeamDocList: Ip.productIP + "getTeamDocList",
     addTeam: Ip.productIP + "addTeam",
+    getTeamMemberList: Ip.productIP + "getTeamMemberList",
+    alterMemberPerms: Ip.productIP + "alterMemberPerms",
+    quitTeam: Ip.productIP + "quitTeam",
+    inviteTeamMemberByUserId: Ip.productIP + "inviteTeamMemberByUserId",
   },
 };
 export default path;

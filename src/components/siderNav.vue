@@ -22,7 +22,9 @@
           <router-link :to="{path: '/team' , query:{teamid:item.teamid}}">{{ item.teamname }}</router-link>
         </a-menu-item>
         <a-menu-item>
-          <router-link to="/addteam">创建团队</router-link>
+          <router-link to="/addteam">
+            <a-icon type="plus" />新的团队
+          </router-link>
         </a-menu-item>
       </a-sub-menu>
       <a-menu-item key="5">

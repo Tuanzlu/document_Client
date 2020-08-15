@@ -87,6 +87,10 @@ const routes = [
         path: "/addteam",
         component: () => import("../views/team/addTeam.vue"),
       },
+      {
+        path: "/team/memberlist",
+        component: () => import("../views/team/userList.vue"),
+      }
     ],
   },
   {
