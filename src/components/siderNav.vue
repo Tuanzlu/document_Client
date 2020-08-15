@@ -19,21 +19,17 @@
           <span>团队空间</span>
         </span>
         <a-menu-item v-for="item in team" :key="item.teamid">
-          <router-link :to="{path: '/team' , query:{teamid:item.teamid}}">{{ item.teamname }}</router-link>
+          <router-link :to="{ path: '/team', query: { teamid: item.teamid } }">{{ item.teamname }}</router-link>
         </a-menu-item>
         <a-menu-item>
-          <router-link to="/addteam">
-            <a-icon type="plus" />新的团队
-          </router-link>
+          <router-link to="/addteam"> <a-icon type="plus" />新的团队 </router-link>
         </a-menu-item>
       </a-sub-menu>
       <a-menu-item key="5">
         <a-icon type="delete" />回收站
         <router-link to="/rubish"></router-link>
       </a-menu-item>
-      <a-menu-item key="6">
-        <a-icon type="question" />帮助中心
-      </a-menu-item>
+      <a-menu-item key="6"> <a-icon type="question" />帮助中心 </a-menu-item>
     </a-menu>
   </div>
 </template>
@@ -46,14 +42,12 @@ export default {
       team: [],
       rootSubmenuKeys: ["sub1", "sub2", "sub4"],
       openKeys: ["sub1"],
-      current: ["mail"]
+      current: ["mail"],
     };
   },
   methods: {
     onOpenChange(openKeys) {
-      const latestOpenKey = openKeys.find(
-        key => this.openKeys.indexOf(key) === -1
-      );
+      const latestOpenKey = openKeys.find((key) => this.openKeys.indexOf(key) === -1);
       if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
         this.openKeys = openKeys;
       } else {
@@ -66,7 +60,7 @@ export default {
       params.append("userid", userid);
       //调用封装的getData函数，获取服务器返回值
       let url = this.$urlPath.website.getMyJoinedTeam;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           console.log("查询团队成功");
@@ -79,7 +73,7 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    }
+    },
   },
   mounted() {
     this.getTeam();
@@ -87,8 +81,8 @@ export default {
   watch: {
     $route() {
       this.getTeam();
-    }
-  }
+    },
+  },
 };
 </script>
 
