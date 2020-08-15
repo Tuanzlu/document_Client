@@ -22,7 +22,7 @@
             ]"
             placeholder="Username"
           >
-            <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+            <a-icon slot="prefix" type="user" style="color: rgba(0, 0, 0, 0.25);" />
           </a-input>
         </a-form-item>
         <a-form-item>
@@ -39,7 +39,7 @@
             placeholder="Password"
             type="password"
           >
-            <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+            <a-icon slot="prefix" type="lock" style="color: rgba(0, 0, 0, 0.25);" />
           </a-input>
         </a-form-item>
         <a-form-model-item>
@@ -99,7 +99,14 @@ export default {
         if (res.code === "0") {
           this.$message.success("登录成功");
           window.sessionStorage.setItem("UserId", res.data.userid);
-          this.$router.push("/personIndex");
+          const webAdrs = window.sessionStorage.getItem("WebAdrs");
+          if (webAdrs) {
+            console.log("that way" + webAdrs);
+            this.$router.push(webAdrs.substr(23));
+          } else if (!webAdrs) {
+            console.log("this way");
+            this.$router.push("/personIndex");
+          }
         } else if (res.code === "1" || res.code === "2") {
           this.$message.error("用户名或密码错误");
         } else {

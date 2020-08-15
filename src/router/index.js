@@ -80,10 +80,17 @@ const routes = [
         component: () => import("../views/personalWorkplace/personWork/table.vue"),
       },
       {
-        path: "/manage/folder",
-        name: "Folder",
+        path: "/team",
         component: () => import("../views/team/folder.vue"),
       },
+      {
+        path: "/addteam",
+        component: () => import("../views/team/addTeam.vue"),
+      },
+      {
+        path: "/team/memberlist",
+        component: () => import("../views/team/userList.vue"),
+      }
     ],
   },
   {
@@ -95,28 +102,6 @@ const routes = [
     path: "/help",
     name: "Help",
     component: () => import("../views/help.vue"),
-  },
-  {
-    path: "/manage",
-    name: "Manage",
-    component: () => import("../views/team/manage.vue"),
-    children: [
-      {
-        path: "/manage/userList",
-        name: "UserList",
-        component: () => import("../views/team/userList.vue"),
-      },
-      {
-        path: "/manage/teamList",
-        name: "TeamList",
-        component: () => import("../views/team/teamList.vue"),
-      },
-      {
-        path: "/manage/addTeam",
-        name: "AddTeam",
-        component: () => import("../views/team/addTeam.vue"),
-      },
-    ],
   },
 ];
 
@@ -131,10 +116,13 @@ router.beforeEach((to, from, next) => {
     to.path === "/register" ||
     to.path === "/about" ||
     to.path === "/index"
-  )
+  ) {
     return next();
-  const tokenStr = window.sessionStorage.getItem("UserId");
-  if (!tokenStr) return next("/login");
-  next();
+  } else {
+    window.sessionStorage.setItem("WebAdrs", window.location.href);
+    const tokenStr = window.sessionStorage.getItem("UserId");
+    if (!tokenStr) return next("/login");
+    next();
+  }
 });
 export default router;

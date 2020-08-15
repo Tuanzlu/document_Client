@@ -24,7 +24,7 @@
       <div class="topRight">
         <a-dropdown>
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            <a-icon type="bell" style="font-size:25px;margin-top:3px;" />
+            <a-icon type="bell" style="font-size: 25px; margin-top: 3px;" />
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
@@ -37,7 +37,7 @@
         </a-dropdown>
       </div>
       <div class="topRight">
-        <a-input-search placeholder="搜索文件" style="width: 200px" @search="onSearch" />
+        <a-input-search placeholder="搜索文件" style="width: 200px;" @search="onSearch" />
       </div>
     </div>
   </div>
@@ -45,7 +45,7 @@
 
 <script>
 import { getData } from "@/api/webget";
-import showdPhoto from '@/components/showPhoto';
+import showdPhoto from "@/components/showPhoto";
 export default {
   components: {
     showdPhoto,
@@ -56,12 +56,12 @@ export default {
     };
   },
   methods: {
-    getPhoto(){
+    getPhoto() {
       let params = new URLSearchParams();
-      let userId = parseInt(window.sessionStorage.getItem('UserId'));
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getUserInfo;
-      getData(url,params).then((res) => {
+      getData(url, params).then((res) => {
         //console.log(1111111111);
         if (res.code === "0") {
           this.imgUrl = res.data.userimgpath;
@@ -73,12 +73,17 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    }
+    },
+    toIndex() {
+      if (window.location.href.substr(23) != "/personIndex") {
+        this.$router.replace("/personIndex");
+      }
+    },
   },
-  mounted(){
+  mounted() {
     this.getPhoto();
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -86,6 +91,7 @@ export default {
   height: 58px;
 }
 .top {
+  cursor: pointer;
   float: left;
   margin: 15px 10px 0 10px;
 }

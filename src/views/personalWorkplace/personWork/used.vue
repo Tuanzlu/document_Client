@@ -1,20 +1,33 @@
 <template>
   <div style="float:right;width:70%">
+<<<<<<< HEAD
       <a-menu v-model="current" mode="horizontal" style="margin-left:20px;">
         <a-menu-item key="use"> 
+=======
+    <a-menu v-model="current" mode="horizontal" style="margin-left:20px">
+      <a-menu-item key="use">
+>>>>>>> 8bc6b5db12bff4ed05afc0050025dc39c7f6b580
         <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
-        </a-menu-item>
-        <a-menu-item key="own" > 
+      </a-menu-item>
+      <a-menu-item key="own">
         <router-link to="/own"><a-icon type="plus" />我创建的</router-link>
-        </a-menu-item>
-        <a-menu-item key="fav" > 
+      </a-menu-item>
+      <a-menu-item key="fav">
         <router-link to="/favorite"><a-icon type="star" />我的收藏</router-link>
+<<<<<<< HEAD
         </a-menu-item>
       </a-menu>
       <div class="btn_box">
       <cards :list="info"  v-if="info.length>0"></cards>
       
       </div>
+=======
+      </a-menu-item>
+    </a-menu>
+    <div class="btn_box">
+      <cards :list="info"></cards>
+    </div>
+>>>>>>> 8bc6b5db12bff4ed05afc0050025dc39c7f6b580
   </div>
 </template>
 
@@ -30,11 +43,11 @@ export default {
       info: []
     };
   },
-  props: ['list'],
+  props: ["list"],
   methods: {
     getInfo() {
       let params = new URLSearchParams();
-      let userId = parseInt(window.sessionStorage.getItem('UserId'));
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getRecentRead;
       getData(url,params).then((res) => {
@@ -58,14 +71,13 @@ export default {
   created() {
     this.getInfo();
   },
-}
+};
 </script>
 
 <style>
-.btn_box{
-    /*background-color: #7f7f7f;*/
-    width: 740px;
-    margin-left: 20px;
+.btn_box {
+  /*background-color: #7f7f7f;*/
+  width: 740px;
+  margin-left: 20px;
 }
-
 </style>
