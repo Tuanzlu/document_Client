@@ -64,11 +64,17 @@ export default {
       });
     },
   },
-  mounted() {
+  created() {
     this.teamid = this.$route.query.teamid;
-    console.log(this.teamid);
     this.getTeamInfo();
     this.getTeamDocList();
+  },
+  watch: {
+    $route() {
+      this.teamid = this.$route.query.teamid;
+      this.getTeamInfo();
+      this.getTeamDocList();
+    },
   },
 };
 </script>
