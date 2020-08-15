@@ -43,7 +43,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    toIndex() {
+      if (window.location.href.substr(23) != "/personIndex") {
+        this.$router.replace("/personIndex");
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -51,6 +59,7 @@ export default {};
   height: 58px;
 }
 .top {
+  cursor: pointer;
   float: left;
   margin: 15px 10px 0 10px;
 }

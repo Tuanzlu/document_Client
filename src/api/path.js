@@ -28,6 +28,10 @@ let path = {
     updateUserImgPath: Ip.productIP + "updateUserImgPath",
     replacePermsByUserid: Ip.productIP + "replacePermsByUserid",
     addTemplate: Ip.productIP + "addTemplate",
+    getMyTemplateList: Ip.productIP + "getMyTemplateList",
+    deleteTemplate: Ip.productIP + "deleteTemplate",
+    getTemplateByTemplateid: Ip.productIP + "getTemplateByTemplateid",
+    enterEdit: Ip.productIP + "enterEdit",
   },
 };
 export default path;

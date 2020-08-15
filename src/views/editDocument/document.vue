@@ -447,7 +447,6 @@ export default {
       },    
       article: {
         docid: 0,
-        isModel: false,
         userid: "",
         shareperms: "",
         teamid: "",
@@ -529,7 +528,7 @@ export default {
       if (key == 1) {
         this.isEdit = true;
       } else if (key == 2) {
-        this.article.isModel = true;
+        this.addTemplate();
       } else if (key == 3) {
         this.deleteDocument();
         this.$router.go(-1);
@@ -556,13 +555,13 @@ export default {
       let params = new URLSearchParams();
       params.append("userid", this.user.userid);
       params.append("title", this.article.title);
-      params.append("content", this.user.userid);
+      params.append("content", this.article.content);
       //调用封装的postData函数，获取服务器返回值
-      let url = this.$urlPath.website.collectDoc;
-      putData(url, params).then((res) => {
+      let url = this.$urlPath.website.addTemplate;
+      postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.$message.success("收藏成功");
+          this.$message.success("模版保存成功,可在[模版库]-[我的模版]中查看");
         } else if (res.code === "1") {
           this.$message.error("操作失败");
         } else {
