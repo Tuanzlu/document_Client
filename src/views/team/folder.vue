@@ -9,6 +9,7 @@
     </p>
     <h3>团队文档</h3>
     <a-button type="primary" ghost @click="addTeamDoc">创建团队文档</a-button>
+    <a-button type="primary" ghost>团队模板库</a-button>
     <a-divider></a-divider>
     <wordCard :list="teamdoclist"></wordCard>
   </div>
