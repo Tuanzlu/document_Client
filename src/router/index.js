@@ -10,6 +10,11 @@ const routes = [
     component: () => import("../views/home.vue"),
   },
   {
+    path: "/about",
+    name: "About",
+    component: () => import("../views/about.vue"),
+  },
+  {
     path: "/model",
     name: "Model",
     component: () => import("../views/editDocument/model.vue"),
@@ -80,9 +85,25 @@ const routes = [
         component: () => import("../views/personalWorkplace/personWork/table.vue"),
       },
       {
+<<<<<<< HEAD
         path: "/team",
         component: () => import("../views/team/folder.vue"),
       },
+=======
+<<<<<<< HEAD
+        path: "/manage/folder",
+        name: "Folder",
+        component: () => import("../views/team/folder.vue"),
+      },
+=======
+        path: "/CoopTo",
+        component: () => import("../views/personalWorkplace/personWork/coopTogether.vue"),
+      },
+      {
+        path: "/team",
+        component: () => import("../views/team/folder.vue"),
+      },
+>>>>>>> personWorkspace
       {
         path: "/addteam",
         component: () => import("../views/team/addTeam.vue"),
@@ -90,7 +111,12 @@ const routes = [
       {
         path: "/team/memberlist",
         component: () => import("../views/team/userList.vue"),
+<<<<<<< HEAD
       },
+=======
+      }
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
     ],
   },
   {
@@ -103,6 +129,34 @@ const routes = [
     name: "Help",
     component: () => import("../views/help.vue"),
   },
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  {
+    path: "/manage",
+    name: "Manage",
+    component: () => import("../views/team/manage.vue"),
+    children: [
+      {
+        path: "/manage/userList",
+        name: "UserList",
+        component: () => import("../views/team/userList.vue"),
+      },
+      {
+        path: "/manage/teamList",
+        name: "TeamList",
+        component: () => import("../views/team/teamList.vue"),
+      },
+      {
+        path: "/manage/addTeam",
+        name: "AddTeam",
+        component: () => import("../views/team/addTeam.vue"),
+      },
+    ],
+  },
+=======
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
 ];
 
 const router = new VueRouter({
@@ -116,6 +170,7 @@ router.beforeEach((to, from, next) => {
     to.path === "/register" ||
     to.path === "/about" ||
     to.path === "/index"
+<<<<<<< HEAD
   ) {
     return next();
   } else {
@@ -128,9 +183,26 @@ router.beforeEach((to, from, next) => {
     ) {
       window.sessionStorage.setItem("WebAdrs", window.location.href);
     }
+=======
+<<<<<<< HEAD
+  )
+    return next();
+  const tokenStr = window.sessionStorage.getItem("UserId");
+  if (!tokenStr) return next("/login");
+  next();
+=======
+  ) {
+    return next();
+  } else {
+    window.sessionStorage.setItem("WebAdrs", window.location.href);
+>>>>>>> personWorkspace
     const tokenStr = window.sessionStorage.getItem("UserId");
     if (!tokenStr) return next("/login");
     next();
   }
+<<<<<<< HEAD
+=======
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
 });
 export default router;

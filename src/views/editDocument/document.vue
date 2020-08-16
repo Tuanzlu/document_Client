@@ -18,7 +18,7 @@
           <a-icon type="star" theme="outlined" v-else />
         </a-button>
       </div>
-      <div class="top" :class="{ time: !article.isNew }">
+      <div class="top" class="time">
         <span >上次保存于{{ article.modifytime }}</span>
       </div>
       <div class="topRight">
@@ -255,7 +255,6 @@ import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
 import { deleteData } from "@/api/webdelete";
 import editor from "@/components/editorTool.vue";
-
 const userList = [
   {
     type: "只能阅读",

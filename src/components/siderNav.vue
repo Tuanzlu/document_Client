@@ -1,6 +1,7 @@
 <template>
   <div class="toleft">
     <a-menu mode="inline" :open-keys="openKeys" style="width: 230px" @openChange="onOpenChange">
+<<<<<<< HEAD
       <a-menu-item key="1">
         <a-icon type="edit" />工作台
         <router-link to="/used"></router-link>
@@ -12,6 +13,36 @@
       <a-menu-item key="3">
         <a-icon type="appstore" />我的桌面
         <router-link to="/table"></router-link>
+      </a-menu-item>
+=======
+<<<<<<< HEAD
+      <a-menu-item key="1"> <a-icon type="edit" />工作台<router-link to="/used"></router-link> </a-menu-item>
+      <a-menu-item key="2"> <a-icon type="mail" />收件箱<router-link to="/letter"></router-link> </a-menu-item>
+      <a-menu-item key="3"> <a-icon type="appstore" />我的桌面<router-link to="/table"></router-link> </a-menu-item>
+>>>>>>> personWorkspace
+      <a-sub-menu key="sub1">
+        <span slot="title">
+          <a-icon type="team" />
+          <span>团队空间</span>
+        </span>
+        <a-menu-item v-for="item in team" :key="item.teamid">
+          <router-link :to="{ path: '/team', query: { teamid: item.teamid } }">{{ item.teamname }}</router-link>
+        </a-menu-item>
+        <a-menu-item>
+          <router-link to="/addteam"> <a-icon type="plus" />新的团队 </router-link>
+        </a-menu-item>
+      </a-sub-menu>
+<<<<<<< HEAD
+=======
+      <a-menu-item key="5"> <a-icon type="delete" />回收站<router-link to="/rubish"></router-link> </a-menu-item>
+=======
+      <a-menu-item key="1">
+        <a-icon type="edit" />工作台
+        <router-link to="/used"></router-link>
+      </a-menu-item>
+      <a-menu-item key="2">
+        <a-icon type="mail" />收件箱
+        <router-link to="/letter"></router-link>
       </a-menu-item>
       <a-sub-menu key="sub1">
         <span slot="title">
@@ -25,10 +56,15 @@
           <router-link to="/addteam"> <a-icon type="plus" />新的团队 </router-link>
         </a-menu-item>
       </a-sub-menu>
+>>>>>>> personWorkspace
       <a-menu-item key="5">
         <a-icon type="delete" />回收站
         <router-link to="/rubish"></router-link>
       </a-menu-item>
+<<<<<<< HEAD
+=======
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
       <a-menu-item key="6"> <a-icon type="question" />帮助中心 </a-menu-item>
     </a-menu>
   </div>
@@ -78,11 +114,20 @@ export default {
   mounted() {
     this.getTeam();
   },
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> personWorkspace
   watch: {
     $route() {
       this.getTeam();
     },
   },
+<<<<<<< HEAD
+=======
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
 };
 </script>
 
