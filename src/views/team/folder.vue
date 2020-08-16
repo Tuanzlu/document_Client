@@ -10,18 +10,18 @@
     <h3>团队文档</h3>
     <a-button type="primary" ghost @click="addTeamDoc">创建团队文档</a-button>
     <a-divider></a-divider>
-    <modelCard :list="teamdoclist"></modelCard>
+    <wordCard :list="teamdoclist"></wordCard>
   </div>
 </template>
 
 <script>
 import { getData } from "@/api/webget";
 import { postData } from "@/api/webpost";
-import modelCard from "@/components/modelCard.vue";
+import wordCard from "@/components/wordCard.vue";
 
 export default {
   components: {
-    modelCard
+    wordCard
   },
   data() {
     return {
