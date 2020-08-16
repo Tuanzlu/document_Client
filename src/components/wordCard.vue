@@ -1,70 +1,55 @@
 <template>
   <div class="cardList">
-    <div class="singleCard" v-for="(item, i) in list" :key="i" >
-<<<<<<< HEAD
-        <a-card hoverable class="card">
-=======
-        <a-card hoverable class="card" @click="toDoc(item,i)" >
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
-            <img slot="cover" src="../assets/word1.jpg" alt="example" style="width:90px;height:90px;margin:10px auto -20px auto" />
-            <a-dropdown class="set">
-                <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                <a href="#" ><a-icon type="setting" /></a>
-                </a>
-                <a-menu slot="overlay">
-                <a-menu-item>
-<<<<<<< HEAD
-                    <a href="#">协作</a>
-                </a-menu-item>
-                <a-menu-item>
-                    <a href="#">分享</a>
-                </a-menu-item>
-                <a-menu-item>
-                    <a href="#">删除</a>
-=======
-                    <a @click="toCoop">协作</a>
-                </a-menu-item>
-                <a-menu-item>
-                    <a @click="toShare" ref="myshare">分享</a>
-                </a-menu-item>
-                <a-menu-item>
-                    <a @click="toDelete(item,i)">删除</a>
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
-                </a-menu-item>
-                </a-menu>
-            </a-dropdown>
-            <span>
-                <h3>{{ item.title}}</h3>
-            </span>
-        </a-card>
+    <div class="singleCard" v-for="(item, i) in list" :key="i">
+      <a-card hoverable class="card" @click="toDoc(item, i)">
+        <img
+          slot="cover"
+          src="../assets/word1.jpg"
+          alt="example"
+          style="width:90px;height:90px;margin:10px auto -20px auto"
+        />
+        <a-dropdown class="set">
+          <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+            <a href="#"><a-icon type="setting"/></a>
+          </a>
+          <a-menu slot="overlay">
+            <a-menu-item>
+              <a @click="toCoop">协作</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a @click="toShare" ref="myshare">分享</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a @click="toDelete(item, i)">删除</a>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
+        <span>
+          <h3>{{ item.title }}</h3>
+        </span>
+      </a-card>
     </div>
   </div>
 </template>
-
-<<<<<<< HEAD
-<script>
-export default {
-  props: ["list"],
-=======
 
 <script>
 import { deleteData } from "@/api/webdelete";
 
 export default {
   props: ["list"],
-  methods:{
-    toShare(){
+  methods: {
+    toShare() {
       this.flag = !this.flag;
     },
-    toDoc(item){
+    toDoc(item) {
       this.$router.push({
-         path: '/document',
-         query:{
-               docid:item.docid,
-          }
-      })
+        path: "/document",
+        query: {
+          docid: item.docid,
+        },
+      });
     },
-    toDelete(item,i){
+    toDelete(item, i) {
       let params = new URLSearchParams();
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
@@ -73,7 +58,7 @@ export default {
       deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.list.splice(i,1);
+          this.list.splice(i, 1);
           this.$message.success("删除成功");
         } else if (res.code === "1") {
           this.$message.error("没有权限");
@@ -82,10 +67,8 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    }
+    },
   },
-
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
 };
 </script>
 <style lang="scss" scoped>
@@ -105,12 +88,12 @@ export default {
   width: 120px;
 }
 h3 {
-    font-size: 15px;
+  font-size: 15px;
 }
 .set {
-    position:absolute;
-    top:3px;
-    right:3px;
-    z-index:100;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 100;
 }
 </style>

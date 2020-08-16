@@ -4,14 +4,7 @@
       <div>
         <personNav></personNav>
         <siderNav></siderNav>
-<<<<<<< HEAD
         <div style="float: right; margin: 100px 80px 0 auto; width: 60px;"></div>
-=======
-        <div style="float: right; margin: 100px 80px 0 auto; width: 60px;">
-          <a-button type="default" @click="createDocument">新建文档</a-button>
-          <a-button type="default" @click="toModel">模版库</a-button>
-        </div>
->>>>>>> personWorkspace
       </div>
     </div>
     <router-view></router-view>
@@ -25,12 +18,12 @@ import siderNav from "@/components/siderNav";
 export default {
   components: {
     personNav,
-    siderNav
+    siderNav,
   },
   data() {
     return {
       docid: 0,
-      userid: parseInt(window.sessionStorage.getItem("UserId"))
+      userid: parseInt(window.sessionStorage.getItem("UserId")),
     };
   },
   methods: {
@@ -43,15 +36,15 @@ export default {
       params.append("userid", this.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.addDoc;
-      postData(url, params).then(res => {
+      postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.docid = res.data.docid;
           this.$router.push({
             path: "/document",
             query: {
-              docid: res.data.docid
-            }
+              docid: res.data.docid,
+            },
           });
           this.$message.success("保存成功");
         } else if (res.code === "1") {
@@ -63,8 +56,8 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

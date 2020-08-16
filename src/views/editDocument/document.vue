@@ -18,7 +18,7 @@
           <a-icon type="star" theme="outlined" v-else />
         </a-button>
       </div>
-      <div class="top" class="time">
+      <div class="top" :class="{time:!article.status}">
         <span >上次保存于{{ article.modifytime }}</span>
       </div>
       <div class="topRight">

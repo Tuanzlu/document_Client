@@ -1,16 +1,6 @@
 <template>
   <div class="cardList">
     <div class="singleCard" v-for="(item, i) in list" :key="i">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-      <a-card class="card">
-        <img slot="cover" src="../assets/bg.jpeg" alt="example" style="width:180px;height:150px;margin:10px auto -20px auto" />
-        <span
-          ><h3>{{ item.title }}</h3></span
-        >
-=======
->>>>>>> personWorkspace
       <a-card class="card" hoverable>
         <img
           slot="cover"
@@ -25,31 +15,16 @@
         </template>
         <a-card-meta style="margin:0px auto -10px auto" :title="item.title" @click="toSingleModel(item.templateid)">
         </a-card-meta>
-<<<<<<< HEAD
-=======
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
->>>>>>> personWorkspace
       </a-card>
     </div>
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
 import { getData } from "@/api/webget";
 import { deleteData } from "@/api/webdelete";
 export default {
   props: ["list"],
-=======
-<<<<<<< HEAD
-export default {
-  props: ["list"],
-=======
-import { getData } from "@/api/webget";
-import { deleteData } from "@/api/webdelete";
-export default {
-  props: ["list"],
->>>>>>> personWorkspace
   data() {
     return {
       modelList: [],
@@ -117,10 +92,6 @@ export default {
       this.modelList = newVal;
     },
   },
-<<<<<<< HEAD
-=======
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
->>>>>>> personWorkspace
 };
 </script>
 <style lang="scss" scoped>
@@ -131,29 +102,15 @@ export default {
 }
 .cardList {
   max-height: 500px;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
   overflow: scroll;
-=======
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
->>>>>>> personWorkspace
   width: 800px;
   margin: 30px 60px 30px 60px;
 }
 .card {
   text-align: center;
-<<<<<<< HEAD
   // height: 180px;
   width: 180px;
-=======
-<<<<<<< HEAD
-  height: 200px;
-  width: 200px;
-=======
   // height: 180px;
   width: 180px;
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
->>>>>>> personWorkspace
 }
 </style>
