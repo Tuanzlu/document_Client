@@ -105,7 +105,7 @@ export default {
             this.$router.push(webAdrs.substr(23));
           } else if (!webAdrs) {
             console.log("this way");
-            this.$router.push("/personIndex");
+            this.$router.push("/used");
           }
         } else if (res.code === "1" || res.code === "2") {
           this.$message.error("用户名或密码错误");
