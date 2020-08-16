@@ -144,7 +144,7 @@ export default {
       let params = new URLSearchParams();
       params.append("teamid", this.teamid);
       params.append("userid", userid);
-      let url = this.$urlPath.website.quitTeam;
+      let url = this.$urlPath.website.tickTeam;
       deleteData(url, params).then(res => {
         console.log(res.code);
         if (res.code === "0") {
