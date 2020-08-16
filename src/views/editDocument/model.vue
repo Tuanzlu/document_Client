@@ -121,6 +121,7 @@ export default {
   padding: 0 5px 0 5px;
 }
 .sideMenu {
+  z-index: 99;
   background-color: #f7f7f7;
   width: 230px;
   padding: 0;

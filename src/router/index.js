@@ -90,7 +90,7 @@ const routes = [
       {
         path: "/team/memberlist",
         component: () => import("../views/team/userList.vue"),
-      }
+      },
     ],
   },
   {
@@ -119,7 +119,15 @@ router.beforeEach((to, from, next) => {
   ) {
     return next();
   } else {
-    window.sessionStorage.setItem("WebAdrs", window.location.href);
+    if (
+      window.location.href.substr(23) != "/login" &&
+      window.location.href.substr(23) != "/" &&
+      window.location.href.substr(23) != "/register" &&
+      window.location.href.substr(23) != "/about" &&
+      window.location.href.substr(23) != "/index"
+    ) {
+      window.sessionStorage.setItem("WebAdrs", window.location.href);
+    }
     const tokenStr = window.sessionStorage.getItem("UserId");
     if (!tokenStr) return next("/login");
     next();
