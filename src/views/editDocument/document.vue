@@ -19,7 +19,11 @@
         </a-button>
       </div>
       <div class="top" :class="{ time: !article.isNew }">
+<<<<<<< HEAD
+        <span v-show="!article.isNew">上次保存于{{ article.modifytime }}</span>
+=======
         <span >上次保存于{{ article.modifytime }}</span>
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
       </div>
       <div class="topRight">
         <a-button class="btn">
@@ -238,7 +242,6 @@ import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
 import { deleteData } from "@/api/webdelete";
 import editor from "@/components/editorTool.vue";
-
 const userList = [
   {
     type: "只能阅读",

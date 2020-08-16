@@ -4,6 +4,14 @@ let Ip = {
 };
 let path = {
   website: {
+<<<<<<< HEAD
+    login: Ip.productIP + "login",
+    register: Ip.productIP + "register",
+    addDoc: Ip.productIP + "addDoc",
+    readDoc: Ip.productIP + "readDoc",
+    writeDoc: Ip.productIP + "writeDoc",
+    getUserInfo: Ip.productIP + "getUserInfo",
+=======
     //个人工作台
     login: Ip.productIP + "login",
     register: Ip.productIP + "register",
@@ -23,6 +31,7 @@ let path = {
     addDoc: Ip.productIP + "addDoc",
     readDoc: Ip.productIP + "readDoc",
     saveDoc: Ip.productIP + "saveDoc",
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
     getComment: Ip.productIP + "getCommentList",
     addComment: Ip.productIP + "addComment",
     deleteComment: Ip.productIP + "deleteComment",
@@ -33,6 +42,18 @@ let path = {
     collectDoc: Ip.productIP + "collectDoc",
     deleteCollection: Ip.productIP + "deleteCollection",
     updateSharePerms: Ip.productIP + "updateSharePerms",
+<<<<<<< HEAD
+    addTeamDoc: Ip.productIP + "addTeamDoc",
+    getMyJoinedTeam: Ip.productIP + "getMyJoinedTeam",
+    updateUserInfo: Ip.productIP + "updateUserInfo",
+    alterPassword: Ip.productIP + "alterPassword",
+    uploadUserImage: Ip.productIP + "uploadUserImage",
+    updateUserImgPath: Ip.productIP + "updateUserImgPath",
+    getRecentRead: Ip.productIP + "getRecentRead",
+    getCollected: Ip.productIP + "getCollected",
+    getMyDoc: Ip.productIP + "getMyDoc",
+    getMyDeleteDoc: Ip.productIP + "getMyDeleteDoc",
+=======
     replacePermsByUserid: Ip.productIP + "replacePermsByUserid",
     addTemplate: Ip.productIP + "addTemplate",
     getMyTemplateList: Ip.productIP + "getMyTemplateList",
@@ -54,6 +75,7 @@ let path = {
     inviteTeamMemberByUserId: Ip.productIP + "inviteTeamMemberByUserId",
     addTeamDoc: Ip.productIP + "addTeamDoc",
     deleteTeam: Ip.productIP + "deleteTeam",
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
   },
 };
 export default path;

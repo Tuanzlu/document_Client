@@ -25,6 +25,22 @@ export default {
       this.$emit("Edit", this.editorContent);
     },
   },
+<<<<<<< HEAD
+  // watch: {
+  //   isEdit: {
+  //     deep: true,
+  //     handler(val) {
+  //       this.editable = val;
+  //       if (this.editable != true) {
+  //         console.log("editabale:" + this.editable);
+  //         console.log("content:" + this.editorContent);
+  //         this.$emit("Edit", this.editorContent);
+  //       }
+  //     },
+  //   },
+  // },
+=======
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
   watch: {
     content: function(newVal) {
       this.editorContent = newVal;
@@ -35,6 +51,8 @@ export default {
     editor.customConfig.onchange = (html) => {
       this.editorContent = html;
     };
+<<<<<<< HEAD
+=======
     editor.customConfig.debug = true;
     // editor.customConfig.pasteFilterStyle = false;
     editor.customConfig.uploadImgShowBase64 = true;
@@ -50,6 +68,7 @@ export default {
       insert(objectURL);
     };
 
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       //设置延迟执行

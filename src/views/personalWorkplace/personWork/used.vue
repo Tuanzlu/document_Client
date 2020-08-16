@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
 <div>
   <div style="float: left;">
     <a-menu v-model="use" mode="horizontal" style="margin-left:250px;width:70%"> 
@@ -17,8 +18,23 @@
             <cards :list="info" v-if="info.length > 0"></cards>
           </div>
         </div>
+=======
+  <div style="float:right;width:70%">
+    <a-menu v-model="current" mode="horizontal" style="margin-left:20px;">
+      <a-menu-item key="use">
+        <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
+      </a-menu-item>
+      <a-menu-item key="own">
+        <router-link to="/own"><a-icon type="plus" />我创建的</router-link>
+      </a-menu-item>
+      <a-menu-item key="fav">
+        <router-link to="/favorite"><a-icon type="star" />我的收藏</router-link>
+>>>>>>> 4fe8bfb9903c54cff36a9f177242bf6fcfda7796
       </a-menu-item>
     </a-menu>
+    <div class="btn_box">
+      <cards :list="info" v-if="info.length > 0"></cards>
+    </div>
   </div>
   <siderButton></siderButton>
  </div>
@@ -45,9 +61,9 @@ export default {
       params.append("userid", userId);
       let url = this.$urlPath.website.getRecentRead;
       getData(url, params).then((res) => {
-        // console.log(res.data.readlist);
+        // console.log(res.code);
         if (res.code === "0") {
-          //console.log(res.data);
+          console.log(res.data);
           for (let i = 0; i < res.data.readlist.length; i++) {
             this.info.push(res.data.readlist[i]);
           }

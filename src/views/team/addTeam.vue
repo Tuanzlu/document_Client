@@ -1,37 +1,25 @@
 <template>
-  <div style="float:right;width:70%">
-    <h2>创建新的团队</h2>
-    <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
-      <a-form-item label="teamnname">
-        <a-input
-          v-model="teamname"
-          v-decorator="['teamname', { rules: [{ required: true, message: 'Please input your teamname!' }] }]"
-        />
-      </a-form-item>
-      <a-form-item label="intro">
-        <a-textarea
-          v-model="intro"
-          v-decorator="['intro', { rules: [{ required: true, message: 'Please input your intro!' }] }]"
-        />
-      </a-form-item>
-      <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-        <a-button type="primary" html-type="submit">Submit</a-button>
-      </a-form-item>
-    </a-form>
-  </div>
+  <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
+    <a-form-item label="团队名">
+      <a-input v-decorator="['note', { rules: [{ required: true, message: '请输入内容！' }] }]" />
+    </a-form-item>
+    <a-form-item label="团队介绍">
+      <a-input v-decorator="['note', { rules: [{ required: true, message: '请输入内容！' }] }]" />
+    </a-form-item>
+    <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+      <a-button type="primary" html-type="submit">
+        创 建
+      </a-button>
+    </a-form-item>
+  </a-form>
 </template>
 
 <script>
-import { postData } from "@/api/webpost";
-
 export default {
   data() {
     return {
       formLayout: "horizontal",
-      form: this.$form.createForm(this, { name: "addtime" }),
-      teamname: "name",
-      intro: "intro",
-      teamid: 0,
+      form: this.$form.createForm(this, { name: "coordinated" }),
     };
   },
   methods: {
