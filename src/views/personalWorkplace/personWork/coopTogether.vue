@@ -1,19 +1,13 @@
 <template>
   <div style="float:right;width:70%">
-    <a-menu v-model="current" mode="horizontal" style="margin-left:20px;">
-      <a-menu-item key="use">
-        <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
-      </a-menu-item>
-      <a-menu-item key="own">
-        <router-link to="/own"><a-icon type="plus" />我创建的</router-link>
-      </a-menu-item>
-      <a-menu-item key="fav">
-        <router-link to="/favorite"><a-icon type="star" />我的收藏</router-link>
-      </a-menu-item>
+    <a-menu v-model="add" mode="horizontal">
+      <a-menu-item key="mail"><router-link to="/letter"> <a-icon type="user" />我发起的协作文档 </router-link></a-menu-item>
+      <a-menu-item key="add"> <router-link to="/CoopTo"><a-icon type="usergroup-add" />
+      我参与的协作文档 </router-link></a-menu-item>
     </a-menu>
-    <div class="btn_box">
-      <cards :list="info" v-if="info.length > 0"></cards>
-    </div>
+        <div class="btn_box">
+          <cards :list="info"  v-if="info.length > 0"></cards>
+        </div>
   </div>
 </template>
 
@@ -35,13 +29,13 @@ export default {
       let params = new URLSearchParams();
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
-      let url = this.$urlPath.website.getRecentRead;
+      let url = this.$urlPath.website.getOthersCooperateDoc;
       getData(url, params).then((res) => {
-        // console.log(res.code);
+        // console.log(res.data.mydeletelist);
         if (res.code === "0") {
-          console.log(res.data);
-          for (let i = 0; i < res.data.readlist.length; i++) {
-            this.info.push(res.data.readlist[i]);
+          //console.log(res.data);
+          for (let i = 0; i < res.data.Otherscolist.length; i++) {
+            this.info.push(res.data.Otherscolist[i]);
           }
           console.log(this.info);
           this.$refs.list = this.info;

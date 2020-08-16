@@ -1,81 +1,114 @@
 <template>
-  <div style="float:right;width:70%">
-      <h3>团队名</h3>
-          <router-link to="/manage/userList">
-          <a-icon type="team" /> 协作！（协作者列表）
-          </router-link>
-          <a-card title="文件夹" style="width:100%">
-          <!--<a slot="extra" href="#">新建文档</a>-->
-          <a-table :columns="columns" :data-source="data">
-           <span slot="action">
-             <router-link to="/document">打开</router-link>
-             <a-divider type="vertical" />
-             <a>删除</a>
-             </span>
-          </a-table>
-        </a-card>
+  <div style="margin-left: 300px;" class="folder">
+    <h2>{{ teaminfo.teamname }} 的团队空间</h2>
+    <p>{{ teaminfo.intro }}</p>
+    <p>
+      <router-link :to="{ path: '/team/memberlist', query: { teamid: this.teamid } }">
+        <a-icon type="team" />成员列表
+      </router-link>
+    </p>
+    <h3>团队文档</h3>
+    <a-button type="primary" ghost @click="addTeamDoc">创建团队文档</a-button>
+    <a-divider></a-divider>
+    <modelCard :list="teamdoclist"></modelCard>
   </div>
 </template>
 
 <script>
-const columns = [
-  {
-    dataIndex: 'name',
-    key: 'name',
-    title: '文档名',
-  },
-  /*{
-    title: 'ID',
-    dataIndex: 'id',
-    key: 'id',
-  },
-  {
-    title: 'tags',
-    key: 'tags',
-    dataIndex: 'tags',
-  },*/
-  {
-    title: '操作',
-    key: 'action',
-    scopedSlots: { customRender: 'action' },
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    id: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    id: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    id: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
+import { getData } from "@/api/webget";
+import { postData } from "@/api/webpost";
+import modelCard from "@/components/modelCard.vue";
 
 export default {
+  components: {
+    modelCard,
+  },
   data() {
     return {
-      data,
-      columns,
+      teamid: 0,
+      teaminfo: {},
+      teamdoclist: [],
     };
+  },
+  methods: {
+    getTeamInfo() {
+      let params = new URLSearchParams();
+      params.append("teamid", this.teamid);
+      let url = this.$urlPath.website.getTeamInfo;
+      getData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          //this.$message.success("查询成功");
+          this.teaminfo = res.data.teaminfo;
+        } else if (res.code === "1") {
+          this.$message.error("未登录");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    getTeamDocList() {
+      let params = new URLSearchParams();
+      params.append("teamid", this.teamid);
+      let url = this.$urlPath.website.getTeamDocList;
+      getData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          //this.$message.success("查询成功");
+          this.teamdoclist = res.data.teamdoclist;
+        } else if (res.code === "1") {
+          this.$message.error("未登录");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    addTeamDoc() {
+      let params = new URLSearchParams();
+      params.append("userid", parseInt(window.sessionStorage.getItem("UserId")));
+      params.append("teamid", this.teamid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.addTeamDoc;
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.$router.push({
+            path: "/document",
+            query: {
+              docid: res.data.docid,
+            },
+          });
+          this.$message.success("保存成功");
+        } else if (res.code === "1") {
+          this.$message.error("用户未登录");
+        } else if (res.code === "2") {
+          this.$message.error("保存失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+  },
+  created() {
+    this.teamid = this.$route.query.teamid;
+    this.getTeamInfo();
+    this.getTeamDocList();
+  },
+  watch: {
+    $route() {
+      this.teamid = this.$route.query.teamid;
+      this.getTeamInfo();
+      this.getTeamDocList();
+    },
   },
 };
 </script>
 
-
 <style>
-
+.folder {
+  width: 1000px;
+}
 </style>

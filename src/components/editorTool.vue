@@ -25,6 +25,7 @@ export default {
       this.$emit("Edit", this.editorContent);
     },
   },
+<<<<<<< HEAD
   // watch: {
   //   isEdit: {
   //     deep: true,
@@ -38,6 +39,8 @@ export default {
   //     },
   //   },
   // },
+=======
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
   watch: {
     content: function(newVal) {
       this.editorContent = newVal;
@@ -48,6 +51,24 @@ export default {
     editor.customConfig.onchange = (html) => {
       this.editorContent = html;
     };
+<<<<<<< HEAD
+=======
+    editor.customConfig.debug = true;
+    // editor.customConfig.pasteFilterStyle = false;
+    editor.customConfig.uploadImgShowBase64 = true;
+    editor.customConfig.pasteIgnoreImg = true;
+    // 配置服务器端地址 upload:上传图片地址
+    editor.customConfig.uploadImgServer = "http://123.56.145.79:8090/uploadUserImage";
+    editor.customConfig.customUploadImg = function(files, insert) {
+      // files 是 input 中选中的文件列表
+      // insert 是获取图片 url 后，插入到编辑器的方法
+      console.log(files, insert);
+      var objectURL = URL.createObjectURL(files[0]);
+      // 上传代码返回结果之后，将图片插入到编辑器中
+      insert(objectURL);
+    };
+
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       //设置延迟执行

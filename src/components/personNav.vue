@@ -24,7 +24,11 @@
       <div class="topRight">
         <a-dropdown>
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+<<<<<<< HEAD
             <a-icon type="bell" style="font-size:25px;margin-top:3px;" />
+=======
+            <a-icon type="bell" style="font-size: 25px; margin-top: 3px;" />
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
@@ -37,7 +41,11 @@
         </a-dropdown>
       </div>
       <div class="topRight">
+<<<<<<< HEAD
         <a-input-search placeholder="搜索文件" style="width: 200px" @search="onSearch" />
+=======
+        <a-input-search placeholder="搜索文件" style="width: 200px;" @search="onSearch" />
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
       </div>
     </div>
   </div>
@@ -45,7 +53,11 @@
 
 <script>
 import { getData } from "@/api/webget";
+<<<<<<< HEAD
 import showdPhoto from '@/components/showPhoto';
+=======
+import showdPhoto from "@/components/showPhoto";
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
 export default {
   components: {
     showdPhoto,
@@ -56,12 +68,21 @@ export default {
     };
   },
   methods: {
+<<<<<<< HEAD
     getPhoto(){
       let params = new URLSearchParams();
       let userId = parseInt(window.sessionStorage.getItem('UserId'));
       params.append("userid", userId);
       let url = this.$urlPath.website.getUserInfo;
       getData(url,params).then((res) => {
+=======
+    getPhoto() {
+      let params = new URLSearchParams();
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
+      params.append("userid", userId);
+      let url = this.$urlPath.website.getUserInfo;
+      getData(url, params).then((res) => {
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
         //console.log(1111111111);
         if (res.code === "0") {
           this.imgUrl = res.data.userimgpath;
@@ -73,12 +94,26 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
+<<<<<<< HEAD
     }
   },
   mounted(){
     this.getPhoto();
   }
 }
+=======
+    },
+    toIndex() {
+      if (window.location.href.substr(23) != "/personIndex") {
+        this.$router.replace("/personIndex");
+      }
+    },
+  },
+  mounted() {
+    this.getPhoto();
+  },
+};
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
 </script>
 
 <style scoped>
@@ -86,6 +121,10 @@ export default {
   height: 58px;
 }
 .top {
+<<<<<<< HEAD
+=======
+  cursor: pointer;
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
   float: left;
   margin: 15px 10px 0 10px;
 }
