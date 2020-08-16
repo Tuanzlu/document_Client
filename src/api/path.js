@@ -47,9 +47,18 @@ let path = {
     getTeamMemberList: Ip.productIP + "getTeamMemberList",
     alterMemberPerms: Ip.productIP + "alterMemberPerms",
     quitTeam: Ip.productIP + "quitTeam",
+    tickTeam: Ip.productIP + "tickTeam",
     inviteTeamMemberByUserId: Ip.productIP + "inviteTeamMemberByUserId",
     addTeamDoc: Ip.productIP + "addTeamDoc",
     deleteTeam: Ip.productIP + "deleteTeam",
+
+    //通知系统
+    getReadNoticeByUser: Ip.productIP + "getReadNoticeByUser",
+    getUnreadNoticeByUser: Ip.productIP + "getUnreadNoticeByUser",
+    readNotice: Ip.productIP + "readNotice",
+    deleteNotice: Ip.productIP + "deleteNotice",
+    agreeTeamInvitation: Ip.productIP + "agreeTeamInvitation",
+    disagreeTeamInvitation: Ip.productIP + "disagreeTeamInvitation",
   },
 };
 export default path;
