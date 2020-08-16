@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="cardList">
     <div class="singleCard" v-for="(item, i) in list" :key="i" >
         <a-card hoverable class="card" @click="toDoc(item,i)" >
@@ -25,6 +26,7 @@
         </a-card>
     </div>
   </div>
+</div>
 </template>
 
 
