@@ -4,7 +4,6 @@
       <div>
         <personNav></personNav>
         <siderNav></siderNav>
-        <div style="float: right; margin: 100px 80px 0 auto; width: 60px;"></div>
       </div>
     </div>
     <router-view></router-view>

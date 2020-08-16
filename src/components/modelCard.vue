@@ -102,14 +102,11 @@ export default {
 }
 .cardList {
   max-height: 500px;
-  overflow: scroll;
   width: 800px;
   margin: 30px 60px 30px 60px;
 }
 .card {
   text-align: center;
-  // height: 180px;
-  width: 180px;
   // height: 180px;
   width: 180px;
 }

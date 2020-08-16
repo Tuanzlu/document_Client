@@ -1,22 +1,26 @@
 <template>
-  <div style="float:right;width:70%">
-    <a-menu v-model="mail" mode="horizontal">
-      <a-menu-item key="mail"><router-link to="/letter"> <a-icon type="user" />我发起的协作文档 </router-link></a-menu-item>
-      <a-menu-item key="add"> <router-link to="/CoopTo"><a-icon type="usergroup-add" />
-      我参与的协作文档 </router-link></a-menu-item>
-    </a-menu>
-        <div class="btn_box">
-          <cards :list="info"  v-if="info.length > 0"></cards>
-        </div>
-  </div>
+<div>
+    <div style="float: left;">
+      <a-menu v-model="mail" mode="horizontal" style="margin-left:250px;width:70%"> 
+        <a-menu-item key="mail"><router-link to="/letter"> <a-icon type="user" />我发起的协作文档 </router-link></a-menu-item>
+        <a-menu-item key="add"> <router-link to="/CoopTo"><a-icon type="usergroup-add" />
+        我参与的协作文档 </router-link></a-menu-item>
+      </a-menu>
+      <div class="btn_box" style=" margin-left:200px;width:70%;margin-top:-20px" >
+        <cards :list="info"  v-if="info.length > 0"></cards>
+      </div>
+    </div>
+    <siderButton></siderButton>
+ </div>
 </template>
 
 <script>
 import cards from "@/components/wordCard";
+import siderButton from "@/components/siderButton";
 import { getData } from "@/api/webget";
 export default {
   components: {
-    cards,
+    cards,siderButton
   },
   data() {
     return {

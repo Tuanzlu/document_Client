@@ -85,10 +85,6 @@ const routes = [
         component: () => import("../views/personalWorkplace/personWork/table.vue"),
       },
       {
-        path: "/team",
-        component: () => import("../views/team/folder.vue"),
-      },
-      {
         path: "/CoopTo",
         component: () => import("../views/personalWorkplace/personWork/coopTogether.vue"),
       },
@@ -115,28 +111,6 @@ const routes = [
     path: "/help",
     name: "Help",
     component: () => import("../views/help.vue"),
-  },
-  {
-    path: "/manage",
-    name: "Manage",
-    component: () => import("../views/team/manage.vue"),
-    children: [
-      {
-        path: "/manage/userList",
-        name: "UserList",
-        component: () => import("../views/team/userList.vue"),
-      },
-      {
-        path: "/manage/teamList",
-        name: "TeamList",
-        component: () => import("../views/team/teamList.vue"),
-      },
-      {
-        path: "/manage/addTeam",
-        name: "AddTeam",
-        component: () => import("../views/team/addTeam.vue"),
-      },
-    ],
   },
 ];
 
