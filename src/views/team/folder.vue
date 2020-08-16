@@ -22,13 +22,13 @@ import wordCard from "@/components/wordCard.vue";
 
 export default {
   components: {
-    wordCard
+    wordCard,
   },
   data() {
     return {
       teamid: 0,
       teaminfo: {},
-      teamdoclist: []
+      teamdoclist: [],
     };
   },
   methods: {
@@ -36,7 +36,7 @@ export default {
       let params = new URLSearchParams();
       params.append("teamid", this.teamid);
       let url = this.$urlPath.website.getTeamInfo;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           //this.$message.success("查询成功");
@@ -53,7 +53,7 @@ export default {
       let params = new URLSearchParams();
       params.append("teamid", this.teamid);
       let url = this.$urlPath.website.getTeamDocList;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           //this.$message.success("查询成功");
@@ -68,21 +68,18 @@ export default {
     },
     addTeamDoc() {
       let params = new URLSearchParams();
-      params.append(
-        "userid",
-        parseInt(window.sessionStorage.getItem("UserId"))
-      );
+      params.append("userid", parseInt(window.sessionStorage.getItem("UserId")));
       params.append("teamid", this.teamid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.addTeamDoc;
-      postData(url, params).then(res => {
+      postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$router.push({
             path: "/document",
             query: {
-              docid: res.data.docid
-            }
+              docid: res.data.docid,
+            },
           });
           this.$message.success("保存成功");
         } else if (res.code === "1") {
@@ -94,7 +91,7 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    }
+    },
   },
   created() {
     this.teamid = this.$route.query.teamid;
@@ -106,8 +103,8 @@ export default {
       this.teamid = this.$route.query.teamid;
       this.getTeamInfo();
       this.getTeamDocList();
-    }
-  }
+    },
+  },
 };
 </script>
 

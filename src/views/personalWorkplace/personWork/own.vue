@@ -1,20 +1,19 @@
 <template>
   <div style="float:right;width:70%">
-      <a-menu v-model="current" mode="horizontal" style="margin-left:20px">
-        <a-menu-item key="use"> 
+    <a-menu v-model="current" mode="horizontal" style="margin-left:20px">
+      <a-menu-item key="use">
         <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
-        </a-menu-item>
-        <a-menu-item key="own" > 
+      </a-menu-item>
+      <a-menu-item key="own">
         <router-link to="/own"><a-icon type="plus" />我创建的</router-link>
-        </a-menu-item>
-        <a-menu-item key="fav" > 
+      </a-menu-item>
+      <a-menu-item key="fav">
         <router-link to="/favorite"><a-icon type="star" />我的收藏</router-link>
-        </a-menu-item>
-      </a-menu>
-      <div class="btn_box">
-      <cards :list="info" v-if="info.length>0"></cards>
-      
-      </div>
+      </a-menu-item>
+    </a-menu>
+    <div class="btn_box">
+      <cards :list="info" v-if="info.length > 0"></cards>
+    </div>
   </div>
 </template>
 
@@ -27,21 +26,21 @@ export default {
   },
   data() {
     return {
-      info: []
+      info: [],
     };
   },
-  props: ['list'],
+  props: ["list"],
   methods: {
     getInfo() {
       let params = new URLSearchParams();
-      let userId = parseInt(window.sessionStorage.getItem('UserId'));
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getMyDoc;
-      getData(url,params).then((res) => {
-       // console.log(res.code);
+      getData(url, params).then((res) => {
+        // console.log(res.code);
         if (res.code === "0") {
           console.log(res.data);
-          for(let i=0;i<res.data.readlist.length;i++){
+          for (let i = 0; i < res.data.readlist.length; i++) {
             this.info.push(res.data.readlist[i]);
           }
           console.log(this.info);
@@ -58,14 +57,13 @@ export default {
   created() {
     this.getInfo();
   },
-}
+};
 </script>
 
 <style>
-.btn_box{
-    /*background-color: #7f7f7f;*/
-    width: 740px;
-    margin-left: 20px;
+.btn_box {
+  /*background-color: #7f7f7f;*/
+  width: 740px;
+  margin-left: 20px;
 }
-
 </style>

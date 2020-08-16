@@ -1,11 +1,7 @@
 <template>
   <div class="cardList">
     <div class="singleCard" v-for="(item, i) in list" :key="i" >
-<<<<<<< HEAD
-        <a-card hoverable class="card">
-=======
         <a-card hoverable class="card" @click="toDoc(item,i)" >
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
             <img slot="cover" src="../assets/word1.jpg" alt="example" style="width:90px;height:90px;margin:10px auto -20px auto" />
             <a-dropdown class="set">
                 <a class="ant-dropdown-link" @click="e => e.preventDefault()">
@@ -13,23 +9,10 @@
                 </a>
                 <a-menu slot="overlay">
                 <a-menu-item>
-<<<<<<< HEAD
-                    <a href="#">协作</a>
+                    <a @click="toReturn(item,i)">恢复文档</a>
                 </a-menu-item>
                 <a-menu-item>
-                    <a href="#">分享</a>
-                </a-menu-item>
-                <a-menu-item>
-                    <a href="#">删除</a>
-=======
-                    <a @click="toCoop">协作</a>
-                </a-menu-item>
-                <a-menu-item>
-                    <a @click="toShare" ref="myshare">分享</a>
-                </a-menu-item>
-                <a-menu-item>
-                    <a @click="toDelete(item,i)">删除</a>
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+                    <a @click="toDelete(item,i)">彻底删除</a>
                 </a-menu-item>
                 </a-menu>
             </a-dropdown>
@@ -41,21 +24,13 @@
   </div>
 </template>
 
-<<<<<<< HEAD
-<script>
-export default {
-  props: ["list"],
-=======
 
 <script>
 import { deleteData } from "@/api/webdelete";
-
+import { putData } from "@/api/webput";
 export default {
   props: ["list"],
   methods:{
-    toShare(){
-      this.flag = !this.flag;
-    },
     toDoc(item){
       this.$router.push({
          path: '/document',
@@ -64,12 +39,32 @@ export default {
           }
       })
     },
+    toReturn(item,i){
+      let params = new URLSearchParams();
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
+      params.append("userid", userId);
+      params.append("docid", item.docid);
+      let url = this.$urlPath.website.recoverDoc;
+      //console.log(111111111111111111);
+      putData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.list.splice(i,1);
+          this.$message.success("恢复成功");
+        } else if (res.code === "1") {
+          this.$message.error("没有权限");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
     toDelete(item,i){
       let params = new URLSearchParams();
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       params.append("docid", item.docid);
-      let url = this.$urlPath.website.deleteDoc;
+      let url = this.$urlPath.website.deleteDocTotally;
       deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
@@ -85,7 +80,6 @@ export default {
     }
   },
 
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
 };
 </script>
 <style lang="scss" scoped>

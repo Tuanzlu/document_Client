@@ -26,6 +26,7 @@
       <div class="topRight">
         <a-dropdown>
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+<<<<<<< HEAD
             <div>
               <a-badge :count="this.unreadnoticelist.length" title="新的消息">
                 <a-icon type="bell" style="font-size: 25px; margin-top: 3px;" @click="showDrawer" />
@@ -122,11 +123,26 @@
                 </a-tabs>
               </a-drawer>
             </div>
+=======
+<<<<<<< HEAD
+            <a-icon type="bell" style="font-size:25px;margin-top:3px;" />
+=======
+            <a-icon type="bell" style="font-size: 25px; margin-top: 3px;" />
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
           </a>
         </a-dropdown>
       </div>
       <div class="topRight">
+<<<<<<< HEAD
         <a-input-search placeholder="搜索文件" style="width: 200px;" @search="onSearch" />
+=======
+<<<<<<< HEAD
+        <a-input-search placeholder="搜索文件" style="width: 200px" @search="onSearch" />
+=======
+        <a-input-search placeholder="搜索文件" style="width: 200px;" @search="onSearch" />
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
       </div>
     </div>
   </div>
@@ -134,9 +150,17 @@
 
 <script>
 import { getData } from "@/api/webget";
+<<<<<<< HEAD
 import { putData } from "@/api/webput";
 import { deleteData } from "@/api/webdelete";
 import showdPhoto from "@/components/showPhoto";
+=======
+<<<<<<< HEAD
+import showdPhoto from '@/components/showPhoto';
+=======
+import showdPhoto from "@/components/showPhoto";
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
 export default {
   components: {
     showdPhoto
@@ -150,6 +174,7 @@ export default {
     };
   },
   methods: {
+<<<<<<< HEAD
     afterVisibleChange(val) {
       console.log("visible", val);
     },
@@ -160,11 +185,27 @@ export default {
       this.visible = false;
     },
     getPhoto() {
+=======
+<<<<<<< HEAD
+    getPhoto(){
+>>>>>>> personWorkspace
       let params = new URLSearchParams();
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getUserInfo;
+<<<<<<< HEAD
       getData(url, params).then(res => {
+=======
+      getData(url,params).then((res) => {
+=======
+    getPhoto() {
+      let params = new URLSearchParams();
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
+      params.append("userid", userId);
+      let url = this.$urlPath.website.getUserInfo;
+      getData(url, params).then((res) => {
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
         //console.log(1111111111);
         if (res.code === "0") {
           this.imgUrl = res.data.userimgpath;
@@ -176,6 +217,7 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
+<<<<<<< HEAD
     },
     toIndex() {
       if (window.location.href.substr(23) != "/personIndex") {
@@ -299,6 +341,9 @@ export default {
           docid: docid
         }
       });
+=======
+<<<<<<< HEAD
+>>>>>>> personWorkspace
     }
   },
   mounted() {
@@ -306,7 +351,24 @@ export default {
     this.getUnreadNotice();
     this.getReadNotice();
   }
+<<<<<<< HEAD
 };
+=======
+}
+=======
+    },
+    toIndex() {
+      if (window.location.href.substr(23) != "/personIndex") {
+        this.$router.replace("/personIndex");
+      }
+    },
+  },
+  mounted() {
+    this.getPhoto();
+  },
+};
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
 </script>
 
 <style scoped>
@@ -314,7 +376,14 @@ export default {
   height: 58px;
 }
 .top {
+<<<<<<< HEAD
   cursor: pointer;
+=======
+<<<<<<< HEAD
+=======
+  cursor: pointer;
+>>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
+>>>>>>> personWorkspace
   float: left;
   margin: 15px 10px 0 10px;
 }
