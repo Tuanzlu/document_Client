@@ -5,7 +5,7 @@
         金刚石文档
       </div>
       <p class="intro">
-        在线编辑
+        在线编辑 协作无间
       </p>
       <a-button type="default" class="startBtn" @click="toLogin">开始使用</a-button>
     </div>
