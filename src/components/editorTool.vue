@@ -25,25 +25,6 @@ export default {
       this.$emit("Edit", this.editorContent);
     },
   },
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-  // watch: {
-  //   isEdit: {
-  //     deep: true,
-  //     handler(val) {
-  //       this.editable = val;
-  //       if (this.editable != true) {
-  //         console.log("editabale:" + this.editable);
-  //         console.log("content:" + this.editorContent);
-  //         this.$emit("Edit", this.editorContent);
-  //       }
-  //     },
-  //   },
-  // },
-=======
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
->>>>>>> personWorkspace
   watch: {
     content: function(newVal) {
       this.editorContent = newVal;
@@ -54,11 +35,6 @@ export default {
     editor.customConfig.onchange = (html) => {
       this.editorContent = html;
     };
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> personWorkspace
     editor.customConfig.debug = true;
     // editor.customConfig.pasteFilterStyle = false;
     editor.customConfig.uploadImgShowBase64 = true;
@@ -73,11 +49,6 @@ export default {
       // 上传代码返回结果之后，将图片插入到编辑器中
       insert(objectURL);
     };
-
-<<<<<<< HEAD
-=======
->>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
->>>>>>> personWorkspace
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       //设置延迟执行
