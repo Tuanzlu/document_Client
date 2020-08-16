@@ -1,28 +1,10 @@
 <template>
-<<<<<<< HEAD
-<div>
-  <div style="float: left;">
-    <a-menu v-model="use" mode="horizontal" style="margin-left:250px;width:70%"> 
-=======
   <div style="float:right;width:70%">
-    <<<<<<< HEAD
-    <a-menu v-model="current" mode="horizontal" style="margin-left:20px">
-      <a-menu-item key="use">
-        <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
-      </a-menu-item>
-      <a-menu-item key="own">
-        <router-link to="/own"><a-icon type="plus" />我创建的</router-link>
-      </a-menu-item>
-      <a-menu-item key="fav">
-        <router-link to="/favorite"><a-icon type="star" />我的收藏</router-link>
-      </a-menu-item>
-    </a-menu>
+    <div>
     <div class="btn_box">
       <cards :list="info" v-if="info.length > 0"></cards>
     </div>
-    =======
     <a-menu v-model="fav" mode="horizontal" style="margin-left:20px">
->>>>>>> 4fe8bfb9903c54cff36a9f177242bf6fcfda7796
       <a-menu-item key="use">
             <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
           </a-menu-item>
@@ -40,13 +22,9 @@
         </div>
       </a-menu-item>
     </a-menu>
-<<<<<<< HEAD
-=======
     <div class="btn_box">
       <cards :list="info" v-if="info.length > 0"></cards>
     </div>
-    >>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
->>>>>>> 4fe8bfb9903c54cff36a9f177242bf6fcfda7796
   </div>
   <siderButton></siderButton>
  </div>
@@ -58,7 +36,8 @@ import siderButton from "@/components/siderButton";
 import { getData } from "@/api/webget";
 export default {
   components: {
-    cards,siderButton
+    cards,
+    siderButton
   },
   data() {
     return {

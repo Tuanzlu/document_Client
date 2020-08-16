@@ -1,21 +1,4 @@
 <template>
-<<<<<<< HEAD
-<div>
-    <div style="float: left;">
-      <a-menu v-model="mail" mode="horizontal" style="margin-left:250px;width:70%"> 
-        <a-menu-item key="mail"> <a-icon type="delete" />回收站 </a-menu-item>
-      </a-menu>
-      <div class="btn_box" style=" margin-left:200px;width:70%;margin-top:-20px" >
-            <cards :list="info"  v-if="info.length > 0"></cards>
-      </div>
-    </div>
-    <siderButton></siderButton>
- </div>
- </template>
-<script>
-import cards from "@/components/rubishCard";
-import siderButton from "@/components/siderButton";
-=======
   <div style="float:right;width:70%">
     <a-menu v-model="current" mode="horizontal" style="margin-left:20px;">
       <a-menu-item key="use">
@@ -36,11 +19,10 @@ import siderButton from "@/components/siderButton";
 
 <script>
 import cards from "@/components/wordCard";
->>>>>>> 4fe8bfb9903c54cff36a9f177242bf6fcfda7796
 import { getData } from "@/api/webget";
 export default {
   components: {
-    cards,siderButton
+    cards,
   },
   data() {
     return {

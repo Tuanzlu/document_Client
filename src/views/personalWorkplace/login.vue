@@ -22,11 +22,7 @@
             ]"
             placeholder="Username"
           >
-            <<<<<<< HEAD
             <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
-            =======
-            <a-icon slot="prefix" type="user" style="color: rgba(0, 0, 0, 0.25);" />
-            >>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
           </a-input>
         </a-form-item>
         <a-form-item>
@@ -43,11 +39,7 @@
             placeholder="Password"
             type="password"
           >
-            <<<<<<< HEAD
             <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-            =======
-            <a-icon slot="prefix" type="lock" style="color: rgba(0, 0, 0, 0.25);" />
-            >>>>>>> 8876c10619cc86aec0a53236e585ce5bfdfc512c
           </a-input>
         </a-form-item>
         <a-form-model-item>

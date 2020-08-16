@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { postData } from "@/api/webpost";
 export default {
   data() {
     return {
