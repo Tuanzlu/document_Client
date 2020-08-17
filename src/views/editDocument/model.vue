@@ -31,9 +31,6 @@
 
 <script>
 import { getData } from "@/api/webget";
-// import { putData } from "@/api/webput";
-import { postData } from "@/api/webpost";
-// import { deleteData } from "@/api/webdelete";
 import modelCard from "@/components/modelCard.vue";
 export default {
   components: {
@@ -78,7 +75,7 @@ export default {
       params.append("teamid", this.teamid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.getTeamTemplateList;
-      postData(url, params).then((res) => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.ModelList = res.data.teamTemplateList;
@@ -179,5 +176,8 @@ export default {
   // border: 1px solid blue;
   width: 170px;
   height: 500px;
+}
+.Model {
+  margin-left: 80px;
 }
 </style>
