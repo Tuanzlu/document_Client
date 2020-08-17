@@ -517,7 +517,17 @@ export default {
         }
       } else if (key == 3) {
         this.deleteDocument();
-        this.$router.go(-1);
+        if(this.article.teamid==-1){
+          this.$router.push("/used");
+        }else{
+          this.$router.push({
+            path:"/team",
+            query:{
+              teamid:this.article.teamid
+            }
+          });
+        }
+        
       }
       console.log(`Click on item ${key}`);
     },

@@ -126,6 +126,7 @@ router.beforeEach((to, from, next) => {
     to.path === "/about" ||
     to.path === "/index"
   ) {
+    console.log("2222");
     return next();
   } else {
     console.log("111111");
