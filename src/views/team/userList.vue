@@ -253,7 +253,7 @@ export default {
       getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.searchUser = [res.data.user];
+          this.searchUser = res.data.userList;
           console.log("查询成功");
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
