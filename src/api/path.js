@@ -56,6 +56,7 @@ let path = {
     getTeamTemplateList: Ip.productIP + "getTeamTemplateList",
     addTeamTemplate: Ip.productIP + "addTeamTemplate",
     addTeamDocByTemplate: Ip.productIP + "addTeamDocByTemplate",
+    updateTeam: Ip.productIP + "updateTeam",
     //通知系统
     getReadNoticeByUser: Ip.productIP + "getReadNoticeByUser",
     getUnreadNoticeByUser: Ip.productIP + "getUnreadNoticeByUser",
