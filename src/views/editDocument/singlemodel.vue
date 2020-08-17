@@ -12,20 +12,19 @@
     <div class="body">
       <div class="sideMenu">
         <div class="menuItem">
-          <!-- <div class="text">
-            金刚石模版
+          <div class="text" v-if="teamid != -1">
+            团队模版
           </div>
-          <a-divider></a-divider> -->
-          <div class="text">
+          <div class="text" v-else>
             我的模版
           </div>
         </div>
       </div>
       <div class="main">
         <div class="model">
-          <div class="add-btn"><a-button type="default" @click="addDocByTemplate">使用此模版</a-button></div>
+          <div class="add-btn"><a-button type="default" @click="addDoc">使用此模版</a-button></div>
           <div class="title-bar">{{ template.title }}11</div>
-          <div class="article-content">{{ template.content }}</div>
+          <div class="article-content" v-html="template.content"></div>
         </div>
       </div>
     </div>
@@ -35,31 +34,42 @@
 <script>
 import { getData } from "@/api/webget";
 // import { putData } from "@/api/webput";
-// import { postData } from "@/api/webpost";
+import { postData } from "@/api/webpost";
 // import { deleteData } from "@/api/webdelete";
 export default {
   data() {
     return {
+      userid: parseInt(window.sessionStorage.getItem("UserId")),
       template: {
         templateid: this.$route.query.templateid,
         title: "",
         content: "",
       },
-      isMine: false,
+      teamid: -1,
     };
   },
   created() {
+    this.templateid = this.$route.query.templateid;
+    this.teamid = this.$route.query.teamid;
+    console.log("test" + this.teamid);
     this.getTemplateByTemplateid();
     console.log(this.template);
   },
   methods: {
+    addDoc() {
+      if (this.teamid == -1) {
+        this.addDocByTemplate();
+      } else {
+        this.addTeamDocByTemplate();
+      }
+    },
     toIndex() {
       this.$router.push("/personIndex");
     },
     //查看模版
     getTemplateByTemplateid() {
       let params = new URLSearchParams();
-      params.append("templateid", this.$route.query.templateid);
+      params.append("templateid", this.templateid);
       //调用封装的puttData函数，获取服务器返回值
       let url = this.$urlPath.website.getTemplateByTemplateid;
       getData(url, params).then((res) => {
@@ -78,14 +88,41 @@ export default {
         }
       });
     },
-    //基于模版创建文档
+    //团队基于模版创建文档
+    addTeamDocByTemplate() {
+      let params = new URLSearchParams();
+      params.append("userid", this.userid);
+      params.append("templateid", this.template.templateid);
+      params.append("teamid", this.teamid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.addTeamDocByTemplate;
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.$router.push({
+            path: "/document",
+            query: {
+              docid: res.data.docid,
+            },
+          });
+          console.log("基于模版创建文档成功");
+          // this.$message.success("操作成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //个人基于模版创建文档
     addDocByTemplate() {
       let params = new URLSearchParams();
       params.append("userid", this.userid);
       params.append("templateid", this.template.templateid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.addDocByTemplate;
-      getData(url, params).then((res) => {
+      postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$router.push({

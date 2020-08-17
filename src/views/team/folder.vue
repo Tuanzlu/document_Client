@@ -1,17 +1,25 @@
 <template>
-  <div style="margin-left: 300px;" class="folder">
-    <h2>{{ teaminfo.teamname }} 的团队空间</h2>
-    <p>{{ teaminfo.intro }}</p>
-    <p>
-      <router-link :to="{ path: '/team/memberlist', query: { teamid: this.teamid } }">
-        <a-icon type="team" />成员列表
-      </router-link>
-    </p>
-    <h3>团队文档</h3>
-    <a-button type="primary" ghost @click="addTeamDoc">创建团队文档</a-button>
-    <a-button type="primary" ghost>团队模板库</a-button>
-    <a-divider></a-divider>
-    <wordCard :list="teamdoclist"></wordCard>
+  <div class="folder">
+    <div>
+      <h2>{{ teaminfo.teamname }} 的团队空间</h2>
+      <p>{{ teaminfo.intro }}</p>
+      <p>
+        <router-link :to="{ path: '/team/memberlist', query: { teamid: this.teamid } }">
+          <a-icon type="team" />成员列表
+        </router-link>
+      </p>
+      <h3>团队文档</h3>
+    </div>
+    <div class="btn">
+      <a-button type="default" @click="addTeamDoc">创建团队文档</a-button>
+       </br>
+       </br>
+      <a-button type="default" @click="toModel">团队模板库</a-button>
+    </div>
+    <div>
+      <a-divider></a-divider>
+      <wordCard :list="teamdoclist"></wordCard>
+    </div>
   </div>
 </template>
 
@@ -32,6 +40,15 @@ export default {
     };
   },
   methods: {
+    toModel() {
+      console.log(this.teamid);
+      this.$router.push({
+        path: "/model",
+        query: {
+          teamid: this.teamid,
+        },
+      });
+    },
     getTeamInfo() {
       let params = new URLSearchParams();
       params.append("teamid", this.teamid);
@@ -109,7 +126,13 @@ export default {
 </script>
 
 <style>
+.btn {
+  margin-top: -100px;
+  float: right;
+  width: 100px;
+}
 .folder {
   width: 1000px;
+  margin-left: 300px;
 }
 </style>

@@ -12,25 +12,17 @@
     <div class="body">
       <div class="sideMenu">
         <div class="menuItem">
-          <!-- <div class="text">
-            金刚石模版
+          <div class="text" v-if="teamid != -1">
+            团队模版
           </div>
-          <a-divider></a-divider> -->
-          <div class="text">
+          <div class="text" v-else>
             我的模版
           </div>
         </div>
       </div>
       <div class="main">
-        <!-- <div class="offeredModel" v-if="!isMine">
-          <div id="offered">
-            <h3>最近更新</h3>
-            <a-divider></a-divider>
-            <modelCard :list="modelList"></modelCard>
-          </div>
-        </div> -->
-        <div class="myModel">
-          <modelCard :list="myModelList"></modelCard>
+        <div class="Model">
+          <modelCard :list="ModelList" :teamidP="teamid"></modelCard>
         </div>
       </div>
     </div>
@@ -40,7 +32,7 @@
 <script>
 import { getData } from "@/api/webget";
 // import { putData } from "@/api/webput";
-// import { postData } from "@/api/webpost";
+import { postData } from "@/api/webpost";
 // import { deleteData } from "@/api/webdelete";
 import modelCard from "@/components/modelCard.vue";
 export default {
@@ -49,15 +41,16 @@ export default {
   },
   data() {
     return {
+      TeamTeamplateList: [],
+      teamid: -1,
       userid: parseInt(window.sessionStorage.getItem("UserId")),
       isMine: true,
-      modelList: [],
-      myModelList: [],
+      ModelList: [],
     };
   },
   methods: {
     toIndex() {
-      this.$router.push("/personIndex");
+      this.$router.push("/used");
     },
     //获取我的模版列表
     getMyTemplateList() {
@@ -68,7 +61,27 @@ export default {
       getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.myModelList = res.data.myTemplateList;
+          this.ModelList = res.data.myTemplateList;
+          console.log("获取我的模版成功");
+          // this.$message.success("操作成功");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //获取团队模版列表
+    getTeamTemplateList() {
+      let params = new URLSearchParams();
+      params.append("teamid", this.teamid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.getTeamTemplateList;
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.ModelList = res.data.teamTemplateList;
           console.log("获取我的模版成功");
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
@@ -81,7 +94,14 @@ export default {
     },
   },
   mounted() {
-    this.getMyTemplateList();
+    this.teamid = this.$route.query.teamid;
+
+    if (this.teamid == -1) {
+      this.getMyTemplateList();
+    } else {
+      this.getTeamTemplateList();
+      console.log("00000000");
+    }
   },
 };
 </script>
@@ -158,18 +178,6 @@ export default {
   margin: 10px auto 0 auto;
   // border: 1px solid blue;
   width: 170px;
-  height: 500px;
-}
-#offered {
-  margin: 50px;
-  height: 500px;
-}
-#test1 {
-  margin: 100px 0 50px 50px;
-  height: 500px;
-}
-#test2 {
-  margin: 100px 0 50px 50px;
   height: 500px;
 }
 </style>
