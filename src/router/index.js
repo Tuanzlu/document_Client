@@ -94,7 +94,7 @@ const routes = [
       {
         path: "/team/memberlist",
         component: () => import("../views/team/userList.vue"),
-      }
+      },
     ],
   },
   {

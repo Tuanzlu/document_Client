@@ -45,9 +45,9 @@ export default {
       params.append("userid", userId);
       let url = this.$urlPath.website.getRecentRead;
       getData(url, params).then((res) => {
-        // console.log(res.data.readlist);
+        // console.log(res.code);
         if (res.code === "0") {
-          //console.log(res.data);
+          console.log(res.data);
           for (let i = 0; i < res.data.readlist.length; i++) {
             this.info.push(res.data.readlist[i]);
           }
@@ -68,6 +68,10 @@ export default {
 };
 </script>
 
+<<<<<<< HEAD
 <style>
 
 </style>
+=======
+<style></style>
+>>>>>>> d192fef55692c8c24f1f2d03b2a211bb34534230
