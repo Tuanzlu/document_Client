@@ -1,14 +1,6 @@
 <template>
   <div class="content">
-    <div class="header">
-      <div class="top" @click="toIndex"><span class="name">金刚石文档</span></div>
-      <div class="topRight">
-        <img class="avatar" style="width: 30px; height: 30px;" src="../../assets/bg.jpeg" />
-      </div>
-      <div class="topRight">
-        <a-icon type="bell" style="font-size: 25px; margin-top: 3px;" />
-      </div>
-    </div>
+    <personNav></personNav>
     <div class="body">
       <div class="sideMenu">
         <div class="menuItem">
@@ -30,18 +22,18 @@
 </template>
 
 <script>
+import personNav from "@/components/personNav";
 import { getData } from "@/api/webget";
 import modelCard from "@/components/modelCard.vue";
 export default {
   components: {
     modelCard,
+    personNav,
   },
   data() {
     return {
-      TeamTeamplateList: [],
       teamid: -1,
       userid: parseInt(window.sessionStorage.getItem("UserId")),
-      isMine: true,
       ModelList: [],
     };
   },
@@ -97,7 +89,6 @@ export default {
       this.getMyTemplateList();
     } else {
       this.getTeamTemplateList();
-      console.log("00000000");
     }
   },
 };
@@ -111,7 +102,6 @@ export default {
 .content {
   bottom: 0;
   top: 60px;
-  background-color: #f7f7f7;
 }
 .top {
   cursor: pointer;

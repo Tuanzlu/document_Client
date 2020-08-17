@@ -42,6 +42,8 @@ let path = {
     addDocByTemplate: Ip.productIP + "addDocByTemplate",
     getUserByDocid: Ip.productIP + "getUserByDocid",
     getModifyList: Ip.productIP + "getModifyList",
+    deleteDocTotally: Ip.productIP + "deleteDocTotally",
+    recoverDoc: Ip.productIP + "recoverDoc",
     //团队
     getTeamInfo: Ip.productIP + "getTeamInfo",
     getTeamDocList: Ip.productIP + "getTeamDocList",

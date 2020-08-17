@@ -1,13 +1,22 @@
 <template>
   <div class="content">
     <div class="header">
+       
       <div class="top">
         <a-button class="btn" @click="toLast">
           <a-icon type="left" />
         </a-button>
-        <a-button class="btn" @click="addNewDoc">
+
+<a-tooltip>
+    <template slot="title">
+      创建副本
+    </template>
+     <a-button class="btn" @click="addNewDoc">
           <a-icon type="plus" />
         </a-button>
+  </a-tooltip>
+
+       
       </div>
       <div class="top">
         <span class="name">{{ article.title }}</span>
@@ -64,10 +73,10 @@
                   :pagination="false"
                   :showHeader="true"
                 >
-                  <template slot="avatar">
-                    <img
+                  <template slot="avatar" slot-scope="text,record">
+                    <a-avatar
                       style="height:30px;width:30px"
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                      :src="record.userimgpath"
                     />
                   </template>
                   <template slot="perms" slot-scope="text,record">
@@ -105,10 +114,10 @@
                   :pagination="false"
                   :showHeader="false"
                 >
-                  <template slot="avatar">
-                    <img
+                  <template slot="avatar" slot-scope="text,record">
+                    <a-avatar
                       style="height:30px;width:30px"
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                      :src="record.userimgpath"
                     />
                   </template>
                   <template slot="perms" slot-scope="text,record">
@@ -200,7 +209,7 @@
         <a-dropdown>
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
             <span style="font-size: 16px; margin: 10px;text-decoration: none">{{ user.username }}</span>
-            <img class="avatar" style="width: 30px; height: 30px;" src="../../assets/bg.jpeg" />
+            <a-avatar class="avatar" style="width: 30px; height: 30px;" :src="user.userimgpath" />
           </a>
           <a-menu class="more" slot="overlay" @click="avatarOnClick">
             <a-menu-item key="1">
@@ -238,8 +247,8 @@
             <a-list-item slot="renderItem" slot-scope="item">
               <a-button slot="actions" @click="deleteComment(item.commentid)">删除</a-button>
               <a-list-item-meta :description="item.content">
-                <a slot="title" href="https://www.antdv.com/">{{ item.username }}</a>
-                <a-avatar slot="avatar" src="item.userimgpath" />
+                <a slot="title" >{{ item.username }}</a>
+                <a-avatar slot="avatar" :src="item.userimgpath" />
               </a-list-item-meta>
             </a-list-item>
           </a-list>
@@ -379,10 +388,10 @@ export default {
       review: {
         title: "user",
         content: "",
-      },     
+      },    
+      canEdit:false,
+      canComment: false,
       user: {
-        canEdit:false,
-        canComment: false,
         userid: parseInt(window.sessionStorage.getItem("UserId")),
         username: "",
       },    
@@ -463,8 +472,16 @@ export default {
       this.getPermsList();
     },
     toLast() {
-      this.updateDocument();
-      this.$router.go(-1);
+      if(this.isEdit==true){
+        this.$message.error("请先保存文档");
+      }else{
+        this.updateDocument();
+        this.$router.push({
+        path:"/used"
+      });
+      }
+     
+     
     },
     backDown() {
       this.searchWord="";
@@ -780,13 +797,14 @@ export default {
       getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.user.username = res.data.user.username;
-          this.user.canComment = res.data.canComment;
-          this.user.canEdit=res.data.canWrite;
+          this.user = res.data.user;
+          console.log(this.user);
+          this.canComment = res.data.canComment;
+          this.canEdit=res.data.canWrite;
           this.article = res.data.doc;
           this.isCollected=res.data.haveCollect;
           if(res.data.isEditing == false && res.data.canWrite==true){
-            this.isEdit = true;
+            this.enterEdit();
           }else if(res.data.isEditing==true && res.data.whoIsEditing.username != res.data.user.username){
             this.$message.error(res.data.whoIsEditing.username +" is editing this document! Please wait a minute!");
           }else if(res.data.isEditing==true && res.data.whoIsEditing.username == res.data.user.username){
@@ -866,10 +884,10 @@ export default {
           query:{
             docid:res.data.docid
         }
-      })
+      });
           this.getDocument();
+          console.log(this.article);
           this.getComment();
-          window.reload();
           console.log("保存成功");
           // this.$message.success("保存成功");
         } else if (res.code === "1") {
@@ -901,7 +919,7 @@ export default {
       });
     },
     addCommentRequest(){
-      if(this.user.canComment==true){
+      if(this.canComment==true){
         this.addComment();
       }else{
         this.$message.error("当前用户没有权限进行评论");    

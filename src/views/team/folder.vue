@@ -18,7 +18,7 @@
     </div>
     <div>
       <a-divider></a-divider>
-      <wordCard :list="teamdoclist"></wordCard>
+      <wordCard style="margin:-20px 0 0 -85px" :list="teamdoclist"></wordCard>
     </div>
   </div>
 </template>

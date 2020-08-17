@@ -1,7 +1,7 @@
 <template>
   <div class="photo">
     <div style="width:30px;height:30px;border:0px solid;text-align:center;" @click="openImg">
-      <img style="height:100%;width:100%;" v-if="imgUrl!=''" :src="imgUrl" />
+      <a-avatar style="height:100%;width:100%;" v-if="imgUrl != ''" :src="imgUrl" />
     </div>
   </div>
 </template>
@@ -17,12 +17,12 @@ export default {
     openImg() {
       this.$refs.input.click();
     },
-    getPhoto(){
+    getPhoto() {
       let params = new URLSearchParams();
-      let userId = parseInt(window.sessionStorage.getItem('UserId'));
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getUserInfo;
-      getData(url,params).then((res) => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.imgUrl = res.data.userimgpath;
@@ -33,14 +33,12 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    }
+    },
   },
-  mounted(){
+  mounted() {
     this.getPhoto();
-  }
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

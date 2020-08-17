@@ -128,21 +128,11 @@ router.beforeEach((to, from, next) => {
   ) {
     return next();
   } else {
-    console.log("test:" + window.location.href.substr(23));
-    if (
-      window.location.href.substr(23) == "/login" &&
-      window.location.href.substr(23) == "/" &&
-      window.location.href.substr(23) == "/register" &&
-      window.location.href.substr(23) == "/about" &&
-      window.location.href.substr(23) == "/index"
-    ) {
-      return next();
-    } else {
-      window.sessionStorage.setItem("WebAdrs", window.location.href);
-      const tokenStr = window.sessionStorage.getItem("UserId");
-      if (!tokenStr) return next("/login");
-      next();
-    }
+    console.log("111111");
+    window.sessionStorage.setItem("WebAdrs", window.location.href);
+    const tokenStr = window.sessionStorage.getItem("UserId");
+    if (!tokenStr) return next("/login");
+    next();
   }
 });
 export default router;
