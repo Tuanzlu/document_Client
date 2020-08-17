@@ -55,7 +55,7 @@
               </div>
               <div class="co-table-one">
                 <a-table
-                  style="width:600px;margin-left:-40px;height:500px"
+                  class="table-add"
                   :columns="columns"
                   :data-source="searchUser"
                   size="small"
@@ -70,9 +70,9 @@
                       src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
                     />
                   </template>
-                  <template slot="perms">
+                  <template slot="perms" slot-scope="text,record">
                     <a-select 
-                     style="width: 120px" defaultValue="修改权限" @change="handleChange" >
+                     style="width: 120px" defaultValue="修改权限" @change="e=>handleChange(e,record.userid)" >
                       <a-select-option v-for="(item) in items" 
                       :value="item.value" :key="item.value">
                         {{ item.value }}
@@ -91,10 +91,10 @@
                   v-model="searchWord"
                   @search="handleSearch"
                 />
+                 <a-button @click="refreshList" type="default" style="float:right">刷新列表</a-button>
               </div>
               <div class="co-table-two" v-for="(item, i) in userList" :key="i">
                   <span class="type-text">{{ item.type }}</span>
-                
                 <a-table
                   class="perm-table"
                   :columns="showColumns"
@@ -110,6 +110,16 @@
                       style="height:30px;width:30px"
                       src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
                     />
+                  </template>
+                  <template slot="perms" slot-scope="text,record">
+                    <a-select 
+                     style="width: 120px" defaultValue="修改权限" @change="e=>handleChange(e,record.userid)" >
+                      <a-select-option v-for="(item) in items" 
+                      :value="item.value" :key="item.value">
+                        {{ item.value }}
+                      </a-select-option>
+                    </a-select-option>
+                    </a-select>
                   </template>
                 </a-table>
               </div>
@@ -258,76 +268,17 @@ const userList = [
   {
     type: "只能阅读",
     key: "1",
-    list: [
-      {
-        key: "1",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-      {
-        key: "2",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-      {
-        key: "3",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-      {
-        key: "4",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-      {
-        key: "5",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-    ],
+    list: [],
   },
   {
     type: "只能评论",
     key: "2",
-    list: [
-      {
-        key: "1",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-      {
-        key: "2",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-    ],
+    list: [],
   },
   {
     type: "可以编辑",
     key: "3",
-    list: [
-      {
-        key: "1",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-    ],
+    list: [],
   },
 ];
 
@@ -360,17 +311,26 @@ const showColumns = [
     title: "头像",
     dataIndex: "avatar",
     align: "right",
+    width:"100px",
     scopedSlots: { customRender: "avatar" },
   },
   {
     title: "用户名",
     dataIndex: "username",
     align: "center",
+    width:"150px",
   },
   {
     title: "微信号",
     dataIndex: "wechat",
     align: "center",
+    width:"200px",
+  },{
+    title: "操作权限",
+    dataIndex: "perms",
+    align: "center",
+    width:"100px",
+    scopedSlots: { customRender: "perms" },
   },
 ];
 const items = [
@@ -447,6 +407,9 @@ export default {
     this.getPermsList();
   },
   methods: {
+    refreshList(){
+      this.getPermsList();
+    },
     afterVisibleChange(val) {
       console.log('visible', val);
     },
@@ -485,15 +448,17 @@ export default {
       this.updateDocument();
       console.log(data);
     },
-    handleChange(val) {
+    handleChange(val,userid) {
+      console.log("val="+val);
+      console.log("userid="+userid);
       if (val== "只能阅读") {
-         this.replacePermsByUserid(this.searchUser[0].userid,1);
+         this.replacePermsByUserid(userid,1);
       } else if (val== "只能评论") {
-        this.replacePermsByUserid(this.searchUser[0].userid,2);
+        this.replacePermsByUserid(userid,2);
       } else if (val == "可以编辑") {
-        this.replacePermsByUserid(this.searchUser[0].userid,3);
+        this.replacePermsByUserid(userid,3);
       } else if (val== "删除已有权限"){
-        this.deletePerms(this.searchUser[0].userid);
+        this.deletePerms(userid);
       }
       this.getPermsList();
     },
@@ -725,9 +690,7 @@ export default {
       getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.searchUser= [res.data.user];
-          console.log(res.data.user.perms);
-          this.value=res.data.user.perms;
+          this.searchUser= res.data.userList;
           console.log("查询成功");
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
@@ -819,10 +782,10 @@ export default {
         if (res.code === "0") {
           this.user.username = res.data.user.username;
           this.user.canComment = res.data.canComment;
-          this.user.canEdit=res.data.canEdit;
+          this.user.canEdit=res.data.canWrite;
           this.article = res.data.doc;
           this.isCollected=res.data.haveCollect;
-          if(res.data.isEditing == false && res.data.canEdit==true){
+          if(res.data.isEditing == false && res.data.canWrite==true){
             this.isEdit = true;
           }else if(res.data.isEditing==true && res.data.whoIsEditing.username != res.data.user.username){
             this.$message.error(res.data.whoIsEditing.username +" is editing this document! Please wait a minute!");
@@ -991,8 +954,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.table-add{
+  width:600px;
+  margin-left:-40px;
+  height:500px
+}
 .perm-table{
   width:550px;
+  margin-top:-90px;
+  margin-left:-40px;
   height:100px;
 }
 .single-selection {
@@ -1014,12 +984,12 @@ export default {
   // border: blue 1px solid;
   display: block;
   margin: 20px;
-  // overflow: scroll;
+  overflow: scroll;
 }
 .co-table-two {
-  border: blue 1px solid;
-  margin: 50px auto 10px auto;
-  // overflow: scroll;
+  // border: blue 1px solid;
+  margin: 10px auto 10px auto;
+  overflow: scroll;
   width:550px;
   height:150px;
 }
@@ -1033,7 +1003,8 @@ export default {
 }
 .search-bar {
   margin: auto;
-  width: 400px;
+  width: 500px;
+  // border: red 1px solid;
 }
 .review-title {
   font-size: 18px;
@@ -1055,7 +1026,7 @@ export default {
   margin: 0 auto 20px auto;
   width: 750px;
   height: 380px;
-  // overflow: scroll;
+  overflow: scroll;
 }
 .review-input {
   width: 750px;
@@ -1074,12 +1045,12 @@ export default {
 .one-content {
   // border: red 1px solid;
   width: 600px;
-  height: 700px;
+  height: 500px;
 }
 .two-content {
   // border: red 1px solid;
   width: 600px;
-  height: 700px;
+  height: 500px;
 }
 .share {
   z-index: 1000;
