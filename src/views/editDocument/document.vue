@@ -993,8 +993,6 @@ export default {
 <style lang="scss" scoped>
 .perm-table{
   width:550px;
-  margin-top:-90px;
-  margin-left:-40px;
   height:100px;
 }
 .single-selection {
@@ -1011,21 +1009,17 @@ export default {
 ::v-deep .ant-table-small {
   border: none;
 }
-.manage-table {
-  // border: blue 1px solid;
-  margin: 20px;
-  overflow: scroll;
-}
+
 .co-table-one {
   // border: blue 1px solid;
   display: block;
   margin: 20px;
-  overflow: scroll;
+  // overflow: scroll;
 }
 .co-table-two {
-  // border: blue 1px solid;
-  margin: 10px auto 10px auto;
-  overflow: scroll;
+  border: blue 1px solid;
+  margin: 50px auto 10px auto;
+  // overflow: scroll;
   width:550px;
   height:150px;
 }
@@ -1061,7 +1055,7 @@ export default {
   margin: 0 auto 20px auto;
   width: 750px;
   height: 380px;
-  overflow: scroll;
+  // overflow: scroll;
 }
 .review-input {
   width: 750px;
@@ -1080,12 +1074,12 @@ export default {
 .one-content {
   // border: red 1px solid;
   width: 600px;
-  height: 500px;
+  height: 700px;
 }
 .two-content {
   // border: red 1px solid;
   width: 600px;
-  height: 500px;
+  height: 700px;
 }
 .share {
   z-index: 1000;
