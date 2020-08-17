@@ -169,7 +169,9 @@
                   </a-radio>
                 </a-radio-group>
               </div>
-              <div class="share-code"></div>
+              <div class="share-code">
+                <vue-qr :logoSrc="imageUrl" :text="href" :size="200"></vue-qr>
+              </div>
               <div class="share-link">链接：{{ href }}</div>
             </div>
           </template>
@@ -268,6 +270,7 @@
 </template>
 
 <script>
+import vueQr from 'vue-qr';
 import { getData } from "@/api/webget";
 import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
@@ -363,10 +366,12 @@ const items = [
 export default {
   components: {
     editor,
+    vueQr
   },
   props: ["docidnum"],
   data() {
     return {
+      imageUrl: require("../../assets/bg.jpeg"),
       columns,
       items,
       showColumns,
@@ -1087,7 +1092,7 @@ export default {
 .share-code {
   float: left;
   background-color: green;
-  border: red 1px solid;
+  // border: red 1px solid;
   width: 200px;
   height: 200px;
   margin: 10px auto 10px auto;
