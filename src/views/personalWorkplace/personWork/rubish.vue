@@ -32,11 +32,11 @@ export default {
       params.append("userid", userId);
       let url = this.$urlPath.website.getMyDeleteDoc;
       getData(url, params).then((res) => {
-        // console.log(res.code);
+        // console.log(res.data.mydeletelist);
         if (res.code === "0") {
-          console.log(res.data);
-          for (let i = 0; i < res.data.readlist.length; i++) {
-            this.info.push(res.data.readlist[i]);
+          //console.log(res.data);
+          for (let i = 0; i < res.data.mydeletelist.length; i++) {
+            this.info.push(res.data.mydeletelist[i]);
           }
           console.log(this.info);
           this.$refs.list = this.info;

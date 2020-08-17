@@ -49,6 +49,7 @@ export default {
       // 上传代码返回结果之后，将图片插入到编辑器中
       insert(objectURL);
     };
+
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       //设置延迟执行

@@ -48,8 +48,8 @@ export default {
         // console.log(res.code);
         if (res.code === "0") {
           console.log(res.data);
-          for (let i = 0; i < res.data.readlist.length; i++) {
-            this.info.push(res.data.readlist[i]);
+          for (let i = 0; i < res.data.collectlist.length; i++) {
+            this.info.push(res.data.collectlist[i]);
           }
           console.log(this.info);
           this.$refs.list = this.info;

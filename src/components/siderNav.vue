@@ -9,10 +9,6 @@
         <a-icon type="mail" />收件箱
         <router-link to="/letter"></router-link>
       </a-menu-item>
-      <a-menu-item key="3">
-        <a-icon type="appstore" />我的桌面
-        <router-link to="/table"></router-link>
-      </a-menu-item>
       <a-sub-menu key="sub1">
         <span slot="title">
           <a-icon type="team" />

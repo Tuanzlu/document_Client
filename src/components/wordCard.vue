@@ -24,30 +24,30 @@
                 <h3>{{ item.title}}</h3>
             </span>
         </a-card>
-      </div>
     </div>
   </div>
 </div>
 </template>
+
 
 <script>
 import { deleteData } from "@/api/webdelete";
 
 export default {
   props: ["list"],
-  methods: {
-    toShare() {
+  methods:{
+    toShare(){
       this.flag = !this.flag;
     },
-    toDoc(item) {
+    toDoc(item){
       this.$router.push({
-        path: "/document",
-        query: {
-          docid: item.docid,
-        },
-      });
+         path: '/document',
+         query:{
+               docid:item.docid,
+          }
+      })
     },
-    toDelete(item, i) {
+    toDelete(item,i){
       let params = new URLSearchParams();
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
@@ -56,7 +56,7 @@ export default {
       deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.list.splice(i, 1);
+          this.list.splice(i,1);
           this.$message.success("删除成功");
         } else if (res.code === "1") {
           this.$message.error("没有权限");
@@ -65,8 +65,9 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    },
+    }
   },
+
 };
 </script>
 <style lang="scss" scoped>
@@ -86,12 +87,12 @@ export default {
   width: 120px;
 }
 h3 {
-  font-size: 15px;
+    font-size: 15px;
 }
 .set {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  z-index: 100;
+    position:absolute;
+    top:3px;
+    right:3px;
+    z-index:100;
 }
 </style>
