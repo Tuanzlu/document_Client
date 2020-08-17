@@ -1,11 +1,11 @@
 <template>
     <div id="components-layout-demo-basic">
         <a-layout>
-            <a-layout-header><font size="6">金刚石文档 关于我们</font></a-layout-header>
+            <a-layout-header><font size="4">金刚石文档_关于我们</font></a-layout-header>
             <a-layout-content>
                 <font size="6">我们来自BUAA</font>
                 <p>
-                    <img src="../assets/map.png" alt=""><br>
+                    <img src="../assets/map.png" width="60%" alt=""><br>
                     <img src="../assets/buaa.jpeg" style="width:50px;height:50px"><font size="4"> 地址:北京市海淀区学院路37号 邮编:100191</font>    
                 </p>
                 <a-divider/>
@@ -36,7 +36,7 @@
                 </div>
 
             </a-layout-content>
-            <a-layout-footer><router-link to="/"><font size="6">返回登录</font></router-link></a-layout-footer>
+            <a-layout-footer><router-link to="/"><font size="4">返回登录</font></router-link></a-layout-footer>
         </a-layout>
         </div>
 </template>
