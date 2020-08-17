@@ -227,10 +227,12 @@ export default {
   font-size: 16px;
 }
 .article-content {
-  border: blue 1px solid;
+  // border: blue 1px solid;
   height: 800px;
   width: 616px;
   margin: auto;
+  background-color: white;
+  padding: 20px 25px 0 25px;
 }
 .title-bar {
   font-weight: 800;
@@ -258,7 +260,7 @@ export default {
 }
 .model {
   // border: red 1px solid;
-  width: 1000px;
+  width: 950px;
   min-height: 800px;
   margin-left: 150px;
 }
