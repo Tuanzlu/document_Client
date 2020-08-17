@@ -181,8 +181,8 @@ export default {
       });
     },
     toIndex() {
-      if (window.location.href.substr(23) != "/personIndex") {
-        this.$router.replace("/personIndex");
+      if (window.location.href.substr(23) != "/used") {
+        this.$router.replace("/used");
       }
     },
     getReadNotice() {

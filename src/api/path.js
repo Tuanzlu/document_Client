@@ -53,7 +53,9 @@ let path = {
     inviteTeamMemberByUserId: Ip.productIP + "inviteTeamMemberByUserId",
     addTeamDoc: Ip.productIP + "addTeamDoc",
     deleteTeam: Ip.productIP + "deleteTeam",
-
+    getTeamTemplateList: Ip.productIP + "getTeamTemplateList",
+    addTeamTemplate: Ip.productIP + "addTeamTemplate",
+    addTeamDocByTemplate: Ip.productIP + "addTeamDocByTemplate",
     //通知系统
     getReadNoticeByUser: Ip.productIP + "getReadNoticeByUser",
     getUnreadNoticeByUser: Ip.productIP + "getUnreadNoticeByUser",

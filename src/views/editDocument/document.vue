@@ -249,7 +249,6 @@
 </template>
 
 <script>
-// import Cookies from "js-cookie";
 import { getData } from "@/api/webget";
 import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
@@ -523,7 +522,11 @@ export default {
         if(this.isEdit){
           this.$message.error("请先保存文档!");
         }else{
-          this.addTemplate();
+          if(this.article.teamid==-1){
+            this.addTemplate();
+          }else{
+            this.addTeamTemplate();
+          }
         }
       } else if (key == 3) {
         this.deleteDocument();
@@ -590,12 +593,34 @@ export default {
         }
       });
     },
-    //创建模版
+    //创建团队模版
+    addTeamTemplate(){
+      let params = new URLSearchParams();
+      params.append("userid", this.user.userid);
+      params.append("title", this.article.title);
+      params.append("content", this.article.content);
+      params.append("teamid", this.article.teamid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.addTeamTemplate;
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.$message.success("模版保存成功,可在[团队模版库]-[团队模版]中查看");
+        } else if (res.code === "1") {
+          this.$message.error("操作失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    //创建个人模版
     addTemplate(){
       let params = new URLSearchParams();
       params.append("userid", this.user.userid);
       params.append("title", this.article.title);
       params.append("content", this.article.content);
+      console.log(this.article.content);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.addTemplate;
       postData(url, params).then((res) => {
