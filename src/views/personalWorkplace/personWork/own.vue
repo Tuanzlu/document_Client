@@ -34,22 +34,22 @@ export default {
   },
   data() {
     return {
-      info: []
+      info: [],
     };
   },
-  props: ['list'],
+  props: ["list"],
   methods: {
     getInfo() {
       let params = new URLSearchParams();
-      let userId = parseInt(window.sessionStorage.getItem('UserId'));
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getMyDoc;
-      getData(url,params).then((res) => {
-       // console.log(res.code);
+      getData(url, params).then((res) => {
+        // console.log(res.code);
         if (res.code === "0") {
           console.log(res.data);
-          for(let i=0;i<res.data.mydoclist.length;i++){
-            this.info.push(res.data.mydoclist[i]);
+          for (let i = 0; i < res.data.readlist.length; i++) {
+            this.info.push(res.data.readlist[i]);
           }
           console.log(this.info);
           this.$refs.list = this.info;
@@ -65,14 +65,13 @@ export default {
   created() {
     this.getInfo();
   },
-}
+};
 </script>
 
 <style>
-.btn_box{
-    /*background-color: #7f7f7f;*/
-    width: 740px;
-    margin-left: 20px;
+.btn_box {
+  /*background-color: #7f7f7f;*/
+  width: 740px;
+  margin-left: 20px;
 }
-
 </style>

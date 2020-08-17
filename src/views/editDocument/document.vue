@@ -18,7 +18,7 @@
           <a-icon type="star" theme="outlined" v-else />
         </a-button>
       </div>
-      <div class="top" :class="{ time: !article.isNew }">
+      <div class="top" :class="{time:!article.status}">
         <span >上次保存于{{ article.modifytime }}</span>
       </div>
       <div class="topRight">
@@ -135,7 +135,7 @@
             <div class="share-content">
               <div class="switch">
                 <span style="float:left">公开链接：</span>
-                <a-switch default-checked @change="onChange" style="float:left" />
+                <a-switch @change="onChange" style="float:left" />
               </div>
               <div class="single-selection" v-show="isOpenShare">
                 <a-radio-group v-model="value" @change="onChangeRadio">
@@ -165,9 +165,26 @@
         </a-popover>
       </div>
       <div class="topRight">
-        <a-button class="btn">
-          <a-icon type="history" />
-        </a-button>
+          <a-button class="btn" @click="showDrawer">
+            <a-icon type="history" />
+          </a-button>
+          <a-drawer
+            width="350px"
+            title="修改记录"
+            placement="right"
+            :closable="false"
+            :visible="visible"
+            :after-visible-change="afterVisibleChange"
+            @close="onClose"
+          >
+            <div>
+          <a-list  :data-source="modifyList">
+            <a-list-item slot="renderItem" slot-scope="item">
+              {{ item }}
+            </a-list-item>
+          </a-list>
+            </div>
+          </a-drawer>
       </div>
       <div class="topRight">
         <a-dropdown>
@@ -238,7 +255,6 @@ import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
 import { deleteData } from "@/api/webdelete";
 import editor from "@/components/editorTool.vue";
-
 const userList = [
   {
     type: "只能阅读",
@@ -387,11 +403,13 @@ export default {
       items,
       showColumns,
       userList,
-      isOpenShare: true,
-      isEdit: true,
+      visible: false,
+      isOpenShare: false,
+      isEdit: false,
       isCollected: false,
-      isaddShare: true,
+      isaddShare: false,
       content: "",
+      modifyList:[],
       searchUser:[],
       commentList: [],
       newdocid:0,
@@ -404,6 +422,7 @@ export default {
         content: "",
       },     
       user: {
+        canEdit:false,
         canComment: false,
         userid: parseInt(window.sessionStorage.getItem("UserId")),
         username: "",
@@ -429,6 +448,16 @@ export default {
     this.getPermsList();
   },
   methods: {
+    afterVisibleChange(val) {
+      console.log('visible', val);
+    },
+    showDrawer() {
+      this.getModifyList();
+      this.visible = true;
+    },
+    onClose() {
+      this.visible = false;
+    },
     addNewDoc(){
       this.updateDocument();
       this.createDocument();
@@ -476,6 +505,7 @@ export default {
     backDown() {
       this.searchWord="";
       this.isaddShare = false;
+      this.getPermsList();
     },
     collected() {
       this.isCollected = !this.isCollected;
@@ -488,7 +518,7 @@ export default {
     },
     onClick({ key }) {
       if (key == 1) {
-        this.isEdit = true;
+        this.enterEdit();
       } else if (key == 2) {
         if(this.isEdit){
           this.$message.error("请先保存文档!");
@@ -514,6 +544,51 @@ export default {
         })
       };
       console.log(`Click on item ${key}`);
+    },
+    //获取修改记录表
+    getModifyList(){
+      let params = new URLSearchParams();
+      params.append("docid", this.article.docid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.getModifyList;
+      getData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.modifyList=res.data.modifyList.map(function(item){
+            return item.modifytime+" "+item.username +" 修改了文档"
+          });
+            
+          console.log("获取修改记录成功");
+          // this.$message.success("获取修改记录成功");
+        } else if (res.code === "1") {
+          this.$message.error("没有权限");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+     //进入编辑状态
+    enterEdit(){
+      let params = new URLSearchParams();
+      params.append("userid", this.user.userid);
+      params.append("docid", this.article.docid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.enterEdit;
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.$message.success("进入编辑状态成功");
+          this.isEdit=true;
+        } else if (res.code === "1") {
+          this.$message.error("没有权限");
+        } else if (res.code === "2") {
+          this.$message.error("有人正在编辑");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
     },
     //创建模版
     addTemplate(){
@@ -585,6 +660,7 @@ export default {
           this.userList[0].list=res.data.onlyCanReadList;
           this.userList[1].list=res.data.onlyCanCommentList;
           this.userList[2].list=res.data.onlyCanWriteList;
+          console.log("获取权限列表成功");
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
           this.$message.error("操作失败");
@@ -673,7 +749,7 @@ export default {
           console.log("更改分享权限成功");
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
-          this.$message.error("操作失败");
+          this.$message.error("没有权限");
         } else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
@@ -696,6 +772,7 @@ export default {
                 docid:res.data.docid
               }
             })
+            console.log("创建团队文档成功");
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
           this.$message.error("操作失败");
@@ -715,16 +792,25 @@ export default {
       getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.user.username = res.data.authorname;
+          this.user.username = res.data.user.username;
           this.user.canComment = res.data.canComment;
+          this.user.canEdit=res.data.canEdit;
           this.article = res.data.doc;
           this.isCollected=res.data.haveCollect;
+          if(res.data.isEditing == false && res.data.canEdit==true){
+            this.isEdit = true;
+          }else if(res.data.isEditing==true && res.data.whoIsEditing.username != res.data.user.username){
+            this.$message.error(res.data.whoIsEditing.username +" is editing this document! Please wait a minute!");
+          }else if(res.data.isEditing==true && res.data.whoIsEditing.username == res.data.user.username){
+            this.isEdit=true;
+          }
           console.log("获取文档成功");
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
-          this.$message.error("用户未登录");
-        } else if (res.code === "2") {
           this.$message.error("没有权限");
+        } else if (res.code === "2") {
+          this.$message.error("文档已被删除");
+          this.$router.go(-1);
         } else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
@@ -977,7 +1063,7 @@ export default {
   height: 500px;
 }
 .share {
-  z-index: 10003;
+  z-index: 1000;
 }
 .share-content {
   // border: red 1px solid;
