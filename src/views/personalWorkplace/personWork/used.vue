@@ -1,24 +1,28 @@
 <template>
-  <div>
-    <div style="float:right;width:70%">
-      <a-menu v-model="current" mode="horizontal" style="margin-left:20px;">
-        <a-menu-item key="use">
-          <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
-        </a-menu-item>
-        <a-menu-item key="own">
-          <router-link to="/own"><a-icon type="plus" />我创建的</router-link>
-        </a-menu-item>
-        <a-menu-item key="fav">
-          <router-link to="/favorite"><a-icon type="star" />我的收藏</router-link>
-        </a-menu-item>
-      </a-menu>
-      <div class="btn_box">
-        <cards :list="info" v-if="info.length > 0"></cards>
-      </div>
-    </div>
-    <siderButton></siderButton>
+<div>
+  <div style="float: left;">
+    <a-menu v-model="use" mode="horizontal" style="margin-left:250px;width:70%"> 
+      <a-menu-item key="use">
+            <router-link to="/used"><a-icon type="clock-circle" />最近使用</router-link>
+          </a-menu-item>
+          <a-menu-item key="own">
+            <router-link to="/own"><a-icon type="plus" />我创建的</router-link>
+          </a-menu-item>
+          <a-menu-item key="fav">
+            <router-link to="/favorite"><a-icon type="star" />我的收藏</router-link>
+          </a-menu-item>
+        </a-menu>
+        <div>
+          <div class="btn_box" style=" margin-left:200px;width:70%;margin-top:-20px" >
+            <cards :list="info" v-if="info.length > 0"></cards>
+          </div>
+        </div>
+      </a-menu-item>
+    </a-menu>
   </div>
-</template>
+  <siderButton></siderButton>
+ </div>
+ </template>
 
 <script>
 import cards from "@/components/wordCard";
@@ -26,8 +30,7 @@ import siderButton from "@/components/siderButton";
 import { getData } from "@/api/webget";
 export default {
   components: {
-    cards,
-    siderButton,
+    cards,siderButton
   },
   data() {
     return {
@@ -65,4 +68,10 @@ export default {
 };
 </script>
 
+<<<<<<< HEAD
+<style>
+
+</style>
+=======
 <style></style>
+>>>>>>> d192fef55692c8c24f1f2d03b2a211bb34534230

@@ -1,37 +1,33 @@
 <template>
-  <div>
-    <div class="cardList">
-      <div class="singleCard" v-for="(item, i) in list" :key="i">
-        <a-card hoverable class="card" @click="toDoc(item, i)">
-          <img
-            slot="cover"
-            src="../assets/word1.jpg"
-            alt="example"
-            style="width:90px;height:90px;margin:10px auto -20px auto"
-          />
-          <a-dropdown class="set">
-            <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-              <a href="#"><a-icon type="setting"/></a>
-            </a>
-            <a-menu slot="overlay">
-              <a-menu-item>
-                <a @click="toCoop">协作</a>
-              </a-menu-item>
-              <a-menu-item>
-                <a @click="toShare" ref="myshare">分享</a>
-              </a-menu-item>
-              <a-menu-item>
-                <a @click="toDelete(item, i)">删除</a>
-              </a-menu-item>
-            </a-menu>
-          </a-dropdown>
-          <span>
-            <h3>{{ item.title }}</h3>
-          </span>
+<div>
+  <div class="cardList">
+    <div class="singleCard" v-for="(item, i) in list" :key="i" >
+        <a-card hoverable class="card" @click="toDoc(item,i)" >
+            <img slot="cover" src="../assets/word1.jpg" alt="example" style="width:90px;height:90px;margin:10px auto -20px auto" />
+            <a-dropdown class="set">
+                <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                <a href="#" ><a-icon type="setting" /></a>
+                </a>
+                <a-menu slot="overlay">
+                <a-menu-item>
+                    <a @click="toCoop">协作</a>
+                </a-menu-item>
+                <a-menu-item>
+                    <a @click="toShare" ref="myshare">分享</a>
+                </a-menu-item>
+                <a-menu-item>
+                    <a @click="toDelete(item,i)">删除</a>
+                </a-menu-item>
+                </a-menu>
+            </a-dropdown>
+            <span>
+                <h3>{{ item.title}}</h3>
+            </span>
         </a-card>
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
