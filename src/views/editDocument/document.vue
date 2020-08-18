@@ -1100,7 +1100,6 @@ export default {
   text-align: center;
 }
 .share-code {
-  float: left;
   background-color: green;
   // border: red 1px solid;
   width: 200px;
@@ -1108,10 +1107,9 @@ export default {
   margin: 10px auto 10px auto;
 }
 .share-link {
-  float: left;
   text-align: left;
   // border: red 1px solid;
-  width: 350px;
+  width: 380px;
   height: 30px;
   margin: 20px auto 10px auto;
 }
