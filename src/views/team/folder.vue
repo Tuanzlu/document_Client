@@ -2,9 +2,9 @@
   <div class="folder">
     <div>
       <a-card
-        :title="teaminfo.teamname+' 的团队空间'"
+        :title="teaminfo.teamname + ' 的团队空间'"
         :bordered="false"
-        style="width: 800px;padding:0 0 16px 0"
+        style="width: 800px; padding: 0 0 16px 0;"
         headStyle="font-size:20px"
         bodyStyle="font-size:16px;padding-bottom:0"
       >
@@ -22,17 +22,15 @@
         <br />
         <a-popover trigger="click" placement="left">
           <template slot="content">
-            <a-form
-              :form="form"
-              @submit="handleSubmit"
-              layout:Vertical
-              style="width:400px;padding:20px"
-            >
+            <a-form :form="form" @submit="handleSubmit" layout:Vertical style="width: 400px; padding: 20px;">
               <a-form-item label="团队名称">
                 <a-input
                   allow-clear
                   v-model="teamname_update"
-                  v-decorator="['teamname', { rules: [{ required: true, message: '团队名称不能为空!' }] ,initialValue: this.teaminfo.teamname}]"
+                  v-decorator="[
+                    'teamname',
+                    { rules: [{ required: true, message: '团队名称不能为空!' }], initialValue: this.teaminfo.teamname },
+                  ]"
                 />
               </a-form-item>
               <a-form-item label="团队介绍">
@@ -40,32 +38,29 @@
                   allow-clear
                   :auto-size="{ minRows: 5, maxRows: 8 }"
                   v-model="intro_update"
-                  v-decorator="['intro', { rules: [{ required: true, message: '团队介绍不能为空!' }],initialValue: this.teaminfo.intro}]"
+                  v-decorator="[
+                    'intro',
+                    { rules: [{ required: true, message: '团队介绍不能为空!' }], initialValue: this.teaminfo.intro },
+                  ]"
                 />
               </a-form-item>
-              <a-form-item style="margin:5px 0 0 140px">
+              <a-form-item style="margin: 5px 0 0 140px;">
                 <a-button type="primary" html-type="submit" ghost>提交修改</a-button>
               </a-form-item>
             </a-form>
           </template>
-          <a-button type="default" v-if="userid==leaderinfo.userid">团队设置</a-button>
-          <br v-if="userid==leaderinfo.userid" />
-          <br v-if="userid==leaderinfo.userid" />
+          <a-button type="default" v-if="userid == leaderinfo.userid">团队设置</a-button>
+          <br v-if="userid == leaderinfo.userid" />
+          <br v-if="userid == leaderinfo.userid" />
         </a-popover>
-        <a-button
-          type="danger"
-          @click="showDeleteConfirm_Member"
-          ghost
-          v-if="userid!=leaderinfo.userid"
-        >退出团队</a-button>
-        <a-button
-          type="danger"
-          @click="showDeleteTeamConfirm"
-          ghost
-          v-if="userid==leaderinfo.userid"
-        >解散团队</a-button>
+        <a-button type="danger" @click="showDeleteConfirm_Member" ghost v-if="userid != leaderinfo.userid"
+          >退出团队</a-button
+        >
+        <a-button type="danger" @click="showDeleteTeamConfirm" ghost v-if="userid == leaderinfo.userid"
+          >解散团队</a-button
+        >
       </div>
-      <div style="margin-left:-50px;margin-top:-30px;">
+      <div style="margin-left: -50px; margin-top: -30px;">
         <wordCard :list="teamdoclist"></wordCard>
       </div>
     </div>
@@ -81,7 +76,7 @@ import wordCard from "@/components/wordCard.vue";
 
 export default {
   components: {
-    wordCard
+    wordCard,
   },
   data() {
     return {
@@ -92,7 +87,7 @@ export default {
       leaderinfo: {},
       userid: parseInt(window.sessionStorage.getItem("UserId")),
       teamname_update: "",
-      intro_update: ""
+      intro_update: "",
     };
   },
   methods: {
@@ -101,8 +96,8 @@ export default {
       this.$router.push({
         path: "/model",
         query: {
-          teamid: this.teamid
-        }
+          teamid: this.teamid,
+        },
       });
     },
     showDeleteConfirm_Member() {
@@ -114,11 +109,9 @@ export default {
         okType: "danger",
         cancelText: "取消",
         onOk() {
-          that.quitTeam_Member(
-            parseInt(window.sessionStorage.getItem("UserId"))
-          );
+          that.quitTeam_Member(parseInt(window.sessionStorage.getItem("UserId")));
         },
-        onCancel() {}
+        onCancel() {},
       });
     },
     showDeleteTeamConfirm() {
@@ -132,7 +125,7 @@ export default {
         onOk() {
           that.deleteTeam();
         },
-        onCancel() {}
+        onCancel() {},
       });
     },
     quitTeam_Member(userid) {
@@ -140,7 +133,7 @@ export default {
       params.append("teamid", this.teamid);
       params.append("userid", userid);
       let url = this.$urlPath.website.quitTeam;
-      deleteData(url, params).then(res => {
+      deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("退出成功");
@@ -159,7 +152,7 @@ export default {
       let params = new URLSearchParams();
       params.append("teamid", this.teamid);
       let url = this.$urlPath.website.deleteTeam;
-      deleteData(url, params).then(res => {
+      deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("删除成功");
@@ -174,14 +167,14 @@ export default {
     },
     handleSubmit(e) {
       e.preventDefault();
-      this.form.validateFields(err => {
+      this.form.validateFields((err) => {
         if (!err) {
           let params = new URLSearchParams();
           params.append("teamid", this.teamid);
           params.append("teamname", this.teamname_update);
           params.append("intro", this.intro_update);
           let url = this.$urlPath.website.updateTeam;
-          putData(url, params).then(res => {
+          putData(url, params).then((res) => {
             console.log(res.code);
             if (res.code === "0") {
               this.$router.go(0);
@@ -202,15 +195,15 @@ export default {
       this.$router.push({
         path: "/team/memberlist",
         query: {
-          teamid: this.teamid
-        }
+          teamid: this.teamid,
+        },
       });
     },
     getTeamInfo() {
       let params = new URLSearchParams();
       params.append("teamid", this.teamid);
       let url = this.$urlPath.website.getTeamInfo;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           //this.$message.success("查询成功");
@@ -230,7 +223,7 @@ export default {
       let params = new URLSearchParams();
       params.append("teamid", this.teamid);
       let url = this.$urlPath.website.getTeamDocList;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           //this.$message.success("查询成功");
@@ -245,21 +238,18 @@ export default {
     },
     addTeamDoc() {
       let params = new URLSearchParams();
-      params.append(
-        "userid",
-        parseInt(window.sessionStorage.getItem("UserId"))
-      );
+      params.append("userid", parseInt(window.sessionStorage.getItem("UserId")));
       params.append("teamid", this.teamid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.addTeamDoc;
-      postData(url, params).then(res => {
+      postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$router.push({
             path: "/document",
             query: {
-              docid: res.data.docid
-            }
+              docid: res.data.docid,
+            },
           });
           this.$message.success("保存成功");
         } else if (res.code === "1") {
@@ -271,7 +261,7 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    }
+    },
   },
   created() {
     this.teamid = this.$route.query.teamid;
@@ -283,14 +273,14 @@ export default {
       this.teamid = this.$route.query.teamid;
       this.getTeamInfo();
       this.getTeamDocList();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
 .btn {
-  margin-top: -100px;
+  margin: -62px -50px 0 0;
   float: right;
   width: 100px;
 }

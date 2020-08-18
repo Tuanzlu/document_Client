@@ -773,11 +773,16 @@ export default {
       putData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          console.log("权限设置成功");
-          // this.$message.success("操作成功");
+          this.$message.success(res.msg);
         } else if (res.code === "1") {
-          this.$message.error("没有权限");
-        } else {
+          this.$message.error(res.msg);
+        }else if (res.code === "2") {
+          this.$message.error(res.msg);
+        } else if (res.code === "3") {
+          this.$message.error(res.msg);
+        } else if (res.code === "4") {
+          this.$message.error(res.msg);
+        }  else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
         }

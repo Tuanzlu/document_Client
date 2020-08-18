@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <div class="top" @click="toIndex">
-        <span class="name">金刚石文档</span>
-      </div>
+      <div class="top" @click="toIndex"><span class="name">金刚石文档</span></div>
       <div class="topRight">
         <a-dropdown>
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
@@ -55,7 +53,8 @@
                           class="read-agree"
                           @click="agreeTeamInvitation(item.teamid, item.noticeid)"
                           v-if="item.type === 1"
-                        >同意</a-button>
+                          >同意</a-button
+                        >
                         <a-button
                           type="danger"
                           ghost
@@ -63,7 +62,8 @@
                           class="read-disagree"
                           @click="disagreeTeamInvitation(item.teamid, item.noticeid)"
                           v-if="item.type === 1"
-                        >拒绝</a-button>
+                          >拒绝</a-button
+                        >
                         <a-button
                           type="primary"
                           ghost
@@ -71,7 +71,8 @@
                           class="read-confirm"
                           @click="readNotice(item.noticeid)"
                           v-if="item.type === 2"
-                        >设为已读</a-button>
+                          >设为已读</a-button
+                        >
                         <a-button
                           type="primary"
                           ghost
@@ -79,7 +80,8 @@
                           class="read-doc"
                           @click="gotoDoc(item.docid)"
                           v-if="item.type === 3"
-                        >去查看</a-button>
+                          >去查看</a-button
+                        >
                         <a-button
                           type="primary"
                           ghost
@@ -87,7 +89,8 @@
                           @click="readNotice(item.noticeid)"
                           style="margin-left: 5px;"
                           v-if="item.type === 3"
-                        >设为已读</a-button>
+                          >设为已读</a-button
+                        >
                         <a-button
                           type="primary"
                           ghost
@@ -95,7 +98,8 @@
                           class="read-agree"
                           @click="agreeCooperateInvitation(item.docid, item.noticeid)"
                           v-if="item.type === 4"
-                        >同意</a-button>
+                          >同意</a-button
+                        >
                         <a-button
                           type="danger"
                           ghost
@@ -103,7 +107,8 @@
                           class="read-disagree"
                           @click="disagreeCooperateInvitation(item.docid, item.noticeid)"
                           v-if="item.type === 4"
-                        >拒绝</a-button>
+                          >拒绝</a-button
+                        >
                       </a-card>
                     </div>
                   </a-tab-pane>
@@ -126,11 +131,9 @@
                           <a-button type="primary" ghost size="small" class="read" disabled>已拒绝</a-button>
                         </span>
                         <span>
-                          <a-button
-                            size="small"
-                            style="margin-left: 5px;"
-                            @click="deleteNotice(item.noticeid)"
-                          >删除</a-button>
+                          <a-button size="small" style="margin-left: 5px;" @click="deleteNotice(item.noticeid)"
+                            >删除</a-button
+                          >
                         </span>
                       </a-card>
                     </div>
@@ -139,17 +142,20 @@
               </a-drawer>
             </div>
           </a>
+          <a-menu slot="overlay">
+            <a-menu-item>
+              <a href="#/personInfo">全 部 通 知</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a href="javascript:;">未 读 消 息</a>
+            </a-menu-item>
+          </a-menu>
         </a-dropdown>
       </div>
       <div class="topRight">
-        <a-popover
-          @click="clearSearch"
-          placement="bottomRight"
-          v-model="visible_search"
-          title="搜索结果"
-        >
+        <a-popover @click="clearSearch" placement="bottomRight" v-model="visible_search" title="搜索结果">
           <div slot="content" @click="hide">
-            <a-list item-layout="horizontal" :data-source="search">
+            <a-list style="max-height: 300px; overflow: scroll;" item-layout="horizontal" :data-source="search">
               <a-list-item slot="renderItem" slot-scope="item">
                 <a-list-item-meta :description="item.modifytime">
                   <a slot="title" @click="toDoc(item)">{{ item.title }}</a>
@@ -171,7 +177,7 @@ import { deleteData } from "@/api/webdelete";
 import showdPhoto from "@/components/showPhoto";
 export default {
   components: {
-    showdPhoto
+    showdPhoto,
   },
   data() {
     return {
@@ -180,7 +186,7 @@ export default {
       visible_search: false,
       readnoticelist: [],
       unreadnoticelist: [],
-      search: []
+      search: [],
     };
   },
   methods: {
@@ -191,7 +197,7 @@ export default {
       params.append("docid", docid);
       params.append("noticeid", noticeid);
       let url = this.$urlPath.website.agreeCooperateInvitation;
-      putData(url, params).then(res => {
+      putData(url, params).then((res) => {
         if (res.code === "0") {
           this.$message.success("通过邀请");
           this.getUnreadNotice();
@@ -211,7 +217,7 @@ export default {
       params.append("docid", docid);
       params.append("noticeid", noticeid);
       let url = this.$urlPath.website.disagreeCooperateInvitation;
-      deleteData(url, params).then(res => {
+      deleteData(url, params).then((res) => {
         if (res.code === "0") {
           this.$message.success("拒绝邀请");
           this.getUnreadNotice();
@@ -231,8 +237,8 @@ export default {
       this.$router.push({
         path: "/document",
         query: {
-          docid: item.docid
-        }
+          docid: item.docid,
+        },
       });
     },
     hide() {
@@ -247,7 +253,7 @@ export default {
         params.append("userid", userId);
         params.append("search", value);
         let url = this.$urlPath.website.getRelatedDocByTitle;
-        getData(url, params).then(res => {
+        getData(url, params).then((res) => {
           if (res.code === "0") {
             this.search = res.data.docList;
             console.log(this.search);
@@ -276,7 +282,7 @@ export default {
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getUserInfo;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         if (res.code === "0") {
           this.imgUrl = res.data.userimgpath;
           console.log(this.imgUrl);
@@ -289,8 +295,8 @@ export default {
       });
     },
     toIndex() {
-      if (window.location.href.substr(23) != "/used") {
-        this.$router.replace("/used");
+      if (window.location.href.substr(23) != "/personIndex") {
+        this.$router.replace("/personIndex");
       }
     },
     getReadNotice() {
@@ -298,7 +304,7 @@ export default {
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getReadNoticeByUser;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         if (res.code === "0") {
           this.readnoticelist = res.data.readnoticelist;
         } else if (res.code === "1") {
@@ -314,7 +320,7 @@ export default {
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getUnreadNoticeByUser;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         if (res.code === "0") {
           this.unreadnoticelist = res.data.unreadnoticelist;
         } else if (res.code === "1") {
@@ -332,7 +338,7 @@ export default {
       params.append("teamid", teamid);
       params.append("noticeid", noticeid);
       let url = this.$urlPath.website.agreeTeamInvitation;
-      putData(url, params).then(res => {
+      putData(url, params).then((res) => {
         if (res.code === "0") {
           this.$message.success("通过邀请");
           this.getUnreadNotice();
@@ -340,8 +346,8 @@ export default {
           this.$router.push({
             path: "/team",
             query: {
-              teamid: teamid
-            }
+              teamid: teamid,
+            },
           });
         } else if (res.code === "1") {
           this.$message.error("失败");
@@ -358,7 +364,7 @@ export default {
       params.append("teamid", teamid);
       params.append("noticeid", noticeid);
       let url = this.$urlPath.website.disagreeTeamInvitation;
-      deleteData(url, params).then(res => {
+      deleteData(url, params).then((res) => {
         if (res.code === "0") {
           this.$message.success("拒绝邀请");
           this.getUnreadNotice();
@@ -375,7 +381,7 @@ export default {
       let params = new URLSearchParams();
       params.append("noticeid", noticeid);
       let url = this.$urlPath.website.readNotice;
-      putData(url, params).then(res => {
+      putData(url, params).then((res) => {
         if (res.code === "0") {
           this.getUnreadNotice();
           this.getReadNotice();
@@ -391,7 +397,7 @@ export default {
       let params = new URLSearchParams();
       params.append("noticeid", noticeid);
       let url = this.$urlPath.website.deleteNotice;
-      deleteData(url, params).then(res => {
+      deleteData(url, params).then((res) => {
         if (res.code === "0") {
           this.getUnreadNotice();
           this.getReadNotice();
@@ -407,16 +413,16 @@ export default {
       this.$router.push({
         path: "/document",
         query: {
-          docid: docid
-        }
+          docid: docid,
+        },
       });
-    }
+    },
   },
   mounted() {
     this.getPhoto();
     this.getUnreadNotice();
     this.getReadNotice();
-  }
+  },
 };
 </script>
 
@@ -439,28 +445,5 @@ export default {
 .topRight {
   float: right;
   margin: 15px 10px 0 20px;
-}
-.notice-card {
-  width: 330px;
-  margin: 10px 0 0 20px;
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.3);
-}
-.notice-card .read-agree {
-  margin-left: 200px;
-}
-.notice-card .read-disagree {
-  margin-left: 5px;
-}
-.notice-card .read-confirm {
-  margin-left: 229px;
-}
-.notice-card .read {
-  margin-left: 177px;
-}
-.notice-card .read2 {
-  margin-left: 187px;
-}
-.notice-card .read-doc {
-  margin-left: 166px;
 }
 </style>
