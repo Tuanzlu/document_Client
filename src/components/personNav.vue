@@ -33,7 +33,7 @@
               <a-drawer
                 placement="right"
                 :closable="false"
-                :visible="visible"
+                :visible="visible_notice"
                 :after-visible-change="afterVisibleChange"
                 @close="onClose"
                 width="400px"
@@ -55,8 +55,7 @@
                           class="read-agree"
                           @click="agreeTeamInvitation(item.teamid, item.noticeid)"
                           v-if="item.type === 1"
-                          >同意</a-button
-                        >
+                        >同意</a-button>
                         <a-button
                           type="danger"
                           ghost
@@ -64,8 +63,7 @@
                           class="read-disagree"
                           @click="disagreeTeamInvitation(item.teamid, item.noticeid)"
                           v-if="item.type === 1"
-                          >拒绝</a-button
-                        >
+                        >拒绝</a-button>
                         <a-button
                           type="primary"
                           ghost
@@ -73,8 +71,7 @@
                           class="read-confirm"
                           @click="readNotice(item.noticeid)"
                           v-if="item.type === 2"
-                          >设为已读</a-button
-                        >
+                        >设为已读</a-button>
                         <a-button
                           type="primary"
                           ghost
@@ -82,8 +79,7 @@
                           class="read-doc"
                           @click="gotoDoc(item.docid)"
                           v-if="item.type === 3"
-                          >去查看</a-button
-                        >
+                        >去查看</a-button>
                         <a-button
                           type="primary"
                           ghost
@@ -91,8 +87,23 @@
                           @click="readNotice(item.noticeid)"
                           style="margin-left: 5px;"
                           v-if="item.type === 3"
-                          >设为已读</a-button
-                        >
+                        >设为已读</a-button>
+                        <a-button
+                          type="primary"
+                          ghost
+                          size="small"
+                          class="read-agree"
+                          @click="agreeCooperateInvitation(item.docid, item.noticeid)"
+                          v-if="item.type === 4"
+                        >同意</a-button>
+                        <a-button
+                          type="danger"
+                          ghost
+                          size="small"
+                          class="read-disagree"
+                          @click="disagreeCooperateInvitation(item.docid, item.noticeid)"
+                          v-if="item.type === 4"
+                        >拒绝</a-button>
                       </a-card>
                     </div>
                   </a-tab-pane>
@@ -115,9 +126,11 @@
                           <a-button type="primary" ghost size="small" class="read" disabled>已拒绝</a-button>
                         </span>
                         <span>
-                          <a-button size="small" style="margin-left: 5px;" @click="deleteNotice(item.noticeid)"
-                            >删除</a-button
-                          >
+                          <a-button
+                            size="small"
+                            style="margin-left: 5px;"
+                            @click="deleteNotice(item.noticeid)"
+                          >删除</a-button>
                         </span>
                       </a-card>
                     </div>
@@ -129,7 +142,12 @@
         </a-dropdown>
       </div>
       <div class="topRight">
-        <a-popover @click="clearSearch" placement="bottomRight" v-model="visible" title="搜索结果">
+        <a-popover
+          @click="clearSearch"
+          placement="bottomRight"
+          v-model="visible_search"
+          title="搜索结果"
+        >
           <div slot="content" @click="hide">
             <a-list item-layout="horizontal" :data-source="search">
               <a-list-item slot="renderItem" slot-scope="item">
@@ -153,18 +171,59 @@ import { deleteData } from "@/api/webdelete";
 import showdPhoto from "@/components/showPhoto";
 export default {
   components: {
-    showdPhoto,
+    showdPhoto
   },
   data() {
     return {
       imgUrl: "",
-      visible: false,
+      visible_notice: false,
+      visible_search: false,
       readnoticelist: [],
       unreadnoticelist: [],
-      search: [],
+      search: []
     };
   },
   methods: {
+    agreeCooperateInvitation(docid, noticeid) {
+      let params = new URLSearchParams();
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
+      params.append("userid", userId);
+      params.append("docid", docid);
+      params.append("noticeid", noticeid);
+      let url = this.$urlPath.website.agreeCooperateInvitation;
+      putData(url, params).then(res => {
+        if (res.code === "0") {
+          this.$message.success("通过邀请");
+          this.getUnreadNotice();
+          this.getReadNotice();
+        } else if (res.code === "1") {
+          this.$message.error("失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+    disagreeCooperateInvitation(docid, noticeid) {
+      let params = new URLSearchParams();
+      let userId = parseInt(window.sessionStorage.getItem("UserId"));
+      params.append("userid", userId);
+      params.append("docid", docid);
+      params.append("noticeid", noticeid);
+      let url = this.$urlPath.website.disagreeCooperateInvitation;
+      deleteData(url, params).then(res => {
+        if (res.code === "0") {
+          this.$message.success("拒绝邀请");
+          this.getUnreadNotice();
+          this.getReadNotice();
+        } else if (res.code === "1") {
+          this.$message.error("失败");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
     clearSearch() {
       this.search.splice(0, this.search.length);
     },
@@ -172,12 +231,12 @@ export default {
       this.$router.push({
         path: "/document",
         query: {
-          docid: item.docid,
-        },
+          docid: item.docid
+        }
       });
     },
     hide() {
-      this.visible = false;
+      this.visible_search = false;
       this.search.splice(0, this.search.length);
     },
     onSearch(value) {
@@ -188,7 +247,7 @@ export default {
         params.append("userid", userId);
         params.append("search", value);
         let url = this.$urlPath.website.getRelatedDocByTitle;
-        getData(url, params).then((res) => {
+        getData(url, params).then(res => {
           if (res.code === "0") {
             this.search = res.data.docList;
             console.log(this.search);
@@ -207,17 +266,17 @@ export default {
       console.log("visible", val);
     },
     showDrawer() {
-      this.visible = true;
+      this.visible_notice = true;
     },
     onClose() {
-      this.visible = false;
+      this.visible_notice = false;
     },
     getPhoto() {
       let params = new URLSearchParams();
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getUserInfo;
-      getData(url, params).then((res) => {
+      getData(url, params).then(res => {
         if (res.code === "0") {
           this.imgUrl = res.data.userimgpath;
           console.log(this.imgUrl);
@@ -239,7 +298,7 @@ export default {
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getReadNoticeByUser;
-      getData(url, params).then((res) => {
+      getData(url, params).then(res => {
         if (res.code === "0") {
           this.readnoticelist = res.data.readnoticelist;
         } else if (res.code === "1") {
@@ -255,7 +314,7 @@ export default {
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       let url = this.$urlPath.website.getUnreadNoticeByUser;
-      getData(url, params).then((res) => {
+      getData(url, params).then(res => {
         if (res.code === "0") {
           this.unreadnoticelist = res.data.unreadnoticelist;
         } else if (res.code === "1") {
@@ -273,7 +332,7 @@ export default {
       params.append("teamid", teamid);
       params.append("noticeid", noticeid);
       let url = this.$urlPath.website.agreeTeamInvitation;
-      putData(url, params).then((res) => {
+      putData(url, params).then(res => {
         if (res.code === "0") {
           this.$message.success("通过邀请");
           this.getUnreadNotice();
@@ -281,8 +340,8 @@ export default {
           this.$router.push({
             path: "/team",
             query: {
-              teamid: teamid,
-            },
+              teamid: teamid
+            }
           });
         } else if (res.code === "1") {
           this.$message.error("失败");
@@ -299,7 +358,7 @@ export default {
       params.append("teamid", teamid);
       params.append("noticeid", noticeid);
       let url = this.$urlPath.website.disagreeTeamInvitation;
-      deleteData(url, params).then((res) => {
+      deleteData(url, params).then(res => {
         if (res.code === "0") {
           this.$message.success("拒绝邀请");
           this.getUnreadNotice();
@@ -316,7 +375,7 @@ export default {
       let params = new URLSearchParams();
       params.append("noticeid", noticeid);
       let url = this.$urlPath.website.readNotice;
-      putData(url, params).then((res) => {
+      putData(url, params).then(res => {
         if (res.code === "0") {
           this.getUnreadNotice();
           this.getReadNotice();
@@ -332,7 +391,7 @@ export default {
       let params = new URLSearchParams();
       params.append("noticeid", noticeid);
       let url = this.$urlPath.website.deleteNotice;
-      deleteData(url, params).then((res) => {
+      deleteData(url, params).then(res => {
         if (res.code === "0") {
           this.getUnreadNotice();
           this.getReadNotice();
@@ -348,16 +407,16 @@ export default {
       this.$router.push({
         path: "/document",
         query: {
-          docid: docid,
-        },
+          docid: docid
+        }
       });
-    },
+    }
   },
   mounted() {
     this.getPhoto();
     this.getUnreadNotice();
     this.getReadNotice();
-  },
+  }
 };
 </script>
 

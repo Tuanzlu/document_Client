@@ -69,6 +69,8 @@ let path = {
     deleteNotice: Ip.productIP + "deleteNotice",
     agreeTeamInvitation: Ip.productIP + "agreeTeamInvitation",
     disagreeTeamInvitation: Ip.productIP + "disagreeTeamInvitation",
+    agreeCooperateInvitation: Ip.productIP + "agreeCooperateInvitation",
+    disagreeCooperateInvitation: Ip.productIP + "disagreeCooperateInvitation",
   },
 };
 export default path;
