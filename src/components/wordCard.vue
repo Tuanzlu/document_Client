@@ -243,7 +243,7 @@ export default {
   },
   data(){
     return {
-       href: "http://123.56.145.79:8100" + window.location.href.substr(21),
+       href:window.location.href,
       imageUrl: require("../assets/bg.jpeg"),
       searchWord:"",
       isaddShare:true,
@@ -347,11 +347,12 @@ export default {
       deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          console.log("删除权限成功");
-          // this.$message.success("操作成功");
+          this.$message.success("删除权限成功");
         } else if (res.code === "1") {
-          this.$message.error("操作失败");
-        } else {
+          this.$message.error("没有权限");
+        }else if (res.code === "2") {
+          this.$message.error("不能删除创建者的权限");
+        }  else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
         }
@@ -389,11 +390,16 @@ export default {
       putData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          console.log("权限设置成功");
-          // this.$message.success("操作成功");
+          this.$message.success(res.msg);
         } else if (res.code === "1") {
-          this.$message.error("没有权限");
-        } else {
+          this.$message.error(res.msg);
+        }else if (res.code === "2") {
+          this.$message.error(res.msg);
+        } else if (res.code === "3") {
+          this.$message.error(res.msg);
+        } else if (res.code === "4") {
+          this.$message.error(res.msg);
+        }  else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
         }

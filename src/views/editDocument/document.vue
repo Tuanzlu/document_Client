@@ -392,7 +392,7 @@ export default {
       selected:1,
       value: 1,
       searchWord: "",  
-      href: "http://123.56.145.79:8100" + window.location.href.substr(21),
+      href: window.location.href,
       review: {
         title: "user",
         content: "",
@@ -730,12 +730,13 @@ export default {
       let url = this.$urlPath.website.deletePerms;
       deleteData(url, params).then((res) => {
         console.log(res.code);
-        if (res.code === "0") {
-          console.log("删除权限成功");
-          // this.$message.success("操作成功");
+         if (res.code === "0") {
+          this.$message.success("删除权限成功");
         } else if (res.code === "1") {
-          this.$message.error("操作失败");
-        } else {
+          this.$message.error("没有权限");
+        }else if (res.code === "2") {
+          this.$message.error(res.msg);
+        }  else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
         }
