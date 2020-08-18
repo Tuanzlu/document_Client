@@ -89,7 +89,7 @@
                           ghost
                           size="small"
                           @click="readNotice(item.noticeid)"
-                          style="margin-left:5px"
+                          style="margin-left: 5px;"
                           v-if="item.type === 3"
                           >设为已读</a-button
                         >
@@ -115,7 +115,7 @@
                           <a-button type="primary" ghost size="small" class="read" disabled>已拒绝</a-button>
                         </span>
                         <span>
-                          <a-button size="small" style="margin-left:5px" @click="deleteNotice(item.noticeid)"
+                          <a-button size="small" style="margin-left: 5px;" @click="deleteNotice(item.noticeid)"
                             >删除</a-button
                           >
                         </span>
@@ -129,7 +129,18 @@
         </a-dropdown>
       </div>
       <div class="topRight">
-        <a-input-search placeholder="搜索文件" style="width: 200px;" @search="onSearch" />
+        <a-popover @click="clearSearch" placement="bottomRight" v-model="visible" title="搜索结果">
+          <div slot="content" @click="hide">
+            <a-list item-layout="horizontal" :data-source="search">
+              <a-list-item slot="renderItem" slot-scope="item">
+                <a-list-item-meta :description="item.modifytime">
+                  <a slot="title" @click="toDoc(item)">{{ item.title }}</a>
+                </a-list-item-meta>
+              </a-list-item>
+            </a-list>
+          </div>
+          <a-input-search placeholder="搜索文件" style="width: 200px;" @search="onSearch" />
+        </a-popover>
       </div>
     </div>
   </div>
@@ -150,9 +161,48 @@ export default {
       visible: false,
       readnoticelist: [],
       unreadnoticelist: [],
+      search: [],
     };
   },
   methods: {
+    clearSearch() {
+      this.search.splice(0, this.search.length);
+    },
+    toDoc(item) {
+      this.$router.push({
+        path: "/document",
+        query: {
+          docid: item.docid,
+        },
+      });
+    },
+    hide() {
+      this.visible = false;
+      this.search.splice(0, this.search.length);
+    },
+    onSearch(value) {
+      console.log(value.length);
+      if (value.length > 0) {
+        let params = new URLSearchParams();
+        let userId = parseInt(window.sessionStorage.getItem("UserId"));
+        params.append("userid", userId);
+        params.append("search", value);
+        let url = this.$urlPath.website.getRelatedDocByTitle;
+        getData(url, params).then((res) => {
+          if (res.code === "0") {
+            this.search = res.data.docList;
+            console.log(this.search);
+          } else if (res.code === "1") {
+            this.$message.error("获取信息失败");
+          } else {
+            console.log(res.code);
+            this.$message.error("服务器返回时间间隔过长");
+          }
+        });
+      } else {
+        this.search.splice(0, this.search.length);
+      }
+    },
     afterVisibleChange(val) {
       console.log("visible", val);
     },

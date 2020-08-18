@@ -7,7 +7,7 @@
         </div>
         </br>
         <!--分割线-->
-        <div style="float:left;width: 2px;height: 300px; background: #000;margin-right: 40px;margin-left: 20px;"></div>  
+        <div style="float:left;width: 2px;height: 350px; background: #000;margin-right: 40px;margin-left: 20px;"></div>  
         <!--右边内容-->
         <a-list size="large">
             <div>
@@ -17,7 +17,7 @@
             </br></br>
             <div>
                 <a-icon type="contacts"  style="margin-right: 10px ;float: center"/>
-                <span>账号ID：{{info.userid}}</span>
+                <span> 账号ID：{{info.userid}}</span>
             </div>
             </br></br>
             <div>
@@ -26,8 +26,7 @@
                 <a-button @click="toPwd" type="link" style="float: right;">修改</a-button>
                 <inputPwd ref="choosePwd" v-show="showPwd" v-on:closePwd="closePwd"></inputPwd>
             </div>
-            </br>
-            </br>
+             </br></br>
             <div>
                 <a-icon type="wechat"  style="margin-right: 10px"/>
                 <span> 微信：{{info.wechat}}</span>
@@ -41,7 +40,13 @@
                 <a-button @click="toEmail" type="link" style="float: right;">修改</a-button>
                 <inputEmail ref="chooseE" v-show="showEmail" v-on:closeEmail="closeEmail"></inputEmail>
             </div>
-            
+            </br></br>
+            <div>
+                <a-icon type="smile"  style="margin-right: 10px"/>
+                <span> 个性签名：{{info.intro}}</span>
+                <a-button @click="toIntro" type="link" style="float: right;">修改</a-button>
+                <inputIntro ref="chooseIntro" v-show="showIntro" v-on:closeEmail="closeIntro"></inputIntro>
+            </div>
         </a-list>
       </div> 
   </div>
@@ -54,12 +59,14 @@ import uploadPhoto from '@/components/uploadPhoto';
 import inputBox from '@/components/inputBox';
 import inputEmail from '@/components/inputEmail';
 import inputPwd from '@/components/inputPwd';
+import inputIntro from '@/components/inputIntro';
 export default {
   components: {
         uploadPhoto,
         inputBox,
         inputEmail,
         inputPwd,
+        inputIntro,
   },
   data() {
     return {
@@ -67,6 +74,7 @@ export default {
       showWechat:false,
       showEmail: false,
       showPwd: false,
+      showIntro: false,
     };
   },
   methods: {
@@ -86,6 +94,23 @@ export default {
     },
     toPwd(){
       this.showPwd = !this.showPwd;
+    },
+    toIntro(){
+      this.showIntro= !this.showIntro;
+    },
+    closeIntro(){
+      let res = this.$refs.chooseIntro.getChoose();
+      this.showIntro = !this.showIntro;
+      console.log(res.flag);
+      if(res.flag == 1 && res.intro.length == 0){
+        this.$message.error("请输入修改后的结果");
+        //console.log("正常关闭");
+      }
+      else if(res.flag == 1){
+        this.info.intro = res.intro;
+        console.log(this.info.intro);
+        this.changeWE();
+      }
     },
     closePwd(){
       let res = this.$refs.choosePwd.getChoose();
@@ -112,10 +137,11 @@ export default {
       let res = this.$refs.chooseE.getChoose();
       this.showEmail = !this.showEmail;
       let select = this.email_blur(res);
-      if(!select){
+      console.log(res);
+      if(!select && res !== 'dis'){
         this.$message.error("请检查邮箱输入格式");
       }
-      else if(res){
+      else if(res !== 'dis'){
         this.info.email = res;
         console.log(this.info.email);
         this.changeWE();
@@ -136,11 +162,11 @@ export default {
       params.append("userid", userId);
       let url = this.$urlPath.website.getUserInfo;
       getData(url,params).then((res) => {
-        console.log(res.code);
+        console.log( res.data);
         if (res.code === "0") {
-          //this.$message.success("查询成功");
           this.info = res.data;
           this.info.password = "●●●●●●●●●●●●";
+          this.info.question = "★★★★★★★★★";
         } else if (res.code === "1") {
           this.$message.error("未登录");
         } else {
@@ -155,7 +181,10 @@ export default {
       params.append("userid", userId);
       params.append("wechat", this.info.wechat);
       params.append("email", this.info.email);
-      console.log(this.change);
+
+      params.append("intro", this.info.intro);
+      params.append("question", this.info.question);
+      params.append("answer", this.info.answer);
       let url = this.$urlPath.website.updateUserInfo;
       putData(url,params).then((res) => {
         console.log(res.code);
@@ -209,7 +238,7 @@ export default {
 }
 .Info_box{
   border:3px solid #000;
-  height: 460px;
+  height: 550px;
   width: 600px;
   padding:50px 30px; 
   margin-bottom: 50px;

@@ -26,7 +26,8 @@
           v-decorator="[
             'username',
             {
-              rules: [{ required: true, message: 'Username is required!' }],
+              rules: [{ required: true, message: 'Username is required!' },
+              { min: 3, message: '用户名长度大于3', trigger: 'blur' },],
             },
           ]"
         />
@@ -44,6 +45,7 @@
                 {
                     validator: validateToNextPassword,
                 },
+                { min: 3, message: '密码长度大于3', trigger: 'blur' },
                 ],
             },
             ]"
@@ -81,6 +83,40 @@
           ]"
         />
         </a-form-item>
+
+        <a-form-item v-bind="formItemLayout" label="安全问题">
+        <a-input
+          v-decorator="[
+            'question',
+            {
+              rules: [{ required: true, message: 'question is required!' }],
+            },
+          ]"
+        />
+        </a-form-item>
+
+        <a-form-item v-bind="formItemLayout" label="答案">
+        <a-input
+          v-decorator="[
+            'answer',
+            {
+              rules: [{ required: true, message: 'answer is required!' }],
+            },
+          ]"
+        />
+        </a-form-item>
+
+        <a-form-item v-bind="formItemLayout" label="个人简介">
+        <a-textarea placeholder="Basic usage" :rows="4" 
+          v-decorator="[
+            'intro',
+            {
+              rules: [{ required: true, message: 'Introduce is required!' }],
+            },
+          ]"
+        />
+        </a-form-item>
+
         <div class = "register_footer">
             已有账号？
             <a href="#/login">
@@ -139,13 +175,17 @@ export default {
       params.append('password', values.password);
       params.append('email', values.email);
       params.append('wechat', values.wechatNumber);
+      
+      params.append('intro', values.intro);
+      params.append('question', values.question);
+      params.append('answer', values.answer);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.register;
       postData(url,params).then((res) => {
         console.log(res);
         if(res.code === '0'){
           this.$message.success('注册成功');
-          this.$router.push('/personIndex');
+          this.$router.push('/login');
         }
         else if(res.code === '1'){
           this.$message.error('用户名重复，请更换');

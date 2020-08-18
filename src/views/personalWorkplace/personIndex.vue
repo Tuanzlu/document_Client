@@ -4,7 +4,6 @@
       <div>
         <personNav></personNav>
         <siderNav></siderNav>
-        
       </div>
     </div>
     <router-view></router-view>

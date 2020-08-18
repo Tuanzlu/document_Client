@@ -5,13 +5,11 @@
           <h3>请输入修改之后的信息</h3>
         </div>
         <div class="modal-body">
-            <a-input style="width:250px"  v-model="email" placeholder="请输入新的邮箱"
-            type="email"
-            >
-                <a-icon slot="prefix" type="mail" />
+            <a-textarea style="width:250px"  v-model="intro" placeholder="请输入新的个人简介">
+                <a-icon slot="prefix" type="smile" />
                 <a-tooltip slot="suffix" title="Extra information">
                 </a-tooltip>
-            </a-input>
+            </a-textarea>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn-close" @click="closeSelf">确认</button>
@@ -25,20 +23,22 @@
 export default {
   data() {
     return {    
-        email: '',
+        intro: '',
         mainStyles: '',
-        temp: '',
+        temp: {},
     }
   }, 
   methods: {   
     closeSelf() {
-        this.temp = this.email;
-        this.email="";
+        this.temp.intro = this.intro;
+        this.temp.flag =1;
+        this.intro="";
         this.$emit("closeEmail");    
     },
     closeJust() {
-        this.email="";
-        this.temp="dis";
+        this.intro="";
+        this.temp.flag =0;
+        this.temp.intro="";
         this.$emit("closeEmail");    
     },
     getChoose() {
@@ -83,7 +83,7 @@ export default {
 } 
 .modal-body { 
     position: relative; 
-    padding: 30px 10px; 
+    padding: 0px 10px; 
     text-align: center;
     font-size: 18px;
     margin-right: 40px;

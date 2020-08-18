@@ -1012,7 +1012,6 @@ export default {
 ::v-deep .ant-table-small {
   border: none;
 }
-
 .co-table-one {
   // border: blue 1px solid;
   display: block;
