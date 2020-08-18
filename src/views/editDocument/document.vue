@@ -244,16 +244,20 @@
         </div>
       </div>
       <div class="review">
-        <div class="review-title">评论区</div>
-        <a-divider></a-divider>
+        <div class="review-title"></div>
         <div class="review-list">
-          <a-list style="min-height:380px" item-layout="horizontal" :data-source="commentList">
+          <a-list style="min-height:380px" item-layout="horizontal" :data-source="commentList" :header="`${commentList.length} replies`">
             <a-list-item slot="renderItem" slot-scope="item">
-              <a-button slot="actions" @click="deleteComment(item.commentid)">删除</a-button>
-              <a-list-item-meta :description="item.content">
-                <a slot="title" >{{ item.username }}</a>
-                <a-avatar slot="avatar" :src="item.userimgpath" />
-              </a-list-item-meta>
+              <a-comment  :avatar="item.userimgpath">
+                <a slot="author">{{item.username}}</a>
+                <span slot="actions" @click="deleteComment(item.commentid)" size="small" style="float:right">删除</span>
+                <p slot="content">
+                  {{ item.content }}
+                </p>
+                <div slot="datetime" >
+                  <span>{{ item.commenttime}}</span>
+                </div>
+              </a-comment>
             </a-list-item>
           </a-list>
           <a-divider></a-divider>

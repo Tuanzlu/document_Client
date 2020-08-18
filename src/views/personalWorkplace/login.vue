@@ -102,7 +102,7 @@ export default {
           const webAdrs = window.sessionStorage.getItem("WebAdrs");
           if (webAdrs) {
             console.log("that way" + webAdrs);
-            this.$router.push(webAdrs.substr(23));
+            this.$router.push(webAdrs.substr(27));
           } else if (!webAdrs) {
             console.log("this way");
             this.$router.push("/used");
