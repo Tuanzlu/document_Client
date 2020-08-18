@@ -169,7 +169,9 @@
                   </a-radio>
                 </a-radio-group>
               </div>
-              <div class="share-code"></div>
+              <div class="share-code">
+                <vue-qr :logoSrc="imageUrl" :text="href" :size="200"></vue-qr>
+              </div>
               <div class="share-link">链接：{{ href }}</div>
             </div>
           </template>
@@ -268,6 +270,7 @@
 </template>
 
 <script>
+import vueQr from 'vue-qr';
 import { getData } from "@/api/webget";
 import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
@@ -363,10 +366,12 @@ const items = [
 export default {
   components: {
     editor,
+    vueQr
   },
   props: ["docidnum"],
   data() {
     return {
+      imageUrl: require("../../assets/bg.jpeg"),
       columns,
       items,
       showColumns,
@@ -512,7 +517,17 @@ export default {
         }
       } else if (key == 3) {
         this.deleteDocument();
-        this.$router.go(-1);
+        if(this.article.teamid==-1){
+          this.$router.push("/used");
+        }else{
+          this.$router.push({
+            path:"/team",
+            query:{
+              teamid:this.article.teamid
+            }
+          });
+        }
+        
       }
       console.log(`Click on item ${key}`);
     },
@@ -997,7 +1012,6 @@ export default {
 ::v-deep .ant-table-small {
   border: none;
 }
-
 .co-table-one {
   // border: blue 1px solid;
   display: block;
@@ -1085,18 +1099,16 @@ export default {
   text-align: center;
 }
 .share-code {
-  float: left;
   background-color: green;
-  border: red 1px solid;
+  // border: red 1px solid;
   width: 200px;
   height: 200px;
   margin: 10px auto 10px auto;
 }
 .share-link {
-  float: left;
   text-align: left;
   // border: red 1px solid;
-  width: 350px;
+  width: 380px;
   height: 30px;
   margin: 20px auto 10px auto;
 }

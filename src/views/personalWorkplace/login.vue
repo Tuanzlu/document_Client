@@ -54,7 +54,7 @@
           >
             记住密码
           </a-checkbox>
-          <a class="login-form-forgot" href="">
+          <a class="login-form-forgot" href="#/findPwd">
             忘记密码？
           </a>
           <a-button html-type="submit" class="login-form-button">

@@ -19,6 +19,9 @@ let path = {
     getMyDeleteDoc: Ip.productIP + "getMyDeleteDoc",
     getOthersCooperateDoc: Ip.productIP + "getOthersCooperateDoc",
     getMyCooperateDoc: Ip.productIP + "getMyCooperateDoc",
+    getRelatedDocByTitle: Ip.productIP + "getRelatedDocByTitle",
+    getUserQuestionByUsername: Ip.productIP + "getUserQuestionByUsername",
+    setPassword: Ip.productIP + "setPassword",
     //文档、评论
     addDoc: Ip.productIP + "addDoc",
     readDoc: Ip.productIP + "readDoc",
@@ -58,6 +61,7 @@ let path = {
     getTeamTemplateList: Ip.productIP + "getTeamTemplateList",
     addTeamTemplate: Ip.productIP + "addTeamTemplate",
     addTeamDocByTemplate: Ip.productIP + "addTeamDocByTemplate",
+    updateTeam: Ip.productIP + "updateTeam",
     //通知系统
     getReadNoticeByUser: Ip.productIP + "getReadNoticeByUser",
     getUnreadNoticeByUser: Ip.productIP + "getUnreadNoticeByUser",

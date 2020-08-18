@@ -35,11 +35,6 @@ const routes = [
     component: () => import("../views/personalWorkplace/register.vue"),
   },
   {
-    path: "/personIndex",
-    name: "PersonIndex",
-    component: () => import("../views/personalWorkplace/personIndex.vue"),
-  },
-  {
     path: "/personInfo",
     name: "PersonInfo",
     component: () => import("../views/personalWorkplace/personInfo.vue"),
@@ -107,9 +102,9 @@ const routes = [
     ],
   },
   {
-    path: "/personInfo",
-    name: "PersonInfo",
-    component: () => import("../views/personalWorkplace/personInfo.vue"),
+    path: "/findPwd",
+    name: "findPwd",
+    component: () => import("../views/personalWorkplace/findPwd.vue"),
   },
   {
     path: "/help",
@@ -130,6 +125,7 @@ router.beforeEach((to, from, next) => {
     to.path === "/about" ||
     to.path === "/index"
   ) {
+    console.log("2222");
     return next();
   } else {
     console.log("111111");

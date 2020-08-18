@@ -1,10 +1,10 @@
 <template>
   <div>
     <div style="float: left;">
-      <a-menu v-model="mail" mode="horizontal" style="margin-left:250px;width:70%">
+      <a-menu v-model="mail" mode="horizontal" style="margin-left: 250px; width: 70%;">
         <a-menu-item key="mail"> <a-icon type="delete" />回收站 </a-menu-item>
       </a-menu>
-      <div class="btn_box" style=" margin-left:200px;width:70%;margin-top:-20px">
+      <div class="btn_box" style="margin-left: 200px; width: 70%; margin-top: -20px;">
         <cards :list="info" v-if="info.length > 0"></cards>
       </div>
     </div>

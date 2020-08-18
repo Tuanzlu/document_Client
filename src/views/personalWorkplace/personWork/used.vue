@@ -21,8 +21,8 @@
     </a-menu>
   </div>
   <siderButton></siderButton>
- </div>
- </template>
+</div>
+</template>
 
 <script>
 import cards from "@/components/wordCard";
