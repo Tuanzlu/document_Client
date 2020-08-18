@@ -16,7 +16,7 @@
             <a-menu slot="overlay">
               <a-menu-item>
               <a @click="toCoop(item)">协作</a>
-               <a-modal v-model="visible" title="添加协作者" @ok="handleOk" width="650px">
+               <a-modal v-model="visible" title="添加协作者" @ok="handleOk" width="650px" :footer="null">
                   <div class="one-content" v-if="isaddShare">
                     <div class="search-bar">
                     <a-button class="btn" @click="backDown">
@@ -104,7 +104,7 @@
               </a-menu-item>
               <a-menu-item>
                 <a @click="toShare(item)" ref="myshare">分享</a>
-                <a-modal v-model="shareVisible" title="分享文档" @ok="shareHandleOk" width="450px">
+                <a-modal v-model="shareVisible" title="分享文档" @ok="shareHandleOk" width="450px" :footer="null">
                   <div class="share-content">
               <div class="switch">
                 <span style="float:left">公开链接：</span>
