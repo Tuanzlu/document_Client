@@ -25,7 +25,7 @@
         <a-icon type="delete" />回收站
         <router-link to="/rubish"></router-link>
       </a-menu-item>
-      <a-menu-item key="6"> <a-icon type="question" />帮助中心 </a-menu-item>
+      <a-menu-item key="6"> <a-icon type="question" />帮助中心<router-link to="/help"></router-link></a-menu-item>
     </a-menu>
   </div>
 </template>
