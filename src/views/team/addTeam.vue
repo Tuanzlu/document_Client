@@ -1,21 +1,31 @@
 <template>
-  <div style="float:right;width:70%">
-    <h2>创建新的团队</h2>
-    <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="handleSubmit">
-      <a-form-item label="teamnname">
+  <div style="margin-left:250px;width:70%">
+    <a-card title="创建新的团队" :bordered="false" style="width: 800px;" headStyle="font-size:20px"></a-card>
+    <a-form
+      :form="form"
+      @submit="handleSubmit"
+      layout:Vertical
+      style="margin:30px 0 0 40px;width:700px"
+    >
+      <a-form-item label="团队名称">
         <a-input
+          allow-clear
+          placeholder="为你的团队起个名字"
           v-model="teamname"
-          v-decorator="['teamname', { rules: [{ required: true, message: 'Please input your teamname!' }] }]"
+          v-decorator="['teamname', { rules: [{ required: true, message: '团队名称不能为空!' }] }]"
         />
       </a-form-item>
-      <a-form-item label="intro">
+      <a-form-item label="团队介绍">
         <a-textarea
+          allow-clear
           v-model="intro"
-          v-decorator="['intro', { rules: [{ required: true, message: 'Please input your intro!' }] }]"
+          placeholder="详细的团队介绍会帮助成员们迅速了解你的团队"
+          :auto-size="{ minRows: 5, maxRows: 8 }"
+          v-decorator="['intro', { rules: [{ required: true, message: '团队介绍不能为空!' }] }]"
         />
       </a-form-item>
-      <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-        <a-button type="primary" html-type="submit">Submit</a-button>
+      <a-form-item style="margin-top:5px">
+        <a-button type="primary" html-type="submit" ghost>提交</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -26,17 +36,17 @@ import { postData } from "@/api/webpost";
 export default {
   data() {
     return {
-      formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "addtime" }),
       teamname: "name",
       intro: "intro",
       teamid: 0,
+      visible: true
     };
   },
   methods: {
     handleSubmit(e) {
       e.preventDefault();
-      this.form.validateFields((err) => {
+      this.form.validateFields(err => {
         if (!err) {
           let userId = parseInt(window.sessionStorage.getItem("UserId"));
           let params = new URLSearchParams();
@@ -44,15 +54,15 @@ export default {
           params.append("teamname", this.teamname);
           params.append("intro", this.intro);
           let url = this.$urlPath.website.addTeam;
-          postData(url, params).then((res) => {
+          postData(url, params).then(res => {
             console.log(res.code);
             if (res.code === "0") {
               this.teamid = res.data.teamid;
               this.$router.push({
                 path: "/team",
                 query: {
-                  teamid: this.teamid,
-                },
+                  teamid: this.teamid
+                }
               });
               this.$message.success("创建成功");
             } else if (res.code === "1") {
@@ -66,8 +76,8 @@ export default {
           });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style></style>

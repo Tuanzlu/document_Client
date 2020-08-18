@@ -1,13 +1,22 @@
 <template>
   <div class="content">
     <div class="header">
+       
       <div class="top">
         <a-button class="btn" @click="toLast">
           <a-icon type="left" />
         </a-button>
-        <a-button class="btn" @click="addNewDoc">
+
+<a-tooltip>
+    <template slot="title">
+      创建副本
+    </template>
+     <a-button class="btn" @click="addNewDoc">
           <a-icon type="plus" />
         </a-button>
+  </a-tooltip>
+
+       
       </div>
       <div class="top">
         <span class="name">{{ article.title }}</span>
@@ -55,7 +64,7 @@
               </div>
               <div class="co-table-one">
                 <a-table
-                  style="width:600px;margin-left:-40px;height:500px"
+                  class="table-add"
                   :columns="columns"
                   :data-source="searchUser"
                   size="small"
@@ -64,15 +73,15 @@
                   :pagination="false"
                   :showHeader="true"
                 >
-                  <template slot="avatar">
-                    <img
+                  <template slot="avatar" slot-scope="text,record">
+                    <a-avatar
                       style="height:30px;width:30px"
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                      :src="record.userimgpath"
                     />
                   </template>
-                  <template slot="perms">
+                  <template slot="perms" slot-scope="text,record">
                     <a-select 
-                     style="width: 120px" defaultValue="修改权限" @change="handleChange" >
+                     style="width: 120px" defaultValue="修改权限" @change="e=>handleChange(e,record.userid)" >
                       <a-select-option v-for="(item) in items" 
                       :value="item.value" :key="item.value">
                         {{ item.value }}
@@ -91,10 +100,10 @@
                   v-model="searchWord"
                   @search="handleSearch"
                 />
+                 <a-button @click="refreshList" type="default" style="float:right">刷新列表</a-button>
               </div>
               <div class="co-table-two" v-for="(item, i) in userList" :key="i">
                   <span class="type-text">{{ item.type }}</span>
-                
                 <a-table
                   class="perm-table"
                   :columns="showColumns"
@@ -105,11 +114,21 @@
                   :pagination="false"
                   :showHeader="false"
                 >
-                  <template slot="avatar">
-                    <img
+                  <template slot="avatar" slot-scope="text,record">
+                    <a-avatar
                       style="height:30px;width:30px"
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                      :src="record.userimgpath"
                     />
+                  </template>
+                  <template slot="perms" slot-scope="text,record">
+                    <a-select 
+                     style="width: 120px" defaultValue="修改权限" @change="e=>handleChange(e,record.userid)" >
+                      <a-select-option v-for="(item) in items" 
+                      :value="item.value" :key="item.value">
+                        {{ item.value }}
+                      </a-select-option>
+                    </a-select-option>
+                    </a-select>
                   </template>
                 </a-table>
               </div>
@@ -150,7 +169,9 @@
                   </a-radio>
                 </a-radio-group>
               </div>
-              <div class="share-code"></div>
+              <div class="share-code">
+                <vue-qr :logoSrc="imageUrl" :text="href" :size="200"></vue-qr>
+              </div>
               <div class="share-link">链接：{{ href }}</div>
             </div>
           </template>
@@ -190,7 +211,7 @@
         <a-dropdown>
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
             <span style="font-size: 16px; margin: 10px;text-decoration: none">{{ user.username }}</span>
-            <img class="avatar" style="width: 30px; height: 30px;" src="../../assets/bg.jpeg" />
+            <a-avatar class="avatar" style="width: 30px; height: 30px;" :src="user.userimgpath" />
           </a>
           <a-menu class="more" slot="overlay" @click="avatarOnClick">
             <a-menu-item key="1">
@@ -228,8 +249,8 @@
             <a-list-item slot="renderItem" slot-scope="item">
               <a-button slot="actions" @click="deleteComment(item.commentid)">删除</a-button>
               <a-list-item-meta :description="item.content">
-                <a slot="title" href="https://www.antdv.com/">{{ item.username }}</a>
-                <a-avatar slot="avatar" src="item.userimgpath" />
+                <a slot="title" >{{ item.username }}</a>
+                <a-avatar slot="avatar" :src="item.userimgpath" />
               </a-list-item-meta>
             </a-list-item>
           </a-list>
@@ -249,6 +270,7 @@
 </template>
 
 <script>
+import vueQr from 'vue-qr';
 import { getData } from "@/api/webget";
 import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
@@ -258,76 +280,17 @@ const userList = [
   {
     type: "只能阅读",
     key: "1",
-    list: [
-      {
-        key: "1",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-      {
-        key: "2",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-      {
-        key: "3",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-      {
-        key: "4",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-      {
-        key: "5",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-    ],
+    list: [],
   },
   {
     type: "只能评论",
     key: "2",
-    list: [
-      {
-        key: "1",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-      {
-        key: "2",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-    ],
+    list: [],
   },
   {
     type: "可以编辑",
     key: "3",
-    list: [
-      {
-        key: "1",
-        src: "头像",
-        username: "Tom",
-        wechat: "13611793768",
-        perms: "管理者",
-      },
-    ],
+    list: [],
   },
 ];
 
@@ -360,17 +323,26 @@ const showColumns = [
     title: "头像",
     dataIndex: "avatar",
     align: "right",
+    width:"100px",
     scopedSlots: { customRender: "avatar" },
   },
   {
     title: "用户名",
     dataIndex: "username",
     align: "center",
+    width:"150px",
   },
   {
     title: "微信号",
     dataIndex: "wechat",
     align: "center",
+    width:"200px",
+  },{
+    title: "操作权限",
+    dataIndex: "perms",
+    align: "center",
+    width:"100px",
+    scopedSlots: { customRender: "perms" },
   },
 ];
 const items = [
@@ -394,10 +366,12 @@ const items = [
 export default {
   components: {
     editor,
+    vueQr
   },
   props: ["docidnum"],
   data() {
     return {
+      imageUrl: require("../../assets/bg.jpeg"),
       columns,
       items,
       showColumns,
@@ -419,10 +393,10 @@ export default {
       review: {
         title: "user",
         content: "",
-      },     
+      },    
+      canEdit:false,
+      canComment: false,
       user: {
-        canEdit:false,
-        canComment: false,
         userid: parseInt(window.sessionStorage.getItem("UserId")),
         username: "",
       },    
@@ -447,6 +421,9 @@ export default {
     this.getPermsList();
   },
   methods: {
+    refreshList(){
+      this.getPermsList();
+    },
     afterVisibleChange(val) {
       console.log('visible', val);
     },
@@ -485,21 +462,31 @@ export default {
       this.updateDocument();
       console.log(data);
     },
-    handleChange(val) {
+    handleChange(val,userid) {
+      console.log("val="+val);
+      console.log("userid="+userid);
       if (val== "只能阅读") {
-         this.replacePermsByUserid(this.searchUser[0].userid,1);
+         this.replacePermsByUserid(userid,1);
       } else if (val== "只能评论") {
-        this.replacePermsByUserid(this.searchUser[0].userid,2);
+        this.replacePermsByUserid(userid,2);
       } else if (val == "可以编辑") {
-        this.replacePermsByUserid(this.searchUser[0].userid,3);
+        this.replacePermsByUserid(userid,3);
       } else if (val== "删除已有权限"){
-        this.deletePerms(this.searchUser[0].userid);
+        this.deletePerms(userid);
       }
       this.getPermsList();
     },
     toLast() {
-      this.updateDocument();
-      this.$router.go(-1);
+      if(this.isEdit==true){
+        this.$message.error("请先保存文档");
+      }else{
+        this.updateDocument();
+        this.$router.push({
+        path:"/used"
+      });
+      }
+     
+     
     },
     backDown() {
       this.searchWord="";
@@ -530,7 +517,17 @@ export default {
         }
       } else if (key == 3) {
         this.deleteDocument();
-        this.$router.go(-1);
+        if(this.article.teamid==-1){
+          this.$router.push("/used");
+        }else{
+          this.$router.push({
+            path:"/team",
+            query:{
+              teamid:this.article.teamid
+            }
+          });
+        }
+        
       }
       console.log(`Click on item ${key}`);
     },
@@ -725,9 +722,7 @@ export default {
       getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.searchUser= [res.data.user];
-          console.log(res.data.user.perms);
-          this.value=res.data.user.perms;
+          this.searchUser= res.data.userList;
           console.log("查询成功");
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
@@ -817,13 +812,14 @@ export default {
       getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
-          this.user.username = res.data.user.username;
-          this.user.canComment = res.data.canComment;
-          this.user.canEdit=res.data.canEdit;
+          this.user = res.data.user;
+          console.log(this.user);
+          this.canComment = res.data.canComment;
+          this.canEdit=res.data.canWrite;
           this.article = res.data.doc;
           this.isCollected=res.data.haveCollect;
-          if(res.data.isEditing == false && res.data.canEdit==true){
-            this.isEdit = true;
+          if(res.data.isEditing == false && res.data.canWrite==true){
+            this.enterEdit();
           }else if(res.data.isEditing==true && res.data.whoIsEditing.username != res.data.user.username){
             this.$message.error(res.data.whoIsEditing.username +" is editing this document! Please wait a minute!");
           }else if(res.data.isEditing==true && res.data.whoIsEditing.username == res.data.user.username){
@@ -903,10 +899,10 @@ export default {
           query:{
             docid:res.data.docid
         }
-      })
+      });
           this.getDocument();
+          console.log(this.article);
           this.getComment();
-          window.reload();
           console.log("保存成功");
           // this.$message.success("保存成功");
         } else if (res.code === "1") {
@@ -938,7 +934,7 @@ export default {
       });
     },
     addCommentRequest(){
-      if(this.user.canComment==true){
+      if(this.canComment==true){
         this.addComment();
       }else{
         this.$message.error("当前用户没有权限进行评论");    
@@ -991,6 +987,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.table-add{
+  width:600px;
+  margin-left:-40px;
+  height:500px
+}
 .perm-table{
   width:550px;
   margin-top:-90px;
@@ -1010,11 +1011,6 @@ export default {
 }
 ::v-deep .ant-table-small {
   border: none;
-}
-.manage-table {
-  // border: blue 1px solid;
-  margin: 20px;
-  overflow: scroll;
 }
 .co-table-one {
   // border: blue 1px solid;
@@ -1039,7 +1035,8 @@ export default {
 }
 .search-bar {
   margin: auto;
-  width: 400px;
+  width: 500px;
+  // border: red 1px solid;
 }
 .review-title {
   font-size: 18px;
@@ -1104,7 +1101,7 @@ export default {
 .share-code {
   float: left;
   background-color: green;
-  border: red 1px solid;
+  // border: red 1px solid;
   width: 200px;
   height: 200px;
   margin: 10px auto 10px auto;

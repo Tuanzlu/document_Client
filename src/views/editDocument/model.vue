@@ -1,14 +1,6 @@
 <template>
   <div class="content">
-    <div class="header">
-      <div class="top" @click="toIndex"><span class="name">金刚石文档</span></div>
-      <div class="topRight">
-        <img class="avatar" style="width: 30px; height: 30px;" src="../../assets/bg.jpeg" />
-      </div>
-      <div class="topRight">
-        <a-icon type="bell" style="font-size: 25px; margin-top: 3px;" />
-      </div>
-    </div>
+    <personNav></personNav>
     <div class="body">
       <div class="sideMenu">
         <div class="menuItem">
@@ -30,21 +22,18 @@
 </template>
 
 <script>
+import personNav from "@/components/personNav";
 import { getData } from "@/api/webget";
-// import { putData } from "@/api/webput";
-import { postData } from "@/api/webpost";
-// import { deleteData } from "@/api/webdelete";
 import modelCard from "@/components/modelCard.vue";
 export default {
   components: {
     modelCard,
+    personNav,
   },
   data() {
     return {
-      TeamTeamplateList: [],
       teamid: -1,
       userid: parseInt(window.sessionStorage.getItem("UserId")),
-      isMine: true,
       ModelList: [],
     };
   },
@@ -78,7 +67,7 @@ export default {
       params.append("teamid", this.teamid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.getTeamTemplateList;
-      postData(url, params).then((res) => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.ModelList = res.data.teamTemplateList;
@@ -100,7 +89,6 @@ export default {
       this.getMyTemplateList();
     } else {
       this.getTeamTemplateList();
-      console.log("00000000");
     }
   },
 };
@@ -114,7 +102,6 @@ export default {
 .content {
   bottom: 0;
   top: 60px;
-  background-color: #f7f7f7;
 }
 .top {
   cursor: pointer;
@@ -179,5 +166,8 @@ export default {
   // border: 1px solid blue;
   width: 170px;
   height: 500px;
+}
+.Model {
+  margin-left: 80px;
 }
 </style>

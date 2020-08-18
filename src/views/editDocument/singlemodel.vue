@@ -1,14 +1,6 @@
 <template>
   <div class="content">
-    <div class="header">
-      <div class="top" @click="toIndex"><span class="name">金刚石文档</span></div>
-      <div class="topRight">
-        <img class="avatar" style="width:30px;height:30px" src="../../assets/bg.jpeg" />
-      </div>
-      <div class="topRight">
-        <a-icon type="bell" style="font-size:25px;margin-top:3px;" />
-      </div>
-    </div>
+    <personNav></personNav>
     <div class="body">
       <div class="sideMenu">
         <div class="menuItem">
@@ -23,7 +15,7 @@
       <div class="main">
         <div class="model">
           <div class="add-btn"><a-button type="default" @click="addDoc">使用此模版</a-button></div>
-          <div class="title-bar">{{ template.title }}11</div>
+          <div class="title-bar">{{ template.title }}</div>
           <div class="article-content" v-html="template.content"></div>
         </div>
       </div>
@@ -32,11 +24,13 @@
 </template>
 
 <script>
+import personNav from "@/components/personNav";
 import { getData } from "@/api/webget";
-// import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
-// import { deleteData } from "@/api/webdelete";
 export default {
+  components: {
+    personNav,
+  },
   data() {
     return {
       userid: parseInt(window.sessionStorage.getItem("UserId")),
@@ -160,7 +154,6 @@ export default {
 .content {
   bottom: 0;
   top: 60px;
-  background-color: #f7f7f7;
 }
 .top {
   cursor: pointer;
@@ -227,10 +220,12 @@ export default {
   font-size: 16px;
 }
 .article-content {
-  border: blue 1px solid;
+  // border: blue 1px solid;
   height: 800px;
   width: 616px;
   margin: auto;
+  background-color: white;
+  padding: 20px 25px 0 25px;
 }
 .title-bar {
   font-weight: 800;
@@ -258,7 +253,7 @@ export default {
 }
 .model {
   // border: red 1px solid;
-  width: 1000px;
+  width: 950px;
   min-height: 800px;
   margin-left: 150px;
 }
