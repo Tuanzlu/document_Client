@@ -6,17 +6,19 @@
         <a-button class="btn" @click="toLast">
           <a-icon type="left" />
         </a-button>
-
-<a-tooltip>
-    <template slot="title">
-      创建副本
-    </template>
-     <a-button class="btn" @click="addNewDoc">
-          <a-icon type="plus" />
+        <a-button class="btn"  @click="showModal">
+         <a-icon type="info-circle" />
         </a-button>
-  </a-tooltip>
-
-       
+        <a-modal v-model="authorVisible" title="文档信息" @ok="handleOk" :footer="null">
+        <a-avatar style="height:30px;width:30px;margin-left:50px" :src="author.userimgpath" />
+        <div style="width:400px;margin:-27px 0 0 90px;">
+          <p> 文档创建人：{{author.username}}</p>
+          <p> 微信号：{{author.wechat}}</p>
+          <p> 邮箱：{{author.email}}</p>
+          <p> 文档创建时间：{{article.createtime}}</p>
+          <p> 文档最后保存时间：{{article.modifytime}}</p>
+            </div>
+        </a-modal>
       </div>
       <div class="top">
         <span class="name">{{ article.title }}</span>
@@ -376,6 +378,7 @@ export default {
       items,
       showColumns,
       userList,
+      authorVisible:false,
       visible: false,
       isOpenShare: false,
       isEdit: false,
@@ -394,6 +397,7 @@ export default {
         title: "user",
         content: "",
       },    
+      author:{},
       canEdit:false,
       canComment: false,
       user: {
@@ -419,8 +423,16 @@ export default {
     this.getDocument();
     this.getComment();
     this.getPermsList();
+    this.getUserByDocid();
   },
   methods: {
+    showModal() {
+      this.authorVisible = true;
+    },
+    handleOk(e) {
+      console.log(e);
+      this.authorVisible = false;
+    },
     refreshList(){
       this.getPermsList();
     },
@@ -433,10 +445,6 @@ export default {
     },
     onClose() {
       this.visible = false;
-    },
-    addNewDoc(){
-      this.updateDocument();
-      this.createDocument();
     },
     handleSearch() {
       this.isaddShare = true;
@@ -558,6 +566,26 @@ export default {
             return item.modifytime+" "+item.username +" 修改了文档"
           });
             
+          console.log("获取修改记录成功");
+          // this.$message.success("获取修改记录成功");
+        } else if (res.code === "1") {
+          this.$message.error("没有权限");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
+     //获取作者信息
+    getUserByDocid(){
+      let params = new URLSearchParams();
+      params.append("docid", this.article.docid);
+      //调用封装的postData函数，获取服务器返回值
+      let url = this.$urlPath.website.getUserByDocid;
+      getData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.author=res.data.user;
           console.log("获取修改记录成功");
           // this.$message.success("获取修改记录成功");
         } else if (res.code === "1") {
@@ -879,34 +907,6 @@ export default {
           this.$message.error("用户未登录");
         } else if (res.code === "2") {
           this.$message.error("没有权限");
-        } else {
-          console.log(res.code);
-          this.$message.error("服务器返回时间间隔过长");
-        }
-      });
-    },
-    //个人创建文档
-    createDocument() {
-      let params = new URLSearchParams();
-      params.append("userid", this.user.userid);
-      //调用封装的postData函数，获取服务器返回值
-      let url = this.$urlPath.website.addDoc;
-      postData(url, params).then((res) => {
-        console.log(res.code);
-        if (res.code === "0") {
-          this.$router.push({
-          path:"/document",
-          query:{
-            docid:res.data.docid
-        }
-      });
-          this.getDocument();
-          console.log(this.article);
-          this.getComment();
-          console.log("保存成功");
-          // this.$message.success("保存成功");
-        } else if (res.code === "1") {
-          this.$message.error("操作失败");
         } else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
