@@ -1,5 +1,5 @@
 <template>
-  <div style="float: right;margin-top:100px;margin-right:50px">
+  <div style="float: right;margin-top:48px;margin-right:110px">
             <a-button type="default" @click="createDocument">新建文档</a-button>
             </br>
             </br>
