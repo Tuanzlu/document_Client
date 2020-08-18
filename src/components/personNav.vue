@@ -240,7 +240,7 @@ export default {
       });
     },
     hide() {
-      this.visible_search = false;
+      this.visible_search = true;
       this.search.splice(0, this.search.length);
     },
     onSearch(value) {
