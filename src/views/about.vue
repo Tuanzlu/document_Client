@@ -78,13 +78,4 @@ export default {
 #components-layout-demo-basic > .ant-layout:last-child {
   margin: 0;
 }
-.box{
-    border: 2px red solid;
-    /*display: inline;*/
-    width: 90px;
-    text-align:center;
-}
-.members{
-
-}
 </style>

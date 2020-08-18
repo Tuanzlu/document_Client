@@ -14,18 +14,20 @@
           <a-icon type="team" />
           <span>团队空间</span>
         </span>
-        <a-menu-item v-for="item in team" :key="item.teamid">
-          <router-link :to="{ path: '/team', query: { teamid: item.teamid } }">{{ item.teamname }}</router-link>
-        </a-menu-item>
         <a-menu-item>
           <router-link to="/addteam"> <a-icon type="plus" />新的团队 </router-link>
+        </a-menu-item>
+        <a-menu-item v-for="item in team" :key="item.teamid">
+          <router-link :to="{ path: '/team', query: { teamid: item.teamid } }">{{ item.teamname }}</router-link>
         </a-menu-item>
       </a-sub-menu>
       <a-menu-item key="5">
         <a-icon type="delete" />回收站
         <router-link to="/rubish"></router-link>
       </a-menu-item>
-      <a-menu-item key="6"> <a-icon type="question" />帮助中心<router-link to="/help"></router-link></a-menu-item>
+        <a-menu-item key="6"> <a-icon type="question" />帮助中心
+        <router-link to="/help"></router-link>
+      </a-menu-item>
     </a-menu>
   </div>
 </template>
