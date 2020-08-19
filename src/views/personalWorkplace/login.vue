@@ -53,19 +53,10 @@
                     initialValue: true,
                   },
                 ]"
-              >
-                记住密码
-              </a-checkbox>
-              <a class="login-form-forgot" href="#/findPwd">
-                忘记密码？
-              </a>
-              <a-button html-type="submit" class="login-form-button">
-                登 录
-              </a-button>
-              没有账号？
-              <a href="#/register">
-                去注册！
-              </a>
+              >记住密码</a-checkbox>
+              <a class="login-form-forgot" href="#/findPwd">忘记密码？</a>
+              <a-button html-type="submit" class="login-form-button">登 录</a-button>没有账号？
+              <a href="#/register">去注册！</a>
             </a-form-model-item>
           </a-form>
         </a-form-model>
@@ -86,8 +77,8 @@ export default {
       loginForm: {
         username: "12",
         password: "12121",
-        userId: 1,
-      },
+        userId: 1
+      }
     };
   },
   methods: {
@@ -98,7 +89,7 @@ export default {
       params.append("password", values.password);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.login;
-      postData(url, params).then((res) => {
+      postData(url, params).then(res => {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("登录成功");
@@ -130,18 +121,18 @@ export default {
           this.$message.error("请检查输入");
         }
       });
-    },
+    }
   },
   mounted() {
     //this.postLogin(params);
-  },
+  }
 };
 </script>
 <style>
 .total {
   background: url("../../assets/bg.jpeg");
   width: 100%;
-  height: 800px;
+  height: 1000px;
   background-size: cover;
 }
 .login_container {

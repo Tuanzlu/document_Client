@@ -1,9 +1,10 @@
 <template>
-<div class="register_container">
-    <p>注 册</p>
-    <a-form :form="form" @submit="handleSubmit">
+  <div class="total">
+    <div class="register_container">
+      <p>注 册</p>
+      <a-form :form="form" @submit="handleSubmit">
         <a-form-item v-bind="formItemLayout" label="输入邮箱">
-        <a-input
+          <a-input
             v-decorator="[
             'email',
             {
@@ -19,21 +20,21 @@
                 ],
             },
             ]"
-        />
+          />
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="输入用户名">
-        <a-input
-          v-decorator="[
+          <a-input
+            v-decorator="[
             'username',
             {
               rules: [{ required: true, message: 'Username is required!' },
               { min: 3, message: '用户名长度大于3', trigger: 'blur' },],
             },
           ]"
-        />
-      </a-form-item>
+          />
+        </a-form-item>
         <a-form-item v-bind="formItemLayout" label="设置密码" has-feedback>
-        <a-input
+          <a-input
             v-decorator="[
             'password',
             {
@@ -50,10 +51,10 @@
             },
             ]"
             type="password"
-        />
+          />
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="确认密码" has-feedback>
-        <a-input
+          <a-input
             v-decorator="[
             'confirm',
             {
@@ -70,68 +71,65 @@
             ]"
             type="password"
             @blur="handleConfirmBlur"
-        />
+          />
         </a-form-item>
-        
+
         <a-form-item v-bind="formItemLayout" label="微信号">
-        <a-input
-          v-decorator="[
+          <a-input
+            v-decorator="[
             'wechatNumber',
             {
               rules: [{ required: true, message: 'wechatNumber is required!' }],
             },
           ]"
-        />
+          />
         </a-form-item>
 
         <a-form-item v-bind="formItemLayout" label="安全问题">
-        <a-input
-          v-decorator="[
+          <a-input
+            v-decorator="[
             'question',
             {
               rules: [{ required: true, message: 'question is required!' }],
             },
           ]"
-        />
+          />
         </a-form-item>
 
         <a-form-item v-bind="formItemLayout" label="答案">
-        <a-input
-          v-decorator="[
+          <a-input
+            v-decorator="[
             'answer',
             {
               rules: [{ required: true, message: 'answer is required!' }],
             },
           ]"
-        />
+          />
         </a-form-item>
 
         <a-form-item v-bind="formItemLayout" label="个人简介">
-        <a-textarea placeholder="" :rows="4" 
-          v-decorator="[
+          <a-textarea
+            placeholder
+            :rows="4"
+            v-decorator="[
             'intro',
             {
               rules: [{ required: true, message: 'Introduce is required!' }],
             },
           ]"
-        />
+          />
         </a-form-item>
 
-        <div class = "register_footer">
-            已有账号？
-            <a href="#/login">
-            去登录！
-            </a>
-            </br>
-            </br>
-            <a-button  type="primary" html-type="submit" style="width: 80%">
-                注 册
-            </a-button>
+        <div class="register_footer">
+          已有账号？
+          <a href="#/login">去登录！</a>
+          <br />
+          <br />
+          <a-button type="primary" html-type="submit" style="width: 80%">注 册</a-button>
         </div>
-        </a-form-item>
-    </a-form>
+      </a-form>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -144,56 +142,54 @@ export default {
       formItemLayout: {
         labelCol: {
           xs: { span: 24 },
-          sm: { span: 8 },
+          sm: { span: 8 }
         },
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 16 },
-        },
+          sm: { span: 16 }
+        }
       },
       tailFormItemLayout: {
         wrapperCol: {
           xs: {
             span: 24,
-            offset: 0,
+            offset: 0
           },
           sm: {
             span: 16,
-            offset: 8,
-          },
-        },
-      },
+            offset: 8
+          }
+        }
+      }
     };
   },
   beforeCreate() {
-    this.form = this.$form.createForm(this, { name: 'register' });
+    this.form = this.$form.createForm(this, { name: "register" });
   },
   methods: {
     //注册验证模块
-    register(values){
+    register(values) {
       let params = new URLSearchParams();
-      params.append('username', values.username); 
-      params.append('password', values.password);
-      params.append('email', values.email);
-      params.append('wechat', values.wechatNumber);
-      
-      params.append('intro', values.intro);
-      params.append('question', values.question);
-      params.append('answer', values.answer);
+      params.append("username", values.username);
+      params.append("password", values.password);
+      params.append("email", values.email);
+      params.append("wechat", values.wechatNumber);
+
+      params.append("intro", values.intro);
+      params.append("question", values.question);
+      params.append("answer", values.answer);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.register;
-      postData(url,params).then((res) => {
+      postData(url, params).then(res => {
         console.log(res);
-        if(res.code === '0'){
-          this.$message.success('注册成功');
-          this.$router.push('/login');
-        }
-        else if(res.code === '1'){
-          this.$message.error('用户名重复，请更换');
-        }
-        else{
+        if (res.code === "0") {
+          this.$message.success("注册成功");
+          this.$router.push("/login");
+        } else if (res.code === "1") {
+          this.$message.error("用户名重复，请更换");
+        } else {
           console.log(res.code);
-          this.$message.error('服务器返回出错');
+          this.$message.error("服务器返回出错");
         }
       });
     },
@@ -202,11 +198,10 @@ export default {
       e.preventDefault();
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
+          console.log("Received values of form: ", values);
           this.register(values);
-        }
-        else{
-          this.$message.error('请检查输入格式');
+        } else {
+          this.$message.error("请检查输入格式");
         }
       });
     },
@@ -216,8 +211,8 @@ export default {
     },
     compareToFirstPassword(rule, value, callback) {
       const form = this.form;
-      if (value && value !== form.getFieldValue('password')) {
-        callback('Two passwords that you enter is inconsistent!');
+      if (value && value !== form.getFieldValue("password")) {
+        callback("Two passwords that you enter is inconsistent!");
       } else {
         callback();
       }
@@ -225,21 +220,21 @@ export default {
     validateToNextPassword(rule, value, callback) {
       const form = this.form;
       if (value && this.confirmDirty) {
-        form.validateFields(['confirm'], { force: true });
+        form.validateFields(["confirm"], { force: true });
       }
       callback();
-    },
-  },
+    }
+  }
 };
 </script>
 <style>
 .total {
-  background:url("../../assets/bg.jpeg");
+  background: url("../../assets/bg.jpeg");
   width: 100%;
   height: 1000px;
-  background-size:cover
+  background-size: cover;
 }
-.register_container{
+.register_container {
   width: 550px;
   border-radius: 3px;
   position: absolute;
@@ -251,13 +246,11 @@ export default {
   padding-right: 100px;
   background-color: white;
   opacity: 0.9;
-  
 }
-.register_container p{
+.register_container p {
   font-size: 30px;
-
 }
-.register_container div{
-    text-align:right;
+.register_container div {
+  text-align: right;
 }
 </style>
