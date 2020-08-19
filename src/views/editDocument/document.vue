@@ -500,13 +500,10 @@ export default {
       if(this.isEdit==true){
         this.$message.error("请先保存文档");
       }else{
-        this.updateDocument();
         this.$router.push({
         path:"/used"
       });
       }
-     
-     
     },
     backDown() {
       this.searchWord="";
@@ -554,7 +551,9 @@ export default {
     },
     avatarOnClick({ key }) {
       if (key == 1) {
-        this.updateDocument();
+        if(this.isEdit==true){
+           this.updateDocument();
+        }
         this.$router.push({
           path:"/personInfo",
           query:{
@@ -562,10 +561,14 @@ export default {
           }
         });
       } else if (key == 2) {
-        this.updateDocument();
+        if(this.isEdit==true){
+           this.updateDocument();
+        }
         this.$router.push("/help");
       } else if (key == 3) {
-        this.updateDocument();
+        if(this.isEdit==true){
+           this.updateDocument();
+        }
         console.log("退出登录");  
         window.sessionStorage.removeItem('UserId');
         this.$router.replace({
@@ -848,9 +851,11 @@ export default {
           this.article = res.data.doc;
           console.log(this.article.teamid);
           this.isCollected=res.data.haveCollect;
-          if(res.data.isEditing == false && res.data.canWrite==true){
+          if(res.data.canWrite==false){
+            this.$message.error("当前用户没有编辑权限");
+          }else if(res.data.isEditing == false ){
             this.enterEdit();
-          }else if(res.data.isEditing==true && res.data.whoIsEditing.username != res.data.user.username){
+          }else if(res.data.isEditing== true && res.data.whoIsEditing.username != res.data.user.username){
             this.$message.error(res.data.whoIsEditing.username +" is editing this document! Please wait a minute!");
           }else if(res.data.isEditing==true && res.data.whoIsEditing.username == res.data.user.username){
             this.isEdit=true;
@@ -908,8 +913,6 @@ export default {
           console.log("保存成功");
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
-          this.$message.error("用户未登录");
-        } else if (res.code === "2") {
           this.$message.error("没有权限");
         } else {
           console.log(res.code);
