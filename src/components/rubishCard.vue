@@ -1,25 +1,30 @@
 <template>
-  <div class="cardList"> 
+  <div class="cardList">
     <div class="singleCard" v-for="(item, i) in list" :key="i" style="background-color:#ede4cd;">
-        <a-card hoverable class="card" @click="toDoc(item,i)" >
-            <img slot="cover" src="../assets/word1.jpg" alt="example" style="width:90px;height:90px;margin:10px auto -20px auto" />
-            <a-dropdown class="set">
-                <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                <a href="#" ><a-icon type="setting" style="color:#a8bf93"/></a>
-                </a>
-                <a-menu slot="overlay">
-                <a-menu-item>
-                    <a @click="toReturn(item,i)">恢复文档</a>
-                </a-menu-item>
-                <a-menu-item>
-                    <a @click="toDelete(item,i)">彻底删除</a>
-                </a-menu-item>
-                </a-menu>
-            </a-dropdown>
-            <span>
-                <h3>{{ item.title}}</h3>
-            </span>
-        </a-card>
+      <a-card hoverable class="card" @click="toDoc(item,i)">
+        <a-icon
+          type="file-word"
+          style="color:#98623c; font-size:90px ;margin-left:-20px;margin-top:-20px;padding:10px"
+        />
+        <a-dropdown class="set">
+          <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+            <a href="#">
+              <a-icon type="setting" style="color:#a8bf93" />
+            </a>
+          </a>
+          <a-menu slot="overlay">
+            <a-menu-item>
+              <a @click="toReturn(item,i)">恢复文档</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a @click="toDelete(item,i)">彻底删除</a>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
+        <span>
+          <p>{{ item.title}}</p>
+        </span>
+      </a-card>
     </div>
   </div>
 </template>
@@ -30,26 +35,26 @@ import { deleteData } from "@/api/webdelete";
 import { putData } from "@/api/webput";
 export default {
   props: ["list"],
-  methods:{
-    toDoc(item){
+  methods: {
+    toDoc(item) {
       this.$router.push({
-         path: '/document',
-         query:{
-               docid:item.docid,
-          }
-      })
+        path: "/document",
+        query: {
+          docid: item.docid
+        }
+      });
     },
-    toReturn(item,i){
+    toReturn(item, i) {
       let params = new URLSearchParams();
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       params.append("docid", item.docid);
       let url = this.$urlPath.website.recoverDoc;
       //console.log(111111111111111111);
-      putData(url, params).then((res) => {
+      putData(url, params).then(res => {
         console.log(res.code);
         if (res.code === "0") {
-          this.list.splice(i,1);
+          this.list.splice(i, 1);
           this.$message.success("恢复成功");
         } else if (res.code === "1") {
           this.$message.error("没有权限");
@@ -59,16 +64,16 @@ export default {
         }
       });
     },
-    toDelete(item,i){
+    toDelete(item, i) {
       let params = new URLSearchParams();
       let userId = parseInt(window.sessionStorage.getItem("UserId"));
       params.append("userid", userId);
       params.append("docid", item.docid);
       let url = this.$urlPath.website.deleteDocTotally;
-      deleteData(url, params).then((res) => {
+      deleteData(url, params).then(res => {
         console.log(res.code);
         if (res.code === "0") {
-          this.list.splice(i,1);
+          this.list.splice(i, 1);
           this.$message.success("删除成功");
         } else if (res.code === "1") {
           this.$message.error("没有权限");
@@ -78,8 +83,7 @@ export default {
         }
       });
     }
-  },
-
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -99,12 +103,23 @@ export default {
   width: 120px;
 }
 h3 {
-    font-size: 15px;
+  font-size: 15px;
 }
 .set {
-    position:absolute;
-    top:3px;
-    right:3px;
-    z-index:100;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 100;
+}
+p {
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* 限制在一个块元素显示的文本的行数 */
+  -webkit-box-orient: vertical; /* 垂直排列 */
+  word-break: break-all; /* 内容自动换行 */
 }
 </style>

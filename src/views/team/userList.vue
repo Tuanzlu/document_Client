@@ -1,85 +1,83 @@
 <template>
-<div class="mainContext">
-  <div class="leftContext">
-     <a-card
-      :title="teaminfo.teamname+' 团队成员列表'"
-      :bordered="false"
-      style="width: 800px;padding:0 0 16px 0"
-      headStyle="font-size:20px"
-      bodyStyle="font-size:16px;padding-bottom:0"
-    >
-      <div>
-        <a-popover title="邀请成员加入团队" trigger="click" placement="bottomLeft" v-if="isleader">
-          <template slot="content">
-            <a-input-search
-              style="width:550px"
-              placeholder="输入用户名搜索用户"
-              v-model="searchWord"
-              @search="handleSearch"
-            />
-            <a-list item-layout="horizontal" :data-source="searchUser">
-              <a-list-item slot="renderItem" slot-scope="item">
+  <div class="mainContext">
+    <div class="leftContext">
+      <a-card
+        :title="teaminfo.teamname+' 团队成员列表'"
+        :bordered="false"
+        style="width: 800px;padding:0 0 16px 0"
+        headStyle="font-size:20px"
+        bodyStyle="font-size:16px;padding-bottom:0"
+      >
+        <div>
+          <a-popover title="邀请成员加入团队" trigger="click" placement="bottomLeft" v-if="isleader">
+            <template slot="content">
+              <a-input-search
+                style="width:550px"
+                placeholder="输入用户名搜索用户"
+                v-model="searchWord"
+                @search="handleSearch"
+              />
+              <a-list item-layout="horizontal" :data-source="searchUser">
+                <a-list-item slot="renderItem" slot-scope="item">
+                  <a-button
+                    slot="actions"
+                    type="primary"
+                    ghost
+                    size="small"
+                    @click="inviteTeamMemberByUserId(item.userid)"
+                  >发送邀请</a-button>
+                  <a-list-item-meta>
+                    <span slot="title">{{ item.username }}</span>
+                    <a-avatar slot="avatar" :src="item.userimgpath" />
+                  </a-list-item-meta>
+                </a-list-item>
+              </a-list>
+            </template>
+            <a-button type="primary" ghost>邀请成员</a-button>
+          </a-popover>
+          <a-button type="primary" ghost style="margin-left:5px" @click="goback()">返回</a-button>
+        </div>
+        <a-list-item style="margin-top:10px">
+          <a-list-item-meta description="团队创建者">
+            <a slot="title">{{ leaderinfo.username }}</a>
+            <a-avatar slot="avatar" :src="leaderinfo.userimgpath" />
+          </a-list-item-meta>
+        </a-list-item>
+
+        <div>
+          <a-list item-layout="horizontal" style="margin-top:10px">
+            <div v-for="(item, index) in memberlist" :key="index">
+              <a-list-item v-if="item.userid!=leaderinfo.userid">
+                <a-radio-group
+                  @change="alterMemberPerms($event, index)"
+                  slot="actions"
+                  :default-value="item.teamperms"
+                  :disabled="!isleader"
+                >
+                  <a-radio-button :value="1">只能阅读</a-radio-button>
+                  <a-radio-button :value="2">可以评论</a-radio-button>
+                  <a-radio-button :value="3">可以编辑</a-radio-button>
+                </a-radio-group>
+
                 <a-button
                   slot="actions"
-                  type="primary"
+                  type="danger"
                   ghost
-                  size="small"
-                  @click="inviteTeamMemberByUserId(item.userid)"
-                >发送邀请</a-button>
+                  v-if="isleader"
+                  @click="showDeleteConfirm(index)"
+                >踢出团队</a-button>
+
                 <a-list-item-meta>
-                  <span slot="title">{{ item.username }}</span>
+                  <a slot="title">{{ item.username }}</a>
                   <a-avatar slot="avatar" :src="item.userimgpath" />
                 </a-list-item-meta>
               </a-list-item>
-            </a-list>
-          </template>
-          <a-button type="primary" ghost>邀请成员</a-button>
-        </a-popover>
-        <a-button type="primary" ghost style="margin-left:5px" @click="goback()">返回</a-button>
-      </div>
-      <a-list-item style="margin-top:10px">
-        <a-list-item-meta description="团队创建者">
-          <a slot="title">{{ leaderinfo.username }}</a>
-          <a-avatar slot="avatar" :src="leaderinfo.userimgpath" />
-        </a-list-item-meta>
-      </a-list-item>
-
-      <div>
-        <a-list item-layout="horizontal" style="margin-top:10px">
-          <div v-for="(item, index) in memberlist" :key="index">
-            <a-list-item v-if="item.userid!=leaderinfo.userid">
-              <a-radio-group
-                @change="alterMemberPerms($event, index)"
-                slot="actions"
-                :default-value="item.teamperms"
-                :disabled="!isleader"
-              >
-                <a-radio-button :value="1">只能阅读</a-radio-button>
-                <a-radio-button :value="2">可以评论</a-radio-button>
-                <a-radio-button :value="3">可以编辑</a-radio-button>
-              </a-radio-group>
-
-              <a-button
-                slot="actions"
-                type="danger"
-                ghost
-                v-if="isleader"
-                @click="showDeleteConfirm(index)"
-              >踢出团队</a-button>
-
-              <a-list-item-meta>
-                <a slot="title">{{ item.username }}</a>
-                <a-avatar slot="avatar" :src="item.userimgpath" />
-              </a-list-item-meta>
-            </a-list-item>
-          </div>
-        </a-list>
-      </div>
-    </a-card>
-  
+            </div>
+          </a-list>
+        </div>
+      </a-card>
+    </div>
   </div>
-</div>
-
 </template>
 
 <script>
@@ -99,6 +97,20 @@ export default {
     };
   },
   methods: {
+    showDeleteConfirm(index) {
+      let that = this;
+      this.$confirm({
+        title: "踢出退出团队确认",
+        content: "你确认要将该用户踢出团队吗？",
+        okText: "确认",
+        okType: "danger",
+        cancelText: "取消",
+        onOk() {
+          that.quitTeam(that.memberlist[index].userid);
+        },
+        onCancel() {}
+      });
+    },
     goback() {
       this.$router.push({
         path: "/team",
@@ -236,24 +248,21 @@ export default {
 </script>
 
 <style>
-.mainContext{
+.mainContext {
   width: 1200px;
   height: auto;
-  position:relative;
+  position: relative;
 }
-.leftContext
-{
+.leftContext {
   float: left;
   width: 700px;
   margin-left: 280px;
   margin-top: 70px;
-
 }
-.rightContext
-{
+.rightContext {
   float: right;
   width: 110px;
-  height:auto;
+  height: auto;
   margin-top: 100px;
 }
 </style>
