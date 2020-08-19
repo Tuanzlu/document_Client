@@ -1,29 +1,23 @@
 <template>
   <div>
     <div class="cardList">
-      <div class="singleCard" v-for="(item, i) in list" :key="i" style="background-color:#ede4cd;">
+      <div class="singleCard" v-for="(item, i) in list" :key="i" style="background-color: #ede4cd;">
         <a-card hoverable class="card" @click="toDoc(item, i)">
           <a-icon
             type="file-word"
-            style="color:#98623c; font-size:90px ;margin-left:-20px;margin-top:-20px;padding:10px"
+            style="color: #98623c; font-size: 90px; margin-left: -20px; margin-top: -20px; padding: 10px;"
           />
           <div>
             <a-dropdown class="set">
               <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
                 <a href="#">
-                  <a-icon type="setting" style="color:#d6c6af;font-size:23px" />
+                  <a-icon type="setting" style="color: #d6c6af; font-size: 23px;" />
                 </a>
               </a>
               <a-menu slot="overlay">
                 <a-menu-item>
                   <a @click="toCoop(item)">协作</a>
-                  <a-modal
-                    v-model="visible"
-                    title="添加协作者"
-                    @ok="handleOk"
-                    width="650px"
-                    :footer="null"
-                  >
+                  <a-modal v-model="visible" title="添加协作者" @ok="handleOk" width="650px" :footer="null">
                     <div class="one-content" v-if="isaddShare">
                       <div class="search-bar">
                         <a-button class="btn" @click="backDown">
@@ -47,20 +41,18 @@
                           :pagination="false"
                           :showHeader="true"
                         >
-                          <template slot="avatar" slot-scope="text,record">
-                            <a-avatar style="height:30px;width:30px" :src="record.userimgpath" />
+                          <template slot="avatar" slot-scope="text, record">
+                            <a-avatar style="height: 30px; width: 30px;" :src="record.userimgpath" />
                           </template>
-                          <template slot="perms" slot-scope="text,record">
+                          <template slot="perms" slot-scope="text, record">
                             <a-select
-                              style="width: 120px"
+                              style="width: 120px;"
                               defaultValue="修改权限"
-                              @change="e=>handleChange(e,record.userid)"
+                              @change="(e) => handleChange(e, record.userid)"
                             >
-                              <a-select-option
-                                v-for="(item) in items"
-                                :value="item.value"
-                                :key="item.value"
-                              >{{ item.value }}</a-select-option>
+                              <a-select-option v-for="item in items" :value="item.value" :key="item.value">{{
+                                item.value
+                              }}</a-select-option>
                             </a-select>
                           </template>
                         </a-table>
@@ -74,7 +66,7 @@
                           v-model="searchWord"
                           @search="handleSearch"
                         />
-                        <a-button @click="refreshList" type="default" style="float:right">刷新列表</a-button>
+                        <a-button @click="refreshList" type="default" style="float: right;">刷新列表</a-button>
                       </div>
                       <div class="co-table-two" v-for="(item, i) in userList" :key="i">
                         <span class="type-text">{{ item.type }}</span>
@@ -88,20 +80,18 @@
                           :pagination="false"
                           :showHeader="false"
                         >
-                          <template slot="avatar" slot-scope="text,record">
-                            <a-avatar style="height:30px;width:30px" :src="record.userimgpath" />
+                          <template slot="avatar" slot-scope="text, record">
+                            <a-avatar style="height: 30px; width: 30px;" :src="record.userimgpath" />
                           </template>
-                          <template slot="perms" slot-scope="text,record">
+                          <template slot="perms" slot-scope="text, record">
                             <a-select
-                              style="width: 120px"
+                              style="width: 120px;"
                               defaultValue="修改权限"
-                              @change="e=>handleChange(e,record.userid)"
+                              @change="(e) => handleChange(e, record.userid)"
                             >
-                              <a-select-option
-                                v-for="(item) in items"
-                                :value="item.value"
-                                :key="item.value"
-                              >{{ item.value }}</a-select-option>
+                              <a-select-option v-for="item in items" :value="item.value" :key="item.value">{{
+                                item.value
+                              }}</a-select-option>
                             </a-select>
                           </template>
                         </a-table>
@@ -111,17 +101,11 @@
                 </a-menu-item>
                 <a-menu-item>
                   <a @click="toShare(item)" ref="myshare">分享</a>
-                  <a-modal
-                    v-model="shareVisible"
-                    title="分享文档"
-                    @ok="shareHandleOk"
-                    width="450px"
-                    :footer="null"
-                  >
+                  <a-modal v-model="shareVisible" title="分享文档" @ok="shareHandleOk" width="450px" :footer="null">
                     <div class="share-content">
                       <div class="switch">
-                        <span style="float:left">公开链接：</span>
-                        <a-switch @change="onChange" style="float:left" />
+                        <span style="float: left;">公开链接：</span>
+                        <a-switch @change="onChange" style="float: left;" />
                       </div>
                       <div class="single-selection" v-show="isOpenShare">
                         <a-radio-group v-model="value" @change="onChangeRadio">
@@ -163,18 +147,18 @@ const userList = [
   {
     type: "只能阅读",
     key: "1",
-    list: []
+    list: [],
   },
   {
     type: "只能评论",
     key: "2",
-    list: []
+    list: [],
   },
   {
     type: "可以编辑",
     key: "3",
-    list: []
-  }
+    list: [],
+  },
 ];
 
 const columns = [
@@ -182,24 +166,24 @@ const columns = [
     title: "头像",
     dataIndex: "avatar",
     align: "right",
-    scopedSlots: { customRender: "avatar" }
+    scopedSlots: { customRender: "avatar" },
   },
   {
     title: "用户名",
     dataIndex: "username",
-    align: "center"
+    align: "center",
   },
   {
     title: "微信号",
     dataIndex: "wechat",
-    align: "center"
+    align: "center",
   },
   {
     title: "操作权限",
     dataIndex: "perms",
     align: "center",
-    scopedSlots: { customRender: "perms" }
-  }
+    scopedSlots: { customRender: "perms" },
+  },
 ];
 const showColumns = [
   {
@@ -207,49 +191,49 @@ const showColumns = [
     dataIndex: "avatar",
     align: "right",
     width: "100px",
-    scopedSlots: { customRender: "avatar" }
+    scopedSlots: { customRender: "avatar" },
   },
   {
     title: "用户名",
     dataIndex: "username",
     align: "center",
-    width: "150px"
+    width: "150px",
   },
   {
     title: "微信号",
     dataIndex: "wechat",
     align: "center",
-    width: "200px"
+    width: "200px",
   },
   {
     title: "操作权限",
     dataIndex: "perms",
     align: "center",
     width: "100px",
-    scopedSlots: { customRender: "perms" }
-  }
+    scopedSlots: { customRender: "perms" },
+  },
 ];
 const items = [
   {
     key: 0,
-    value: "只能阅读"
+    value: "只能阅读",
   },
   {
     key: 1,
-    value: "只能评论"
+    value: "只能评论",
   },
   {
     key: 2,
-    value: "可以编辑"
+    value: "可以编辑",
   },
   {
     key: 3,
-    value: "删除已有权限"
-  }
+    value: "删除已有权限",
+  },
 ];
 export default {
   components: {
-    vueQr
+    vueQr,
   },
   data() {
     return {
@@ -269,8 +253,8 @@ export default {
       isOpenShare: false,
       user: {
         userid: parseInt(window.sessionStorage.getItem("UserId")),
-        username: ""
-      }
+        username: "",
+      },
     };
   },
   props: ["list"],
@@ -309,7 +293,7 @@ export default {
       params.append("docid", this.doc.docid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.getPermsList;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.userList[0].list = res.data.onlyCanReadList;
@@ -354,7 +338,7 @@ export default {
       params.append("doid", this.user.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.deletePerms;
-      deleteData(url, params).then(res => {
+      deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success("删除权限成功");
@@ -374,7 +358,7 @@ export default {
       params.append("username", this.searchWord);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.getUserByUsername;
-      getData(url, params).then(res => {
+      getData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.searchUser = res.data.userList;
@@ -397,7 +381,7 @@ export default {
       params.append("doid", this.user.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.replacePermsByUserid;
-      putData(url, params).then(res => {
+      putData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.$message.success(res.msg);
@@ -423,7 +407,7 @@ export default {
       params.append("shareperms", value);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.updateSharePerms;
-      putData(url, params).then(res => {
+      putData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           console.log("更改分享权限成功");
@@ -437,6 +421,7 @@ export default {
       });
     },
     toShare(doc) {
+      this.href = "http://123.56.145.79:8100/#/document?docid=" + doc.docid;
       this.doc = doc;
       this.shareVisible = true;
     },
@@ -444,8 +429,8 @@ export default {
       this.$router.push({
         path: "/document",
         query: {
-          docid: item.docid
-        }
+          docid: item.docid,
+        },
       });
     },
     toDelete(item, i) {
@@ -454,7 +439,7 @@ export default {
       params.append("userid", userId);
       params.append("docid", item.docid);
       let url = this.$urlPath.website.deleteDoc;
-      deleteData(url, params).then(res => {
+      deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === "0") {
           this.list.splice(i, 1);
@@ -470,8 +455,8 @@ export default {
     handleSearch() {
       this.isaddShare = true;
       this.getUserByUsername();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
