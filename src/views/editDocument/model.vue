@@ -3,13 +3,12 @@
     <personNav></personNav>
     <div class="body">
       <div class="sideMenu">
+        <a-button class="btn" @click="toLast">
+          <a-icon type="left" />
+        </a-button>
         <div class="menuItem">
-          <div class="text" v-if="teamid != -1">
-            团队模版
-          </div>
-          <div class="text" v-else>
-            我的模版
-          </div>
+          <div class="text" v-if="teamid != -1">团队模版</div>
+          <div class="text" v-else>我的模版</div>
         </div>
       </div>
       <div class="main">
@@ -28,18 +27,27 @@ import modelCard from "@/components/modelCard.vue";
 export default {
   components: {
     modelCard,
-    personNav,
+    personNav
   },
   data() {
     return {
       teamid: -1,
       userid: parseInt(window.sessionStorage.getItem("UserId")),
-      ModelList: [],
+      ModelList: []
     };
   },
   methods: {
     toIndex() {
       this.$router.push("/used");
+    },
+    toLast() {
+      console.log(this.$route.path);
+      let userid = parseInt(window.sessionStorage.getItem("UserId"));
+      if (this.$route.query.userid == userid) {
+        this.$router.push("/used");
+      } else if (this.$route.query.userid != userid) {
+        this.$router.go(-1);
+      }
     },
     //获取我的模版列表
     getMyTemplateList() {
@@ -47,7 +55,7 @@ export default {
       params.append("userid", this.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.getMyTemplateList;
-      getData(url, params).then((res) => {
+      getData(url, params).then(res => {
         console.log(res.code);
         if (res.code === "0") {
           this.ModelList = res.data.myTemplateList;
@@ -67,7 +75,7 @@ export default {
       params.append("teamid", this.teamid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.getTeamTemplateList;
-      getData(url, params).then((res) => {
+      getData(url, params).then(res => {
         console.log(res.code);
         if (res.code === "0") {
           this.ModelList = res.data.teamTemplateList;
@@ -80,7 +88,7 @@ export default {
           this.$message.error("服务器返回时间间隔过长");
         }
       });
-    },
+    }
   },
   mounted() {
     this.teamid = this.$route.query.teamid;
@@ -90,7 +98,7 @@ export default {
     } else {
       this.getTeamTemplateList();
     }
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
