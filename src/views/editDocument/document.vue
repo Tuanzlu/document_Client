@@ -59,7 +59,7 @@
               <div class="search-bar">
                 <a-input-search
                   class="search-bar-input"
-                  placeholder="输入姓名/邮箱/手机号/部门 添加协作权限"
+                  placeholder="输入用户名 添加协作权限"
                   v-model="searchWord"
                   @search="handleSearch"
                 />
@@ -98,7 +98,7 @@
               <div class="search-bar">
                 <a-input-search
                   class="search-bar-input"
-                  placeholder="输入姓名/邮箱/手机号/部门 添加协作权限"
+                  placeholder="输入用户名 添加协作权限"
                   v-model="searchWord"
                   @search="handleSearch"
                 />
@@ -249,7 +249,7 @@
           <a-list style="min-height:380px" item-layout="horizontal" :data-source="commentList" :header="`${commentList.length} replies`">
             <a-list-item slot="renderItem" slot-scope="item">
               <a-comment  :avatar="item.userimgpath">
-                <a slot="author">{{item.username}}</a>
+                <a slot="author" href="#" @click="toPerson(item.userid)">{{item.username}}</a>
                 <span slot="actions" @click="deleteComment(item.commentid)" size="small" style="float:right">删除</span>
                 <p slot="content">
                   {{ item.content }}
@@ -430,6 +430,14 @@ export default {
     this.getUserByDocid();
   },
   methods: {
+    toPerson(userid){
+      this.$router.push({
+        path:"/personInfo",
+        query:{
+          userid:userid
+        }
+      })
+    },
     showModal() {
       this.authorVisible = true;
     },
@@ -546,10 +554,18 @@ export default {
     },
     avatarOnClick({ key }) {
       if (key == 1) {
-        this.$router.push("/personInfo");
+        this.updateDocument();
+        this.$router.push({
+          path:"/personInfo",
+          query:{
+            userid:this.user.userid
+          }
+        });
       } else if (key == 2) {
+        this.updateDocument();
         this.$router.push("/help");
       } else if (key == 3) {
+        this.updateDocument();
         console.log("退出登录");  
         window.sessionStorage.removeItem('UserId');
         this.$router.replace({
