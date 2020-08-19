@@ -245,7 +245,7 @@ export default {
       });
     },
     hide() {
-      this.visible_search = true;
+      this.visible_search = false;
       this.search.splice(0, this.search.length);
     },
     onSearch(value) {
