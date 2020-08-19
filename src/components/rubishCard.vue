@@ -22,7 +22,9 @@
           </a-menu>
         </a-dropdown>
         <span>
-          <p>{{ item.title}}</p>
+          <a-tooltip placement="bottom" :title="item.title">
+            <p>{{ item.title}}</p>
+          </a-tooltip>
         </span>
       </a-card>
     </div>
