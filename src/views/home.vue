@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="content">
-      <img src="../assets/logo.png" style="height:100px;width:300px"/>
+      <img src="../assets/logo.png" style="height: 100px; width: 300px;" />
       <div class="title">
         陨 石 文 档
       </div>
@@ -42,7 +42,7 @@ export default {
   width: 100%;
   height: 800px;
   background: url("../assets/bg.jpeg") no-repeat center bottom;
-  background-size:cover;
+  background-size: cover;
 }
 .footer {
   // border: 2px red solid;
@@ -51,14 +51,15 @@ export default {
   background-image: linear-gradient(-186deg, #fce2c1 0%, #98623c 100%);
 }
 .title {
+  font-family: 华文新宋;
   // border: 2px red solid;
   font-size: 40px;
   color: #000;
   text-align: center;
   padding-top: 20px;
   background-color: #deb068;
-  opacity:0.8;
-  margin-left: 500px;
+  opacity: 0.8;
+  margin: auto;
   margin-top: 100px;
   width: 300px;
   height: 100px;
@@ -69,10 +70,10 @@ export default {
   font-size: 24px;
   color: white;
   background-color: #deb068;
-  opacity:0.8;
+  opacity: 0.8;
   width: 300px;
   height: 60px;
-  margin-left: 500px;
+  margin: auto;
 }
 .startBtn {
   display: block;
@@ -85,7 +86,7 @@ export default {
   margin: 0 auto;
   padding-top: 30px;
   font-size: 20px;
-  color: black;
+  color: white;
   // border: 1px solid blue;
 }
 .bottomTitle {
@@ -96,29 +97,27 @@ export default {
   display: block;
 }
 .myButton {
-	box-shadow:inset 0px 1px 0px 0px #fce2c1;
-	background-color:#deb068;
-	border-radius:7px;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:17px;
-	font-weight:bold;
-	padding:6px 23px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #000;
+  box-shadow: inset 0px 1px 0px 0px #fce2c1;
+  background-color: #deb068;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 17px;
+  font-weight: bold;
+  padding: 6px 23px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #000;
   width: 150px;
-  text-align:center;
-  margin-left: 580px;
+  text-align: center;
+  margin: 40px auto 0 auto;
   height: 40px;
 }
 .myButton:hover {
-	background-color:#c38743;
+  background-color: #c38743;
 }
 .myButton:active {
-	position:relative;
-	top:1px;
+  position: relative;
+  top: 1px;
 }
-
 </style>

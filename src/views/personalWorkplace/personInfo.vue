@@ -1,6 +1,9 @@
 <template>
 <div class="total">
   <div class="Info_container">
+     <a-button class="btn" @click="toLast">
+          <a-icon type="left" />
+     </a-button>
       <p>个 人 信 息</p>
       <div class="Info_box">
         <div style="float:left;">
@@ -8,7 +11,7 @@
         </div>
         </br>
         <!--分割线-->
-        <div style="float:left;width: 2px;height: 350px; background: #000;margin-right: 40px;margin-left: 20px;"></div>  
+        <div :class="{loginusermode:judgement}"  style="float:left;width: 2px;height: 300px; background: #000;margin-right: 40px;margin-left: 20px;"></div>  
         <!--右边内容-->
         <a-list size="large">
             <div>
@@ -20,33 +23,41 @@
                 <a-icon type="contacts"  style="margin-right: 10px ;float: center"/>
                 <span> 账号ID：{{info.userid}}</span>
             </div>
-            </br></br>
-            <div>
+            <br v-if="judgement" /> <br  v-if="judgement" />
+            <div v-if="judgement" >
                 <a-icon type="lock"  style="margin-right: 10px"/>
                 <span> 密码：{{info.password}}</span>
-                <a-button @click="toPwd" type="link" style="float: right;">修改</a-button>
+                <a-button v-show="judgement" @click="toPwd" type="link" style="float: right;">修改</a-button>
                 <inputPwd ref="choosePwd" v-show="showPwd" v-on:closePwd="closePwd"></inputPwd>
             </div>
              </br></br>
             <div>
                 <a-icon type="wechat"  style="margin-right: 10px"/>
                 <span> 微信：{{info.wechat}}</span>
-                <a-button @click="toWechat" type="link" style="float: right;">修改</a-button>
+                <a-button v-show="judgement" @click="toWechat" type="link" style="float: right;">修改</a-button>
                 <inputBox ref="chooseButton" v-show="showWechat" v-on:closeme="closeme"></inputBox>
             </div>
             </br></br>
             <div>
                 <a-icon type="mail"  style="margin-right: 10px"/>
                 <span> 邮箱：{{info.email}}</span>
-                <a-button @click="toEmail" type="link" style="float: right;">修改</a-button>
+                <a-button v-show="judgement" @click="toEmail" type="link" style="float: right;">修改</a-button>
                 <inputEmail ref="chooseE" v-show="showEmail" v-on:closeEmail="closeEmail"></inputEmail>
             </div>
             </br></br>
             <div>
                 <a-icon type="smile"  style="margin-right: 10px"/>
                 <span> 个性签名：{{info.intro}}</span>
-                <a-button @click="toIntro" type="link" style="float: right;">修改</a-button>
+                <a-button v-show="judgement" @click="toIntro" type="link" style="float: right;">修改</a-button>
                 <inputIntro ref="chooseIntro" v-show="showIntro" v-on:closeEmail="closeIntro"></inputIntro>
+            </div>
+            <br v-if="judgement" /> <br  v-if="judgement" />
+            <div v-if="judgement" >
+               <a-icon type="question-circle" style="margin-right: 10px"/>
+                <span> 密保问题：{{info.question}}</span></br></br>
+                <span style="margin-left: 28px" > 问题答案：{{info.answer}}</span>
+                <a-button v-show="judgement" @click="toQnA" type="link" style="float: right;">修改</a-button>
+                <inputQnA ref="chooseQnA" v-show="showQnA" v-on:closeEmail="closeQnA"></inputQnA>
             </div>
         </a-list>
       </div> 
@@ -62,6 +73,7 @@ import inputBox from '@/components/inputBox';
 import inputEmail from '@/components/inputEmail';
 import inputPwd from '@/components/inputPwd';
 import inputIntro from '@/components/inputIntro';
+import inputQnA from '@/components/inputQnA';
 export default {
   components: {
         uploadPhoto,
@@ -69,6 +81,7 @@ export default {
         inputEmail,
         inputPwd,
         inputIntro,
+        inputQnA
   },
   data() {
     return {
@@ -77,9 +90,22 @@ export default {
       showEmail: false,
       showPwd: false,
       showIntro: false,
+      showQnA:false,
+      judgement:false,
     };
   },
   methods: {
+    toLast(){
+      console.log(this.$route.path);
+      let userid=(parseInt(window.sessionStorage.getItem("UserId")) );
+      if(this.$route.query.userid== userid){
+         this.$router.push("/used");
+      }else if(this.$route.query.userid!= userid){
+        this.$router.go(-1);
+        this.$router.go(-1);
+      }
+      
+    },
     email_blur(e) {
       var verify = /^\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
       if (!verify.test(e)) {
@@ -98,7 +124,26 @@ export default {
       this.showPwd = !this.showPwd;
     },
     toIntro(){
-      this.showIntro= !this.showIntro;
+      this.showIntro = !this.showIntro;
+    },
+    toQnA(){
+      this.showQnA = !this.showQnA;
+    },
+    closeQnA(){
+      let res = this.$refs.chooseQnA.getChoose();
+      this.showQnA = !this.showQnA;
+      console.log(res.flag);
+      if(res.flag == 1 && (res.ques.length == 0 || res.ans.length ==0 )){
+        this.$message.error("请输入修改后的结果");
+        //console.log("正常关闭");
+      }
+      else if(res.flag == 1){
+        this.info.question = res.ques;
+        this.info.answer = res.ans;
+        console.log(this.info.question);
+        console.log(this.info.answer);
+        this.changeWE();
+      }
     },
     closeIntro(){
       let res = this.$refs.chooseIntro.getChoose();
@@ -160,7 +205,7 @@ export default {
     },
     getInfo() {
       let params = new URLSearchParams();
-      let userId = parseInt(window.sessionStorage.getItem('UserId'));
+      let userId = this.$route.query.userid;
       params.append("userid", userId);
       let url = this.$urlPath.website.getUserInfo;
       getData(url,params).then((res) => {
@@ -168,7 +213,6 @@ export default {
         if (res.code === "0") {
           this.info = res.data;
           this.info.password = "●●●●●●●●●●●●";
-          this.info.question = "★★★★★★★★★";
         } else if (res.code === "1") {
           this.$message.error("未登录");
         } else {
@@ -225,6 +269,17 @@ export default {
   created() {
     this.getInfo();
   },
+  mounted(){
+    let loginuserid=(parseInt(window.sessionStorage.getItem("UserId")) );
+    console.log(loginuserid);
+    console.log(this.$route.query.userid);
+    if(this.$route.query.userid==  loginuserid ){
+      this.judgement=true;
+    }else{
+      this.judgement=false;
+    }
+    console.log(this.judgement);
+  }
 }
 </script>
 
@@ -247,12 +302,22 @@ export default {
 }
 .Info_box{
  /* border:3px solid #000;*/
-  height: 550px;
+  height: 600px;
   width: 600px;
   padding:50px 30px; 
   margin-bottom: 50px;
   background-color: #fff;
   opacity:0.9; 
+}
+.btn{
+  margin:10px 15px 0 -65px;
+  float: left;
+}
+.loginusermode{
+  height:470px!important;
+}
+.loginuserbox{
+  height:600px;
 }
 
 

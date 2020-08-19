@@ -1,78 +1,77 @@
 <template>
-<div class="total">
-  
-  <div class="login_container" >
-    <div>
-    <p>登 录</p>
-    <a-form-model ref="loginRef" :model="loginForm" >
-      <a-form
-        ref="loginRef"
-        id="components-form-demo-normal-login"
-        :form="form"
-        class="login-form"
-        @submit="handleSubmit"
-      >
-        <a-form-item>
-          <a-input
-            v-decorator="[
-              'userName',
-              {
-                rules: [
-                  { required: true, message: '请输入用户名' },
-                  { min: 3, message: '用户名长度大于3', trigger: 'blur' },
-                ],
-              },
-            ]"
-            placeholder="Username"
+  <div class="total">
+    <div class="login_container">
+      <div>
+        <p>登 录</p>
+        <a-form-model ref="loginRef" :model="loginForm">
+          <a-form
+            ref="loginRef"
+            id="components-form-demo-normal-login"
+            :form="form"
+            class="login-form"
+            @submit="handleSubmit"
           >
-            <a-icon slot="prefix" type="user" style="color: rgba(0, 0, 0, 0.25);" />
-          </a-input>
-        </a-form-item>
-        <a-form-item>
-          <a-input
-            v-decorator="[
-              'password',
-              {
-                rules: [
-                  { required: true, message: '请输入密码' },
-                  { min: 3, message: '密码长度大于3', trigger: 'blur' },
-                ],
-              },
-            ]"
-            placeholder="Password"
-            type="password"
-          >
-            <a-icon slot="prefix" type="lock" style="color: rgba(0, 0, 0, 0.25);" />
-          </a-input>
-        </a-form-item>
-        <a-form-model-item>
-          <a-checkbox
-            v-decorator="[
-              'remember',
-              {
-                valuePropName: 'checked',
-                initialValue: true,
-              },
-            ]"
-          >
-            记住密码
-          </a-checkbox>
-          <a class="login-form-forgot" href="#/findPwd">
-            忘记密码？
-          </a>
-          <a-button html-type="submit" class="login-form-button">
-            登 录
-          </a-button>
-          没有账号？
-          <a href="#/register">
-            去注册！
-          </a>
-        </a-form-model-item>
-      </a-form>
-    </a-form-model>
+            <a-form-item>
+              <a-input
+                v-decorator="[
+                  'userName',
+                  {
+                    rules: [
+                      { required: true, message: '请输入用户名' },
+                      { min: 3, message: '用户名长度大于3', trigger: 'blur' },
+                    ],
+                  },
+                ]"
+                placeholder="Username"
+              >
+                <a-icon slot="prefix" type="user" style="color: rgba(0, 0, 0, 0.25);" />
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-input
+                v-decorator="[
+                  'password',
+                  {
+                    rules: [
+                      { required: true, message: '请输入密码' },
+                      { min: 3, message: '密码长度大于3', trigger: 'blur' },
+                    ],
+                  },
+                ]"
+                placeholder="Password"
+                type="password"
+              >
+                <a-icon slot="prefix" type="lock" style="color: rgba(0, 0, 0, 0.25);" />
+              </a-input>
+            </a-form-item>
+            <a-form-model-item>
+              <a-checkbox
+                v-decorator="[
+                  'remember',
+                  {
+                    valuePropName: 'checked',
+                    initialValue: true,
+                  },
+                ]"
+              >
+                记住密码
+              </a-checkbox>
+              <a class="login-form-forgot" href="#/findPwd">
+                忘记密码？
+              </a>
+              <a-button html-type="submit" class="login-form-button">
+                登 录
+              </a-button>
+              没有账号？
+              <a href="#/register">
+                去注册！
+              </a>
+            </a-form-model-item>
+          </a-form>
+        </a-form-model>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -140,10 +139,10 @@ export default {
 </script>
 <style>
 .total {
-  background:url("../../assets/bg.jpeg");
+  background: url("../../assets/bg.jpeg");
   width: 100%;
   height: 800px;
-  background-size:cover;
+  background-size: cover;
 }
 .login_container {
   width: 350px;

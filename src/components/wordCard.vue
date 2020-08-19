@@ -20,7 +20,7 @@
                     </a-button>
                       <a-input-search
                         class="search-bar-input"
-                        placeholder="输入姓名/邮箱/手机号/部门 添加协作权限"
+                        placeholder="输入用户名 添加协作权限"
                         v-model="searchWord"
                         @search="handleSearch"
                       />
@@ -59,7 +59,7 @@
                     <div class="search-bar">
                       <a-input-search
                         class="search-bar-input"
-                        placeholder="输入姓名/邮箱/手机号/部门 添加协作权限"
+                        placeholder="输入用户名 添加协作权限"
                         v-model="searchWord"
                         @search="handleSearch"
                       />
