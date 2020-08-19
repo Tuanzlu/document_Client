@@ -59,7 +59,7 @@ export default {
   padding-top: 20px;
   background-color: #deb068;
   opacity: 0.8;
-  margin: auto;
+  margin-left: 520px;
   margin-top: 100px;
   width: 300px;
   height: 100px;
@@ -73,7 +73,7 @@ export default {
   opacity: 0.8;
   width: 300px;
   height: 60px;
-  margin: auto;
+  margin-left: 520px;
 }
 .startBtn {
   display: block;
@@ -111,7 +111,7 @@ export default {
   text-shadow: 0px 1px 0px #000;
   width: 150px;
   text-align: center;
-  margin: 40px 0 0 645px;
+  margin-left: 595px;
   height: 40px;
 }
 .myButton:hover {

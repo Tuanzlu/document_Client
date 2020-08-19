@@ -505,9 +505,9 @@ export default {
   width: 120px;
 }
 p {
+  text-align: center;
   font-size: 13px;
   font-family:Arial,Helvetica,sans-serif;
-
   overflow : hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
