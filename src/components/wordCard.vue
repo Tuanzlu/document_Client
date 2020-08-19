@@ -398,7 +398,7 @@ export default {
         } else if (res.code === "3") {
           this.$message.error(res.msg);
         } else if (res.code === "4") {
-          this.$message.error(res.msg);
+          this.$message.success(res.msg);
         }  else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
