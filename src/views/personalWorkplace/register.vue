@@ -1,8 +1,5 @@
 <template>
-<<<<<<< HEAD
 <div class="total">
-=======
->>>>>>> 138f0e52d11af1f8f3054c005f3b03e5d889b4f1
 <div class="register_container">
     <p>注 册</p>
     <a-form :form="form" @submit="handleSubmit">
