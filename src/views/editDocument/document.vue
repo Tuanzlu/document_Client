@@ -17,6 +17,7 @@
           <p> 邮箱：{{author.email}}</p>
           <p> 文档创建时间：{{article.createtime}}</p>
           <p> 文档最后保存时间：{{article.modifytime}}</p>
+          <p> 文档阅读人数：{{readtimes}}</p>
             </div>
         </a-modal>
       </div>
@@ -392,7 +393,7 @@ export default {
       modifyList:[],
       searchUser:[],
       commentList: [],
-      newdocid:0,
+      readtimes:0,
       selected:1,
       value: 1,
       searchWord: "",  
@@ -849,6 +850,7 @@ export default {
           this.canComment = res.data.canComment;
           this.canEdit=res.data.canWrite;
           this.article = res.data.doc;
+          this.readtimes=res.data.numOfRead;
           console.log(this.article.teamid);
           this.isCollected=res.data.haveCollect;
           if(res.data.canWrite==false){

@@ -100,6 +100,7 @@ export default {
   box-shadow: inset 0px 1px 0px 0px #fce2c1;
   background-color: #deb068;
   border-radius: 7px;
+  display: inline-block;
   cursor: pointer;
   color: #ffffff;
   font-family: Arial;
@@ -110,7 +111,7 @@ export default {
   text-shadow: 0px 1px 0px #000;
   width: 150px;
   text-align: center;
-  margin: 40px auto 0 auto;
+  margin: 40px 0 0 645px;
   height: 40px;
 }
 .myButton:hover {
