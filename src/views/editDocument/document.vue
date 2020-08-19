@@ -377,7 +377,7 @@ export default {
   props: ["docidnum"],
   data() {
     return {
-      imageUrl: require("../../assets/bg.jpeg"),
+      imageUrl: require("../../assets/code.jpeg"),
       columns,
       items,
       showColumns,
@@ -518,9 +518,10 @@ export default {
       if (key == 1) {
         this.enterEdit();
       } else if (key == 2) {
-        if(this.isEdit){
+        if(this.isEdit==true){
           this.$message.error("请先保存文档!");
         }else{
+          console.log(this.article.teamid);
           if(this.article.teamid==-1){
             this.addTemplate();
           }else{
@@ -786,7 +787,7 @@ export default {
         } else if (res.code === "3") {
           this.$message.error(res.msg);
         } else if (res.code === "4") {
-          this.$message.error(res.msg);
+          this.$message.success(res.msg);
         }  else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
@@ -814,32 +815,6 @@ export default {
         }
       });
     },
-    //团队创建文档接口
-     addTeamDoc(teamid) {
-      let params = new URLSearchParams();
-      params.append("teamid", teamid);
-      params.append("userid", this.user.userid);
-      //调用封装的postData函数，获取服务器返回值
-      let url = this.$urlPath.website.addTeamDoc;
-      postData(url, params).then((res) => {
-        console.log(res.code);
-        if (res.code === "0") {
-            this.$router.push({
-              path:"/document",
-              query:{
-                docid:res.data.docid
-              }
-            })
-            console.log("创建团队文档成功");
-          // this.$message.success("操作成功");
-        } else if (res.code === "1") {
-          this.$message.error("操作失败");
-        } else {
-          console.log(res.code);
-          this.$message.error("服务器返回时间间隔过长");
-        }
-      });
-    },
     //获取文档内容
     getDocument() {
       let params = new URLSearchParams();
@@ -855,6 +830,7 @@ export default {
           this.canComment = res.data.canComment;
           this.canEdit=res.data.canWrite;
           this.article = res.data.doc;
+          console.log(this.article.teamid);
           this.isCollected=res.data.haveCollect;
           if(res.data.isEditing == false && res.data.canWrite==true){
             this.enterEdit();
@@ -867,9 +843,10 @@ export default {
           // this.$message.success("操作成功");
         } else if (res.code === "1") {
           this.$message.error("没有权限");
+          this.$router.push("/used");
         } else if (res.code === "2") {
           this.$message.error("文档已被删除");
-          this.$router.go(-1);
+          this.$router.push("/rubish");
         } else {
           console.log(res.code);
           this.$message.error("服务器返回时间间隔过长");
@@ -912,7 +889,8 @@ export default {
         console.log(res.code);
         if (res.code === "0") {
           console.log(this.article.content);
-          this.$message.success("操作成功");
+          console.log("保存成功");
+          // this.$message.success("操作成功");
         } else if (res.code === "1") {
           this.$message.error("用户未登录");
         } else if (res.code === "2") {
@@ -943,6 +921,7 @@ export default {
         }
       });
     },
+    //判断是否能够发表评论
     addCommentRequest(){
       if(this.canComment==true){
         this.addComment();
