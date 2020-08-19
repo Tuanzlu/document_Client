@@ -19,6 +19,10 @@
         <br />
         <br />
         <br />
+        <div class="myButton" @click="toModel">团队模板库</div>
+        <br />
+        <br />
+        <br />
         <div class="myButton" @click="toMemberList">成员列表</div>
         <a-popover trigger="click" placement="left">
           <template slot="content">
