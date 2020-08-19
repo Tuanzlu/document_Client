@@ -4,7 +4,7 @@
       <a-menu v-model="mail" mode="horizontal" style="margin-left: 250px; width: 70%;">
         <a-menu-item key="mail"> <a-icon type="question" />帮助中心 </a-menu-item>
       </a-menu>
-      <div class="btn_box" style="margin-left: 250px; width: 70%;">
+      <div class="btn_box" style="margin-left: 250px; margin-top: 20px; width: 70%;">
 <div style="text-indent:2em;">
 <p><font size="5">热点问题</font>
 <p>1、	什么是金刚石文档？</p>
