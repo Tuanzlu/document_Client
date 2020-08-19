@@ -1,4 +1,5 @@
 <template>
+<div class="total">
   <div class="Info_container">
       <p>个 人 信 息</p>
       <div class="Info_box">
@@ -50,6 +51,7 @@
         </a-list>
       </div> 
   </div>
+</div>
 </template>
 
 <script>
@@ -227,6 +229,12 @@ export default {
 </script>
 
 <style>
+.total {
+  background:url("../../assets/bg.jpeg");
+  width: 100%;
+  height: 800px;
+  background-size:cover
+}
 .Info_container {
     width: 530px;
     border-radius: 3px;
@@ -235,13 +243,16 @@ export default {
     right: 30%;
     top: 10%;
     font-size: 30px;
+   
 }
 .Info_box{
-  border:3px solid #000;
+ /* border:3px solid #000;*/
   height: 550px;
   width: 600px;
   padding:50px 30px; 
   margin-bottom: 50px;
+  background-color: #fff;
+  opacity:0.9; 
 }
 
 

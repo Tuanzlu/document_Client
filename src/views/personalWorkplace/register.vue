@@ -1,4 +1,8 @@
 <template>
+<<<<<<< HEAD
+<div class="total">
+=======
+>>>>>>> 138f0e52d11af1f8f3054c005f3b03e5d889b4f1
 <div class="register_container">
     <p>注 册</p>
     <a-form :form="form" @submit="handleSubmit">
@@ -107,7 +111,7 @@
         </a-form-item>
 
         <a-form-item v-bind="formItemLayout" label="个人简介">
-        <a-textarea placeholder="Basic usage" :rows="4" 
+        <a-textarea placeholder="" :rows="4" 
           v-decorator="[
             'intro',
             {
@@ -131,6 +135,7 @@
         </a-form-item>
     </a-form>
   </div>
+</div>
 </template>
 
 <script>
@@ -232,6 +237,12 @@ export default {
 };
 </script>
 <style>
+.total {
+  background:url("../../assets/bg.jpeg");
+  width: 100%;
+  height: 800px;
+  background-size:cover
+}
 .register_container{
   width: 400px;
   border-radius: 3px;

@@ -1,9 +1,8 @@
 <template>
-  <div style="float: right;margin-top:48px;margin-right:110px">
-            <a-button type="default" @click="createDocument">新建文档</a-button>
-            </br>
-            </br>
-            <a-button type="default" @click="toModel">模版库</a-button>
+  <div style="margin-top:48px;margin-right:110px">
+    <div class="myButton" @click="createDocument">新 建 文  档</div>     
+    </br></br></br>
+    <div  class="myButton" @click="toModel">模 板 库</div>
   </div>
 </template>
 
@@ -28,7 +27,6 @@ export default {
     },
     createDocument() {
       let params = new URLSearchParams();
-
       params.append("userid", this.userid);
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.addDoc;
@@ -59,5 +57,29 @@ export default {
 </script>
 
 <style>
+.myButton {
+  text-align:center;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background-color:#a8c97f;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:16px;
+	font-weight:bold;
+	padding:10px 16px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #090f00;
+  width: 130px;
+  position: fixed;
+}
+.myButton:hover {
+	background-color:#a8bf93;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
 
 </style>

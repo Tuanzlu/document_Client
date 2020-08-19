@@ -1,15 +1,21 @@
 <template>
   <div class="toleft">
-    <a-menu mode="inline" :open-keys="openKeys" style="width: 230px" @openChange="onOpenChange">
-      <a-menu-item key="1">
+    <a-menu 
+    mode="inline" 
+    :open-keys="openKeys" 
+    style="width: 230px;color:#281a14;background-color:#bed3ca;" 
+    @openChange="onOpenChange"
+    @click="handleClick"
+    >
+      <a-menu-item key="1" id="id1">
         <a-icon type="edit" />工作台
         <router-link to="/used"></router-link>
       </a-menu-item>
-      <a-menu-item key="2">
+      <a-menu-item key="2" id="id2">
         <a-icon type="mail" />收件箱
-        <router-link to="/letter"></router-link>
+        <router-link to="/letter" style="color:#f8f4e6;background-color:#839b5c;"></router-link>
       </a-menu-item>
-      <a-sub-menu key="sub1">
+      <a-sub-menu key="sub1" id="id3">
         <span slot="title">
           <a-icon type="team" />
           <span>团队空间</span>
@@ -21,11 +27,11 @@
           <router-link :to="{ path: '/team', query: { teamid: item.teamid } }">{{ item.teamname }}</router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-menu-item key="5">
+      <a-menu-item key="5" id="id5">
         <a-icon type="delete" />回收站
         <router-link to="/rubish"></router-link>
       </a-menu-item>
-        <a-menu-item key="6"> <a-icon type="question" />帮助中心
+        <a-menu-item key="6" id="id6"> <a-icon type="question" />帮助中心
         <router-link to="/help"></router-link>
       </a-menu-item>
     </a-menu>
@@ -44,12 +50,35 @@ export default {
     };
   },
   methods: {
+    handleClick(e){
+      console.log('click ', e);
+      document.getElementById('id'+e.key).style.color='#f8f4e6';
+      document.getElementById('id'+e.key).style.backgroundColor ='#839b5c';
+      for(let i=1;i<=6;i++){
+        if(i===4)
+          continue;
+        console.log(e.key,i);
+        if(parseInt(e.key) !== i){
+          document.getElementById('id'+i).style.color='#281a14';
+          document.getElementById('id'+i).style.backgroundColor ='#bed3ca';
+        }
+      }
+    },
     onOpenChange(openKeys) {
       const latestOpenKey = openKeys.find((key) => this.openKeys.indexOf(key) === -1);
       if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
         this.openKeys = openKeys;
       } else {
         this.openKeys = latestOpenKey ? [latestOpenKey] : [];
+        document.getElementById('id'+3).style.color='#f8f4e6';
+        document.getElementById('id'+3).style.backgroundColor ='#839b5c';
+        for(let i=1;i<=6;i++){
+          if(i===4 || i===3)
+             continue;
+          document.getElementById('id'+i).style.color='#281a14';
+          document.getElementById('id'+i).style.backgroundColor ='#bed3ca';
+        }
+      
       }
     },
     getTeam() {
@@ -74,6 +103,8 @@ export default {
     },
   },
   mounted() {
+    document.getElementById('id'+1).style.color='#f8f4e6';
+    document.getElementById('id'+1).style.backgroundColor ='#839b5c';
     this.getTeam();
   },
   watch: {
@@ -87,10 +118,11 @@ export default {
 <style>
 .toleft {
   position: fixed;
+  height: auto;
   width: 230px;
-  top: 60px;
+  top: 59px;
   bottom: 0;
   margin-right: 100px;
-  /*background-color: #7f7f7f;*/
+  background-color:#bed3ca;
 }
 </style>

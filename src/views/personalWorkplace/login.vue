@@ -1,7 +1,10 @@
 <template>
-  <div class="login_container">
+<div class="total">
+  
+  <div class="login_container" >
+    <div>
     <p>登 录</p>
-    <a-form-model ref="loginRef" :model="loginForm">
+    <a-form-model ref="loginRef" :model="loginForm" >
       <a-form
         ref="loginRef"
         id="components-form-demo-normal-login"
@@ -67,7 +70,9 @@
         </a-form-model-item>
       </a-form>
     </a-form-model>
+    </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -134,11 +139,17 @@ export default {
 };
 </script>
 <style>
+.total {
+  background:url("../../assets/bg.jpeg");
+  width: 100%;
+  height: 800px;
+  background-size:cover
+}
 .login_container {
   width: 300px;
   border-radius: 3px;
   position: absolute;
-  left: 40%;
+  left: 35%;
   right: 30%;
   top: 10%;
 }

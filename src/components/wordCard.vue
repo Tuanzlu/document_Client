@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="cardList">
-      <div class="singleCard" v-for="(item, i) in list" :key="i">
+      <div class="singleCard" v-for="(item, i) in list" :key="i" style="background-color:#ede4cd;">
         <a-card hoverable class="card" @click="toDoc(item, i)">
           <img
             slot="cover"
@@ -9,9 +9,10 @@
             alt="example"
             style="width: 90px; height: 90px; margin: 10px auto -20px auto;"
           />
+          <div>
           <a-dropdown class="set">
             <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-              <a href="#"><a-icon type="setting" /></a>
+              <a href="#"><a-icon type="setting" style="color:#a8bf93"/></a>
             </a>
             <a-menu slot="overlay">
               <a-menu-item>
@@ -135,6 +136,7 @@
               </a-menu-item>
             </a-menu>
           </a-dropdown>
+          </div>
           <span>
             <h3>{{ item.title }}</h3>
           </span>
@@ -148,7 +150,6 @@
 import vueQr from 'vue-qr';
 import { deleteData } from "@/api/webdelete";
 import { putData } from "@/api/webput";
-// import { postData } from "@/api/webpost";
 import { getData } from "@/api/webget";
 const userList = [
   {
@@ -471,6 +472,7 @@ export default {
 // }
 
 .table-add{
+  
   width:550px;
   margin-left:0px;
   height:500px

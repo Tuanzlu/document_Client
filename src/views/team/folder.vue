@@ -1,25 +1,22 @@
 <template>
-  <div class="folder">
-    <div>
-      <a-card
+<div class="mainContext">
+  <div class="leftContext">
+    <a-card
         :title="teaminfo.teamname + ' 的团队空间'"
         :bordered="false"
         style="width: 800px; padding: 0 0 16px 0;"
         headStyle="font-size:20px"
         bodyStyle="font-size:16px;padding-bottom:0"
-      >
-        <span>{{ teaminfo.intro }}</span>
-      </a-card>
-      <div class="btn">
-        <a-button type="default" @click="addTeamDoc">创建团队文档</a-button>
-        <br />
-        <br />
-        <a-button type="default" @click="toModel">团队模板库</a-button>
-        <br />
-        <br />
-        <a-button type="default" @click="toMemberList">成员列表</a-button>
-        <br />
-        <br />
+      />
+      <div style="margin-left: -50px; margin-top: -30px;">
+        <wordCard :list="teamdoclist"></wordCard>
+      </div>
+  </div>
+  <div class="rightContext">
+    <div style="margin-top:48px;margin-right:110px">
+    <div class="myButton" @click="addTeamDoc">创建团队文档</div>     
+    </br></br></br>
+    <div class="myButton" @click="toMemberList">成员列表</div>
         <a-popover trigger="click" placement="left">
           <template slot="content">
             <a-form :form="form" @submit="handleSubmit" layout:Vertical style="width: 400px; padding: 20px;">
@@ -49,22 +46,19 @@
               </a-form-item>
             </a-form>
           </template>
-          <a-button type="default" v-if="userid == leaderinfo.userid">团队设置</a-button>
+          </br></br></br>
+        <div class="myButton" v-if="userid == leaderinfo.userid">团队设置</div>
           <br v-if="userid == leaderinfo.userid" />
           <br v-if="userid == leaderinfo.userid" />
         </a-popover>
-        <a-button type="danger" @click="showDeleteConfirm_Member" ghost v-if="userid != leaderinfo.userid"
-          >退出团队</a-button
-        >
-        <a-button type="danger" @click="showDeleteTeamConfirm" ghost v-if="userid == leaderinfo.userid"
-          >解散团队</a-button
-        >
-      </div>
-      <div style="margin-left: -50px; margin-top: -30px;">
-        <wordCard :list="teamdoclist"></wordCard>
-      </div>
+        </br></br></br>
+        <div class="myButton" @click="showDeleteTeamConfirm" ghost v-if="userid == leaderinfo.userid">解散团队</div>
+        </br></br></br>
+        <div class="myButton" @click="showDeleteConfirm_Member" ghost v-if="userid != leaderinfo.userid">退出团队</div>
     </div>
   </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -73,7 +67,6 @@ import { putData } from "@/api/webput";
 import { deleteData } from "@/api/webdelete";
 import { postData } from "@/api/webpost";
 import wordCard from "@/components/wordCard.vue";
-
 export default {
   components: {
     wordCard,
@@ -279,13 +272,49 @@ export default {
 </script>
 
 <style>
-.btn {
-  margin: -62px -50px 0 0;
-  float: right;
-  width: 100px;
+
+.mainContext{
+  width: 1200px;
+  height: auto;
+  position:relative;
 }
-.folder {
-  margin-left: 250px;
-  width: 70%;
+.leftContext
+{
+  float: left;
+  width: 700px;
+  margin-left: 280px;
+  margin-top: 70px;
+
+}
+.rightContext
+{
+  float: right;
+  width: 110px;
+  height:auto;
+  margin-top: 100px;
+}
+.myButton {
+  text-align:center;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background-color:#a8c97f;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:16px;
+	font-weight:bold;
+	padding:10px 16px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #090f00;
+  width: 130px;
+  position: fixed;
+}
+.myButton:hover {
+	background-color:#a8bf93;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
 }
 </style>

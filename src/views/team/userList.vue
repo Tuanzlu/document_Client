@@ -1,6 +1,7 @@
 <template>
-  <div style="margin-left:250px" class="list">
-    <a-card
+<div class="mainContext">
+  <div class="leftContext">
+     <a-card
       :title="teaminfo.teamname+' 团队成员列表'"
       :bordered="false"
       style="width: 800px;padding:0 0 16px 0"
@@ -75,7 +76,10 @@
         </a-list>
       </div>
     </a-card>
+  
   </div>
+</div>
+
 </template>
 
 <script>
@@ -232,7 +236,24 @@ export default {
 </script>
 
 <style>
-.list {
-  width: 600px;
+.mainContext{
+  width: 1200px;
+  height: auto;
+  position:relative;
+}
+.leftContext
+{
+  float: left;
+  width: 700px;
+  margin-left: 280px;
+  margin-top: 70px;
+
+}
+.rightContext
+{
+  float: right;
+  width: 110px;
+  height:auto;
+  margin-top: 100px;
 }
 </style>

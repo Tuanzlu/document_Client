@@ -1,4 +1,5 @@
 <template>
+<div class="total">
 <div class="register_container">
     <p>找 回 密 码</p>
     <a-form :form="form" @submit="handleSubmit">
@@ -75,6 +76,7 @@
         </a-form-item>
     </a-form>
   </div>
+</div>
 </template>
 
 <script>
@@ -198,6 +200,12 @@ export default {
 };
 </script>
 <style>
+.total {
+  background:url("../../assets/bg.jpeg");
+  width: 100%;
+  height: 800px;
+  background-size:cover
+}
 .register_container{
   width: 400px;
   border-radius: 3px;

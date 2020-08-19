@@ -1,11 +1,11 @@
 <template>
-  <div class="cardList">
-    <div class="singleCard" v-for="(item, i) in list" :key="i" >
+  <div class="cardList"> 
+    <div class="singleCard" v-for="(item, i) in list" :key="i" style="background-color:#ede4cd;">
         <a-card hoverable class="card" @click="toDoc(item,i)" >
             <img slot="cover" src="../assets/word1.jpg" alt="example" style="width:90px;height:90px;margin:10px auto -20px auto" />
             <a-dropdown class="set">
                 <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                <a href="#" ><a-icon type="setting" /></a>
+                <a href="#" ><a-icon type="setting" style="color:#a8bf93"/></a>
                 </a>
                 <a-menu slot="overlay">
                 <a-menu-item>

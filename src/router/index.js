@@ -123,7 +123,8 @@ router.beforeEach((to, from, next) => {
     to.path === "/" ||
     to.path === "/register" ||
     to.path === "/about" ||
-    to.path === "/index"
+    to.path === "/index" ||
+    to.path === "/findPwd"
   ) {
     console.log("2222");
     return next();

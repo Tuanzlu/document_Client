@@ -1,170 +1,175 @@
 <template>
   <div>
     <div class="header">
-      <div class="top" @click="toIndex">
-        <span class="name">金刚石文档</span>
+      <div class="top" @click="toIndex" style="position:fixed;float:left">
+        <img src="../assets/logo.png" style="height:60px;width:185px;margin-left:20px;margin-right:630px;margin-top:-13px;"/>
       </div>
-      <div class="topRight">
-        <a-dropdown>
-          <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            <showdPhoto></showdPhoto>
-          </a>
-          <a-menu slot="overlay">
-            <a-menu-item>
-              <a href="#/personInfo">个 人 主 页</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;">帮 助 事 项</a>
-            </a-menu-item>
-            <a-menu-divider />
-            <a-menu-item>
-              <a href="#/">退 出 登 录</a>
-            </a-menu-item>
-          </a-menu>
-        </a-dropdown>
-      </div>
-      <div class="topRight">
-        <a-dropdown>
-          <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            <div>
-              <a-badge :count="this.unreadnoticelist.length" title="新的消息">
-                <a-icon type="bell" style="font-size: 25px; margin-top: 3px;" @click="showDrawer" />
-              </a-badge>
-              <a-drawer
-                placement="right"
-                :closable="false"
-                :visible="visible_notice"
-                :after-visible-change="afterVisibleChange"
-                @close="onClose"
-                width="400px"
-              >
-                <a-tabs default-active-key="1">
-                  <a-tab-pane key="1">
-                    <span slot="tab">未读通知</span>
-                    <div v-for="(item, index) in unreadnoticelist" :key="index">
-                      <a-card :bordered="false" class="notice-card" size="small">
-                        <p>
-                          <strong>{{ item.title }}</strong>
-                        </p>
-                        <p>{{ item.content }}</p>
-                        <p>{{ item.addtime }}</p>
-                        <a-button
-                          type="primary"
-                          ghost
-                          size="small"
-                          class="read-agree"
-                          @click="agreeTeamInvitation(item.teamid, item.noticeid)"
-                          v-if="item.type === 1"
-                        >同意</a-button>
-                        <a-button
-                          type="danger"
-                          ghost
-                          size="small"
-                          class="read-disagree"
-                          @click="disagreeTeamInvitation(item.teamid, item.noticeid)"
-                          v-if="item.type === 1"
-                        >拒绝</a-button>
-                        <a-button
-                          type="primary"
-                          ghost
-                          size="small"
-                          class="read-confirm"
-                          @click="readNotice(item.noticeid)"
-                          v-if="item.type === 2"
-                        >设为已读</a-button>
-                        <a-button
-                          type="primary"
-                          ghost
-                          size="small"
-                          class="read-doc"
-                          @click="gotoDoc(item.docid)"
-                          v-if="item.type === 3"
-                        >去查看</a-button>
-                        <a-button
-                          type="primary"
-                          ghost
-                          size="small"
-                          @click="readNotice(item.noticeid)"
-                          style="margin-left: 5px;"
-                          v-if="item.type === 3"
-                        >设为已读</a-button>
-                        <a-button
-                          type="primary"
-                          ghost
-                          size="small"
-                          class="read-agree"
-                          @click="agreeCooperateInvitation(item.docid, item.noticeid)"
-                          v-if="item.type === 4"
-                        >同意</a-button>
-                        <a-button
-                          type="danger"
-                          ghost
-                          size="small"
-                          class="read-disagree"
-                          @click="disagreeCooperateInvitation(item.docid, item.noticeid)"
-                          v-if="item.type === 4"
-                        >拒绝</a-button>
-                      </a-card>
-                    </div>
-                  </a-tab-pane>
-                  <a-tab-pane key="2">
-                    <span slot="tab">已读通知</span>
-                    <div v-for="(item, index) in readnoticelist" :key="index">
-                      <a-card :bordered="false" class="notice-card" size="small">
-                        <p>
-                          <strong>{{ item.title }}</strong>
-                        </p>
-                        <p>{{ item.content }}</p>
-                        <p>{{ item.addtime }}</p>
-                        <span v-if="item.status === 1">
-                          <a-button type="primary" ghost size="small" class="read2" disabled>已读</a-button>
-                        </span>
-                        <span v-else-if="item.status === 2">
-                          <a-button type="primary" ghost size="small" class="read" disabled>已同意</a-button>
-                        </span>
-                        <span v-else>
-                          <a-button type="primary" ghost size="small" class="read" disabled>已拒绝</a-button>
-                        </span>
-                        <span>
+        <div class="topRight">  
+          <a-dropdown>
+            <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+              <showdPhoto></showdPhoto>
+            </a>
+            <a-menu slot="overlay">
+              <a-menu-item>
+                <a href="#/personInfo">个 人 主 页</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">帮 助 事 项</a>
+              </a-menu-item>
+              <a-menu-divider />
+              <a-menu-item>
+                <a href="#/">退 出 登 录</a>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
+        </div>
+        <div class="topRight">
+          <a-dropdown>
+            <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+              <div>
+                <a-badge :count="this.unreadnoticelist.length" :number-style="{ backgroundColor: '#f8b862'}" title="新的消息">
+                  <a-icon type="bell" style="font-size: 25px; margin-top: 3px;color: #250d00"   @click="showDrawer" />
+                </a-badge>
+                <a-drawer
+                  placement="right"
+                  :closable="false"
+                  :visible="visible_notice"
+                  :after-visible-change="afterVisibleChange"
+                  @close="onClose"
+                  width="400px"
+                >
+                  <a-tabs default-active-key="1">
+                    <a-tab-pane key="1">
+                      <span slot="tab">未读通知</span>
+                      <div v-for="(item, index) in unreadnoticelist" :key="index">
+                        <a-card :bordered="false" class="notice-card" size="small">
+                          <p>
+                            <strong>{{ item.title }}</strong>
+                          </p>
+                          <p>{{ item.content }}</p>
+                          <p>{{ item.addtime }}</p>
                           <a-button
+                            type="primary"
+                            ghost
                             size="small"
+                            class="read-agree"
+                            @click="agreeTeamInvitation(item.teamid, item.noticeid)"
+                            v-if="item.type === 1"
+                          >同意</a-button>
+                          <a-button
+                            type="danger"
+                            ghost
+                            size="small"
+                            class="read-disagree"
+                            @click="disagreeTeamInvitation(item.teamid, item.noticeid)"
+                            v-if="item.type === 1"
+                          >拒绝</a-button>
+                          <a-button
+                            type="primary"
+                            ghost
+                            size="small"
+                            class="read-confirm"
+                            @click="readNotice(item.noticeid)"
+                            v-if="item.type === 2"
+                          >设为已读</a-button>
+                          <a-button
+                            type="primary"
+                            ghost
+                            size="small"
+                            class="read-doc"
+                            @click="gotoDoc(item.docid)"
+                            v-if="item.type === 3"
+                          >去查看</a-button>
+                          <a-button
+                            type="primary"
+                            ghost
+                            size="small"
+                            @click="readNotice(item.noticeid)"
                             style="margin-left: 5px;"
-                            @click="deleteNotice(item.noticeid)"
-                          >删除</a-button>
-                        </span>
-                      </a-card>
-                    </div>
-                  </a-tab-pane>
-                </a-tabs>
-              </a-drawer>
+                            v-if="item.type === 3"
+                          >设为已读</a-button>
+                          <a-button
+                            type="primary"
+                            ghost
+                            size="small"
+                            class="read-agree"
+                            @click="agreeCooperateInvitation(item.docid, item.noticeid)"
+                            v-if="item.type === 4"
+                          >同意</a-button>
+                          <a-button
+                            type="danger"
+                            ghost
+                            size="small"
+                            class="read-disagree"
+                            @click="disagreeCooperateInvitation(item.docid, item.noticeid)"
+                            v-if="item.type === 4"
+                          >拒绝</a-button>
+                        </a-card>
+                      </div>
+                    </a-tab-pane>
+                    <a-tab-pane key="2">
+                      <span slot="tab">已读通知</span>
+                      <div v-for="(item, index) in readnoticelist" :key="index">
+                        <a-card :bordered="false" class="notice-card" size="small">
+                          <p>
+                            <strong>{{ item.title }}</strong>
+                          </p>
+                          <p>{{ item.content }}</p>
+                          <p>{{ item.addtime }}</p>
+                          <span v-if="item.status === 1">
+                            <a-button type="primary" ghost size="small" class="read2" disabled>已读</a-button>
+                          </span>
+                          <span v-else-if="item.status === 2">
+                            <a-button type="primary" ghost size="small" class="read" disabled>已同意</a-button>
+                          </span>
+                          <span v-else>
+                            <a-button type="primary" ghost size="small" class="read" disabled>已拒绝</a-button>
+                          </span>
+                          <span>
+                            <a-button
+                              size="small"
+                              style="margin-left: 5px;"
+                              @click="deleteNotice(item.noticeid)"
+                            >删除</a-button>
+                          </span>
+                        </a-card>
+                      </div>
+                    </a-tab-pane>
+                  </a-tabs>
+                </a-drawer>
+              </div>
+            </a>
+          </a-dropdown>
+        </div>
+        <div class="topRight">
+          <a-popover
+            @click="clearSearch"
+            placement="bottomRight"
+            v-model="visible_search"
+            title="搜索结果"
+          >
+            <div slot="content" @click="hide">
+              <a-list
+                style="max-height: 300px; overflow: scroll;"
+                item-layout="horizontal"
+                :data-source="search"
+              >
+                <a-list-item slot="renderItem" slot-scope="item">
+                  <a-list-item-meta :description="item.modifytime">
+                    <a slot="title" @click="toDoc(item)">{{ item.title }}</a>
+                  </a-list-item-meta>
+                </a-list-item>
+              </a-list>
             </div>
-          </a>
-        </a-dropdown>
+            <a-input-search placeholder="搜索文件" style="width: 200px;" @search="onSearch" />
+          </a-popover>
+        </div>
+ 
+      <div>
+      <a-back-top />
+      <strong style="color: rgba(64, 64, 64, 0.6)">  </strong>
       </div>
-      <div class="topRight">
-        <a-popover
-          @click="clearSearch"
-          placement="bottomRight"
-          v-model="visible_search"
-          title="搜索结果"
-        >
-          <div slot="content" @click="hide">
-            <a-list
-              style="max-height: 300px; overflow: scroll;"
-              item-layout="horizontal"
-              :data-source="search"
-            >
-              <a-list-item slot="renderItem" slot-scope="item">
-                <a-list-item-meta :description="item.modifytime">
-                  <a slot="title" @click="toDoc(item)">{{ item.title }}</a>
-                </a-list-item-meta>
-              </a-list-item>
-            </a-list>
-          </div>
-          <a-input-search placeholder="搜索文件" style="width: 200px;" @search="onSearch" />
-        </a-popover>
-      </div>
-    </div>
+  </div>
   </div>
 </template>
 
@@ -426,23 +431,22 @@ export default {
 
 <style scoped>
 .header {
+  background-color: #a8bf93;
   height: 58px;
+  width: 100%;
+  position:fixed;
+  
 }
 .top {
   cursor: pointer;
-  float: left;
   margin: 15px 10px 0 10px;
-}
-.name {
-  text-align: center;
-  width: 100px;
-  font-size: 20px;
-  height: 100%;
-  margin: 15px;
+  float: left;
 }
 .topRight {
   float: right;
-  margin: 15px 10px 0 20px;
+  margin-left: 0px;
+  margin-top: 16px;
+  margin-right: 40px;
 }
 .notice-card {
   width: 330px;
