@@ -423,6 +423,7 @@ export default {
       });
     },
     toShare(doc) {
+      this.href="http://123.56.145.79:8100/#/document?docid="+doc.docid;
       this.doc=doc;
       this.shareVisible=true;
     },

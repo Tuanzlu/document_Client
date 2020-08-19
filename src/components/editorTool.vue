@@ -6,9 +6,8 @@
 </template>
 
 <script>
-import { postData } from "@/api/webpost";
 import E from "wangeditor";
-
+import { postData } from "@/api/webpost";
 export default {
   name: "editor",
   props: {
@@ -73,7 +72,7 @@ export default {
       //设置延迟执行
       editor.create();
       editor.txt.html(this.editorContent);
-    }, 500);
+    }, 1000);
   },
 };
 </script>

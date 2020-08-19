@@ -422,7 +422,7 @@ export default {
       },    
     };
   },
-  mounted() {
+  created() {
     this.article.docid = this.$route.query.docid;
     this.user.userid = parseInt(window.sessionStorage.getItem("UserId"));
     this.getDocument();
